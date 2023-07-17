@@ -2,3 +2,7 @@
 *.sqlite3
 settings.py
 .env
+Include/
+Lib/
+Scripts/
+pyvenv.cfg
