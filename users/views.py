@@ -1,21 +1,25 @@
-from django.shortcuts import render
-from .models import UserProfile
-def login(request):
-    if request.method == 'POST':
-        username = request.POST['username'].strip()
-        password = request.POST['password']
-        
-        try:
-            user_profile = UserProfile.objects.get(registration_id=username)
-            stored_password = user_profile.password
-            stored_username=user_profile.registration_id
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
-            if (password == stored_password and stored_username==username): 
-                print("Login Successful")
-            else:
-                print("Try Again")
-        
-        except UserProfile.DoesNotExist:
-            print("User not found")
-    
+
+def home(request):
+    return render(request, 'index.html')
+
+
+def login_user(request):
+    if request.method == 'POST':
+        registration_id = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=registration_id, password=password)
+        if user is not None:
+            login(request, user=user)
+            return redirect('/')
+        else:
+            return redirect('/login')
     return render(request, 'login.html')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('/')
