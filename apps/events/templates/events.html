@@ -17,6 +17,7 @@
             <td>{{ event.name }}</td>
             <td>{{ event.venue }}</td>
             <td>{{ event.date }}</td>
+            <td><a href="register/{{ event.event_id }}">Register</a></td>
         </tr>
         {% endfor %}
     </table>
