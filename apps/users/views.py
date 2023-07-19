@@ -14,6 +14,7 @@ def login_user(request):
         user = authenticate(request, username=registration_id, password=password)
         if user is not None:
             login(request, user=user)
+            request.session['user'] = registration_id
             return redirect('/')
         else:
             return redirect('/login')
