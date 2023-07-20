@@ -1,7 +1,14 @@
 asgiref==3.7.2
 backports.zoneinfo==0.2.1
-Django
+certifi==2023.5.7
+charset-normalizer==3.2.0
+Django==4.2.3
+idna==3.4
+pypng==0.20220715.0
+PyQRCode==1.2.1
 python-decouple==3.8
+requests==2.31.0
 sqlparse==0.4.4
 typing_extensions==4.7.1
 tzdata==2023.3
+urllib3==2.0.4
