@@ -1,0 +1,441 @@
+body {
+  background-image: url("beautiful-constellations-planet.jpg");
+  margin: 0;
+  padding: 0;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#container {
+  flex: 1;
+  overflow-y: hidden;
+}
+#nav_imaginary{
+  height:160px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+footer {
+  flex-shrink: 0;
+  margin-top: auto;
+  bottom: 0;
+  width: 100%;
+}
+
+nav {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+#main_content{
+  overflow-y: auto;
+  max-height: calc(100vh - 180px); /* Subtract the height of the navbar */
+  padding: 20px;
+}
+#main_content::-webkit-scrollbar {
+  display: none;
+}
+#main_content{
+  -ms-overflow-style: none; 
+  scrollbar-width: none;  
+}
+
+
+.dropdown {
+  position: relative;
+}
+
+.dropbtn {
+  display: flex;
+  align-items: center;
+  font-size: 25px;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.dropbtn:hover {
+  background-color: #333;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  /* background-color: #f9f9f9; */
+  background-color: transparent;
+  min-width: 160px;
+  /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px); /* Move the dropdown content 10px up initially */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.dropdown-content.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0); /* Move the dropdown content back to its original position */
+}
+.dropdown-content a {
+  color:white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  left:0;
+  transition-delay: 0s;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.dropdown-content.show a:nth-child(1) {
+  /* Show the first item with 0.1s delay */
+  transition-delay: 0.1s;
+  opacity: 1;
+  transform: translateY(0);
+}
+.dropdown-content.show a:nth-child(2) {
+  /* Show the second item with 0.2s delay */
+  transition-delay: 0.2s;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown-content.show a:nth-child(3) {
+  /* Show the third item with 0.3s delay */
+  transition-delay: 0.3s;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown-content.show a:nth-child(4) {
+  /* Show the fourth item with 0.4s delay */
+  transition-delay: 0.4s;
+  opacity: 1;
+  transform: translateY(0);
+}
+/* With this updated CSS, each item inside the dropdown will transition one by one with the specified delays (0.1s, 0.2s, 0.3s, and 0.4s). You can adjust these transition-delay values as needed to control the timing of the transitions for each element. */
+
+
+
+
+
+
+
+
+.dropdown-content a:hover {
+  background-color: transparent;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  right: 0;
+}
+
+.nav_all {
+  padding-right: 15px;
+}
+
+.nav_common {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  font-size: 25px;
+  font-weight: 700;
+  border-radius: 10px;
+}
+
+/* .nav_elements:hover {
+    background-color: #333;
+    color: #fff;
+  }
+   */
+#frosh_logo {
+  height: 150px;
+}
+
+#nav_top {
+  padding-left: 5%;
+  padding-right: 5%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 5%;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* footer{
+    background-color: rgb(8, 8, 8) ;
+} */
+
+.FooterContainer {
+  width: 100%;
+  padding: 20px 20px 10px;
+}
+
+.socialIcons {
+  display: flex;
+  justify-content: center;
+}
+
+.socialIcons a {
+  text-decoration: none;
+  padding: 10px;
+  background-color: white;
+  margin: 10px;
+  border-radius: 50%;
+
+}
+
+.socialIcons a i {
+  font-size: 2em;
+  color: black;
+  opacity: 0.9;
+}
+
+.socialIcons a:hover {
+  background-color: #111;
+  transition: 0.5s;
+
+
+}
+
+.socialIcons a:hover i {
+  color: white;
+  transition: 0.5s;
+}
+
+.footernav {
+  margin: 30px;
+}
+
+.footernav ul {
+  display: flex;
+  justify-content: center;
+
+}
+
+.footernav ul li a {
+  color: white;
+  margin: 20px;
+  text-decoration: none;
+  font-size: 1.3em;
+  opacity: 0.7;
+  transition: 0.5;
+
+}
+
+.footernav ul li a:hover {
+  opacity: 1;
+
+}
+
+.footerbottom {
+  /* background-color: #111; */
+  padding: 15px;
+  text-align: center;
+  font-size: 0.85em;
+
+}
+
+.footerbottom p {
+  color: white;
+}
+.dropdown{
+  display: none;
+}
+pre{
+  color: blue;
+}
+@media screen and (max-width:875px){
+  body{
+    background-size: auto 100%;
+    background-attachment: fixed;
+  }
+}
+@media screen and (max-width:1250px){
+  #nav_imaginary{
+    height:140px;
+  }
+}
+@media screen and (max-width:1050px) {
+  #frosh_logo {
+    height: 130px;
+  }
+}
+@media screen and (max-width:950px){
+  .nav_common{
+    font-size: 22px;
+  }
+  #frosh_logo {
+    height: 120px;
+  }
+  #nav_imaginary{
+    height:130px;
+  }
+}
+
+@media screen and (max-width:876px) {
+  .nav_common{
+    font-size: 18px;
+  }
+  #frosh_logo {
+    height: 100px;
+  }
+  #nav_imaginary{
+    height:110px;
+  }
+}
+
+
+.designer{
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
+  margin: 8px 5px;
+}
+@media(max-width: 767px) {
+  .socialIcons{
+      display: flex;
+  justify-content:center;
+  }
+  .socialIcons a{
+  text-decoration: none ;
+  padding: 15px;
+  background-color: white;
+  margin: 15px;
+  border-radius: 40%;
+  }
+  .socialIcons a i {
+  font-size: 1.7em;
+  color: black;
+  opacity: 0.9
+}
+.footerbottom{
+  /* background-color: #111; */
+  padding: 15px;
+  text-align: center;
+  font-size: 0.80em;
+
+}
+}
+
+@media(max-width: 574px) {
+  .socialIcons{
+      display: flex;
+  justify-content:center;
+  }
+  .socialIcons a{
+  text-decoration: none ;
+  padding: 10px;
+  background-color: white;
+  margin: 10px;
+  border-radius: 40%;
+  }
+  .socialIcons a i {
+  font-size: 1.7em;
+  color: black;
+  opacity: 0.9
+}
+.footerbottom{
+  padding: 10px;
+  text-align: center;
+  font-size: 0.60em;
+
+}
+}
+
+
+
+
+
+/* Existing CSS styles (unchanged) */
+
+@media screen and (max-width: 700px) {
+  /* Mobile view styles */
+  #nav_top ul {
+    display: none; /* Hide the navigation list on smaller screens */
+  }
+
+  .dropdown {
+    display: block; /* Display the dropdown as a block element */
+    margin-right: 15px;
+  }
+
+  .dropbtn {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+  }
+
+  .dropbtn:hover {
+    background-color: transparent;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: transparent;
+    /* box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2); */
+    z-index: 1;
+
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block; /* Show the dropdown content on hover */
+  }
+
+  .nav_all {
+    display: none; /* Hide the individual navigation elements in the dropdown */
+  }
+
+  .nav_common {
+    font-size: 18px; /* Reduce font size for the dropdown items */
+    padding: 8px; /* Adjust padding for better spacing in the dropdown */
+  }
+}
+
+@media screen and (max-width:550px) {
+  #frosh_logo {
+    height: 80px;
+  }
+  #menuIcon{
+    font-size: 23px;
+  }
+}
+@media screen and (max-width:430px){
+  #frosh_logo {
+    height: 70px;
+  }
+  #menuIcon{
+    font-size: 20px;
+  }
+}
