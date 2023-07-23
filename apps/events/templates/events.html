@@ -1,25 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events</title>
+    <title>Event Registration Page</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
-    <table style="border: 5px; border-style: dotted;">
-        <tr>
-            <td>Name</td>
-            <td>Venue</td>
-            <td>Date</td>
-        </tr>
-        {% for event in events %}
-        <tr>
-            <td>{{ event.name }}</td>
-            <td>{{ event.venue }}</td>
-            <td>{{ event.date }}</td>
-            <td><a href="register/{{ event.event_id }}">Register</a></td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="navbar">
+        <img src="./logo white transparent.png" alt="Logo">
+        <script src="./script.js"></script>
+        <script src="https://kit.fontawesome.com/56f1776af2.js" crossorigin="anonymous"></script>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">About Us</a></li>
+            <!-- Add more navigation items as needed -->
+        </ul>
+        <div class="hamburger-menu" onclick="toggleMobileMenu()">
+            &#9776;
+        </div>
+    </div>
+
+    <!-- Mobile menu content -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#">Home</a>
+        <a href="#">Events</a>
+        <a href="#">About Us</a>
+        <!-- Add more navigation items as needed -->
+    </div>
+    <div class="container">
+        <div class="event-grid">
+            <div class="event-card"
+                onclick="openModal('Event Title', 'Lorem ipsum lsdsdk hugyu guy ug  hjb iug ','6:00 AM','K-Lawns','image url','add to calender',true)">
+                <div class="event-image">
+                    <img src="./khopdi(s).png" alt="Event Image">
+                </div>
+                <h3>Event Title</h3>
+                <p>This is a short description of the event.</p>
+                <p>Date: September 30, 2023</p>
+                <p>Venue: Some Venue</p>
+                <button
+                    onclick="openModal('Event Title', 'Lorem ipsum lsdsdk hugyu guy ug  hjb iug ','start time','location','image url','add to calender')">Register</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="container_first">
+                <img class="container_img" id="imageUrl" src="./khopdi(s).png" alt="Event Image">
+                <div class="modal_data">
+                    <h2 id="title" class="title">Hello </h2>
+                    <p id="description" class="description">Lorem ipsum Lorem ipsum dolor sit amet consectetur
+                        adipisicing elit. </p>
+                    <div class="details">
+                        <div class="cl2">
+                            <div><i class="fa-regular fa-clock orange"></i></div>
+                            <span class="t_text"><b id="time">6:00 PM</b></span>
+                        </div><br>
+                        <div class="cl2">
+                            <div><i class="fa-solid fa-location-dot orange"></i></div>
+                            <span class="t_text"><b id="location">K Lawns</b></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="container_second">
+                <a href="#" id="link"><button class="calender" id="calender"><i
+                            class="fa-regular fa-calendar-plus white"></i>
+                    </button></a>
+                <button class="book" id="book">
+                    <!--  -->
+                    Book now!</button>
+            </div>
+        </div>
+    </div>
+    <!-- Add a link to the registration page here -->
+    </div>
+    </div>
+
+    <script src="./script.js"></script>
+
 </body>
+
 </html>
