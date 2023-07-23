@@ -9,7 +9,7 @@ function openModal(title, description, time, location, imageUrl, addToCalender, 
     document.getElementById('description').innerHTML = description;
     document.getElementById('time').innerHTML = time;
     document.getElementById('location').innerHTML = location;
-    // document.getElementById('imageUrl').src = imageUrl;
+    document.getElementById('imageUrl').src = imageUrl;
     document.getElementById('link').href = addToCalender;
 
     if (book) {
