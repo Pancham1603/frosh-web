@@ -25,6 +25,7 @@ class Event(models.Model):
     time = models.TimeField()
     max_capacity = models.IntegerField()
     passes_generated = models.IntegerField()
+    image = models.URLField()
 
     def __str__(self):
         return self.name
@@ -35,6 +36,8 @@ class EventPass(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.RESTRICT)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     qr = models.URLField(unique=True, validators=[URLValidator])
+    entry_status = models.BooleanField(default=False)
+    verified_by = models.ForeignKey(User, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.pass_id
