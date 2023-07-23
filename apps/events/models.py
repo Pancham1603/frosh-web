@@ -25,7 +25,7 @@ class Event(models.Model):
     time = models.TimeField()
     max_capacity = models.IntegerField()
     passes_generated = models.IntegerField()
-    image = models.URLField()
+    image = models.URLField(default='https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png')
 
     def __str__(self):
         return self.name
@@ -37,7 +37,6 @@ class EventPass(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     qr = models.URLField(unique=True, validators=[URLValidator])
     entry_status = models.BooleanField(default=False)
-    verified_by = models.ForeignKey(User, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.pass_id
