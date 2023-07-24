@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Registration Page</title>
-    <link rel="stylesheet" href="/events.css">
+    <title>Events | Frosh TIET</title>
+    <link rel="stylesheet" href="../static/events.css">
 </head>
 
 <body>
     <div class="navbar">
         <img src="./logo white transparent.png" alt="Logo">
-        <script src="./script.js"></script>
+        <script src="../static/events.js"></script>
         <script src="https://kit.fontawesome.com/56f1776af2.js" crossorigin="anonymous"></script>
         <ul>
             <li><a href="#">Home</a></li>
@@ -33,18 +33,20 @@
     </div>
     <div class="container">
         <div class="event-grid">
+            {% for event in events %}
             <div class="event-card"
-                onclick="openModal('Event Title', 'Lorem ipsum lsdsdk hugyu guy ug  hjb iug ','6:00 AM','K-Lawns','image url','add to calender',true)">
+            onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}','{{ event.image }}','{{ event.calendar_url }}', false)">
                 <div class="event-image">
-                    <img src="./khopdi(s).png" alt="Event Image">
+                    <img src="{{ event.image }}" alt="Event Image">
                 </div>
-                <h3>Event Title</h3>
-                <p>This is a short description of the event.</p>
-                <p>Date: September 30, 2023</p>
-                <p>Venue: Some Venue</p>
+                <h3>{{ event.name }}</h3>
+                <p>{{ event.description }}</p>
+                <p>Date: {{ event.date }}</p>
+                <p>Venue: {{ event.venue }}</p>
                 <button
-                    onclick="openModal('Event Title', 'Lorem ipsum lsdsdk hugyu guy ug  hjb iug ','start time','location','image url','add to calender')">Register</button>
+                    onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}','{{ event.image }}','{{ event.calendar_url }}', false)">Register</button>
             </div>
+            {% endfor %}
         </div>
     </div>
     <div class="modal" id="eventModal">
@@ -83,7 +85,7 @@
     </div>
     </div>
 
-    <script src="/events.js"></script>
+    <script src="../static/events.js"></script>
 
 </body>
 

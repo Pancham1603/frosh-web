@@ -26,6 +26,7 @@ class Event(models.Model):
     max_capacity = models.IntegerField()
     passes_generated = models.IntegerField()
     image = models.URLField(default='https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png')
+    calendar_url = models.URLField(default='#')
 
     def __str__(self):
         return self.name
