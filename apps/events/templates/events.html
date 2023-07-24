@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events | Frosh TIET</title>
     <link rel="stylesheet" href="../static/events.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 
 <body>
     <div class="navbar">
-        <img src="./logo white transparent.png" alt="Logo">
+        <img src="../static/logo white transparent.png" alt="Logo">
         <script src="../static/events.js"></script>
         <script src="https://kit.fontawesome.com/56f1776af2.js" crossorigin="anonymous"></script>
         <ul>
@@ -32,10 +33,23 @@
         <!-- Add more navigation items as needed -->
     </div>
     <div class="container">
-        <div class="event-grid">
+
+
+        <div class="event-grid" id="event-grid">
+            {% for pass in user_passes %} 
+            <div class="event-card" onclick="openModal('{{ pass.event_id.name }}', '{{ pass.event_id.description }}','{{ pass.event_id.time }}','{{ pass.event_id.venue }}','{{ pass.qr }}','{{ pass.event_id.calendar_url }}', true)">
+                <div class="event-image">
+                    <img src="{{ pass.event_id.image }}" alt="Event Image">
+                </div>
+                <h3>{{ pass.event_id.name }}</h3>
+                <p>{{ pass.event_id.description }}</p>
+                <p>Date: {{ pass.event_id.date }}</p>
+                <p>Venue: {{ pass.event_id.venue }}</p>
+             
+            </div>
+            {% endfor %}
             {% for event in events %}
-            <div class="event-card"
-            onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}','{{ event.image }}','{{ event.calendar_url }}', false)">
+            <div class="event-card" onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}','{{ event.image }}','{{ event.calendar_url }}', false)">
                 <div class="event-image">
                     <img src="{{ event.image }}" alt="Event Image">
                 </div>
@@ -86,7 +100,8 @@
     </div>
 
     <script src="../static/events.js"></script>
-
+<script>
+</script>
 </body>
 
 </html>

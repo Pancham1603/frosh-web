@@ -1,5 +1,5 @@
 body {
-    background-color: #DA5312;
+    background-color: #000000;
     font-family: Arial, sans-serif;
     margin: 0;
     display: flex;
@@ -19,11 +19,10 @@ body {
 
 .logo {
     text-align: center;
-    margin-bottom: 20px;
 }
 
 .logo img {
-    max-width: 100px;
+    height: 100px
 }
 
 .login-box {
@@ -48,7 +47,7 @@ body {
 
 .container button {
     padding: 10px;
-    background-color: #DA5312;
+    background-color: #000000;
     color: white;
     border: none;
     border-radius: 4px;
@@ -80,6 +79,6 @@ body {
 @media screen and (max-width: 500px) {
     .container {
         max-width: 90%;
-        width: 80%;
+        width: 70%;
     }
 }

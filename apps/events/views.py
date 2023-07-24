@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from .models import Event, EventPass
 from ..users.models import User
 import random
@@ -12,18 +13,21 @@ import base64
 import requests
 import string
 import os
+import json
 
 # Create your views here.
+@login_required
 def events_home(request):
     events = Event.objects.all()
-    return render(request, 'events.html', {'events':events})
+    user_passes = EventPass.objects.filter(user_id=request.user)
+    for Pass in user_passes:
+        if Pass.event_id in events:
+          events = events.exclude(event_id=Pass.event_id.event_id)
 
-#- /events/register/<event id>
-#- event ID from 'django dynamic URL patterns'
-#- user ID from request.session.get("user")
-#- passId will be random alphanimeric, generated using Random module
-#- QR code will be made from Pass ID using pyzbar and pypng
 
+    return render(request, 'events.html', {'events':events, 'user_passes':user_passes})
+
+@csrf_exempt
 @login_required
 def generate_pass(request, event_id):
     event = Event.objects.get(event_id=event_id)
@@ -41,9 +45,13 @@ def generate_pass(request, event_id):
         generated_pass.qr = upload_to_ibb(generate_qr(pass_id))
         generated_pass.save()
         event.passes_generated +=1
+        user.events.append(str(event))
         event.save()
         confirmation_email(generated_pass=generated_pass)
-        return redirect('/events')
+        data = {
+            'pass_qr':generated_pass.qr
+        }
+        return HttpResponse(json.dumps(data))
     else:
         return redirect('/events')
 

@@ -20,8 +20,9 @@ from apps.users import views as user_views
 from apps.events import views as event_views
 
 urlpatterns = [
-    path('', user_views.home),
+    path('', user_views.login_user),
     path('admin/', admin.site.urls),
+    path('admin/login', user_views.login_user),
     path('login/', user_views.login_user),
     path('logout/', user_views.logout_user),
     path('users/', include("apps.users.urls")),

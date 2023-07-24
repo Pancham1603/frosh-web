@@ -5,20 +5,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Page</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../static/login.css">
 </head>
 
 <body>
   <div class="container">
     <div class="logo">
       <!-- Replace 'your-logo.png' with the path to your logo image -->
-      <img src="./logo textture+ No background.png" alt="Logo">
+      <img src="../static/logo textture+ No background.png" alt="Logo">
     </div>
     <div class="login-box">
-      <h2>Login</h2>
-      <form>
-        <input type="text" placeholder="Username" required>
-        <input type="password" placeholder="Password" required>
+      <form method="post" action="/login/">
+        {% csrf_token %}
+        <input type="text" placeholder="Registration ID" id="username" name="username" required>
+        <input type="password" placeholder="Password" id="password" name="password" required>
         <button type="submit">Login</button>
       </form>
     </div>
