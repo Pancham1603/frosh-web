@@ -35,6 +35,7 @@
           facingMode: "environment", // Use the rear camera for mobile devices
         },
       };
+    }
 
       // Request permission to access the camera
       navigator.mediaDevices
@@ -52,6 +53,7 @@
             console.log(content);
             getPassData(content);
           });
+        })
 
       function stopCamera() {
         if (scanner) {
