@@ -48,12 +48,15 @@
       const cameraPreview = document.getElementById("camera-preview");
       cameraPreview.innerHTML = "";
       cameraPreview.appendChild(video);
-
       const constraints = {
         video: {
-          facingMode: "environment", // Use the rear camera for mobile devices
+          facingMode: {
+            exact: "environment"
+          }, // Use the rear camera for mobile devices
         },
       };
+
+
 
       // Request permission to access the camera
       navigator.mediaDevices
@@ -114,13 +117,13 @@
       });
     }
   </script>
+
+  <script src="../static/scanner.js"></script>
   <style>
     #camera-preview {
-      width: 100vw;
-      height: 100vw;
+      transform: scaleX(-1);
     }
   </style>
-  <script src="../static/scanner.js"></script>
 </body>
 
 </html>
