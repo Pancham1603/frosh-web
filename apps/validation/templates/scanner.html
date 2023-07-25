@@ -29,7 +29,9 @@
 
         const constraints = {
           video: {
-            facingMode: "environment", // Use the rear camera for mobile devices
+            facingMode: {
+              exact:"environment"
+            }, // Use the rear camera for mobile devices
           },
         };
 
@@ -89,5 +91,10 @@
         });
       }
     </script>
+    <style>
+       #camera-preview {
+            transform: scaleX(-1);
+        }
+    </style>
   </body>
 </html>

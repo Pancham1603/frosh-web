@@ -33,7 +33,7 @@ def generate_pass(request, event_id):
     event = Event.objects.get(event_id=event_id)
     user = User.objects.get(registration_id=request.session.get('user'))
     event.refresh_from_db()
-    if event.max_capacity > event.passes_generated and EventPass.objects.filter(event_id=event, user_id=user).count()==0:
+    if event.max_capacity > EventPass.objects.filter(event_id=event).count() and EventPass.objects.filter(event_id=event, user_id=user).count()==0:
         while True:
             pass_id = ''.join(random.choices(string.ascii_uppercase +
                                 string.digits, k=16))
@@ -49,11 +49,16 @@ def generate_pass(request, event_id):
         event.save()
         confirmation_email(generated_pass=generated_pass)
         data = {
-            'pass_qr':generated_pass.qr
+            'pass_qr':generated_pass.qr,
+            'status':True
         }
         return HttpResponse(json.dumps(data))
     else:
-        return redirect('/events')
+        data={
+            'status':False,
+            'message':"There was an error!"
+        }
+        return HttpResponse(json.dumps(data))
 
 
 def generate_qr(value):
