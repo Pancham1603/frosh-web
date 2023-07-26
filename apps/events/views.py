@@ -15,6 +15,10 @@ import string
 import os
 import json
 
+global counters
+counters = {} 
+for event in Event.objects.all():
+    counters[event.name]=event.passes_generated
 # Create your views here.
 @login_required
 def events_home(request):
@@ -31,9 +35,10 @@ def events_home(request):
 @login_required
 def generate_pass(request, event_id):
     event = Event.objects.get(event_id=event_id)
+    counters[event.name]+=1
     user = User.objects.get(registration_id=request.session.get('user'))
     event.refresh_from_db()
-    if event.max_capacity > EventPass.objects.filter(event_id=event).count() and EventPass.objects.filter(event_id=event, user_id=user).count()==0:
+    if event.max_capacity > EventPass.objects.filter(event_id=event).count() and EventPass.objects.filter(event_id=event, user_id=user).count()==0 and counters[event.name]<=event.max_capacity:
         while True:
             pass_id = ''.join(random.choices(string.ascii_uppercase +
                                 string.digits, k=16))
@@ -44,10 +49,11 @@ def generate_pass(request, event_id):
         generated_pass = EventPass(event_id=event, pass_id=pass_id, user_id=user)
         generated_pass.qr = upload_to_ibb(generate_qr(pass_id))
         generated_pass.save()
-        event.passes_generated +=1
+        
+        confirmation_email(generated_pass=generated_pass)
+        event.passes_generated = counters[event.name]
         user.events.append(str(event))
         event.save()
-        confirmation_email(generated_pass=generated_pass)
         data = {
             'pass_qr':generated_pass.qr,
             'status':True
@@ -58,6 +64,7 @@ def generate_pass(request, event_id):
             'status':False,
             'message':"There was an error!"
         }
+        counters[event.name]-=1
         return HttpResponse(json.dumps(data))
 
 

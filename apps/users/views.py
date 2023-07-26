@@ -54,11 +54,14 @@ def create_users_from_xlsx(file_path):
         user.is_active = True
         user.save()
         print(user)
-        # if not user in User.objects.get(registration_id=user.registration_id):
+        
+       
+        # if not user.registration_id in User.objects.filter(registration_id=user.registration_id):
+            
        
         
 
 
-# create_users_from_xlsx(r'C:\Users\ajay\Desktop\projects\frosh-web\apps\users\testing_phase_1.xlsx')
+# create_users_from_xlsx(r'E:\frosh-web\apps\users\testing_phase_1.xlsx')
 
         
