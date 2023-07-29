@@ -15,6 +15,7 @@ import string
 import os
 import json
 from datetime import date
+from decouple import config
 
 global counters
 counters = {} 
@@ -141,7 +142,7 @@ def upload_to_ibb(file_path):
     with open(file_path, "rb") as file:
         url = "https://api.imgbb.com/1/upload"
         payload = {
-            "key": '09dbe019b8cb056535f85d334cbb3aef',
+            "key": config("IBB_API_KEY"),
             "image": base64.b64encode(file.read()),
         }
         res = requests.post(url, payload)

@@ -43,25 +43,11 @@ def create_users_from_xlsx(file_path):
         for column in range(1,7):
             cell = sheet.cell(row=row, column=column)
             data.append(cell.value)
-        user.registration_id = f"{data[1].strftime('%d%m%y')}"
-        user.first_name = data[2]
-        user.last_name = data[3]
-        user.email = data[4]
-        user.gender = data[5]
-        user.set_password('12345678')
-        user.is_staff = False
-        user.is_superuser = False
-        user.is_active = True
-        user.save()
-        print(user)
-        
-       
-        # if not user.registration_id in User.objects.filter(registration_id=user.registration_id):
-            
-       
-        
+        print(data)
+        User.objects.create_user(registration_id=data[0][-6:],first_name = data[1], last_name = data[3],
+         email = data[4], is_staff = False, is_superuser = False, is_active = False, image=data[5])
 
 
-# create_users_from_xlsx(r'E:\frosh-web\apps\users\testing_phase_1.xlsx')
+# create_users_from_xlsx(r'')
 
         
