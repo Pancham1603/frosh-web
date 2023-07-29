@@ -21,5 +21,5 @@ def fetch_user_data(request):
         return HttpResponse(json.dumps(data))
 
 def scanner(request):
-    return render(request, 'scanner.html')
+    return render(request, 'tempScanner.html')
 

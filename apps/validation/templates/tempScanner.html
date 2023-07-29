@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Camera Demo</title>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <link rel="stylesheet" href="../static/scanner.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #videoContainer {
+            position: relative;
+        }
+
+        video {
+            width: 100%;
+            max-width: 400px;
+            border: 2px solid #333;
+        }
+
+        #cameraSelect {
+            margin-top: 10px;
+        }
+
+        #startButton {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="videoContainer">
+        <video id="video" autoplay playsinline></video>
+    </div>
+    <button id="startButton" onclick="startCamera()">Start Camera</button>
+    <select id="cameraSelect"></select>
+
+    <script>
+        let videoStream;
+        const videoElement = document.getElementById('video');
+        const cameraSelect = document.getElementById('cameraSelect');
+
+        async function startCamera() {
+            try {
+                const mediaDevices = await navigator.mediaDevices.enumerateDevices();
+                const videoDevices = mediaDevices.filter(device => device.kind === 'videoinput');
+
+                if (videoDevices.length === 0) {
+                    console.error('No video devices found.');
+                    return;
+                }
+
+                const selectedDeviceId = cameraSelect.value;
+                const constraints = { video: { deviceId: selectedDeviceId } };
+                videoStream = await navigator.mediaDevices.getUserMedia(constraints);
+                videoElement.srcObject = videoStream;
+                updateCameraSelectOptions(videoDevices);
+                scanner = new Instascan.Scanner({ video: videoElement });
+                scanner.addListener("scan", function (content) {
+                    console.log(content);
+                    alert(content);
+                    getPassData(content);
+                });
+
+                scanner.start(cameras[selectedCameraIndex]);
+            } catch (error) {
+                console.error('Error accessing the camera:', error);
+            }
+        }
+
+        function updateCameraSelectOptions(videoDevices) {
+            cameraSelect.innerHTML = '';
+            videoDevices.forEach(device => {
+                const option = document.createElement('option');
+                option.value = device.deviceId;
+                option.textContent = device.label;
+                cameraSelect.appendChild(option);
+            });
+        }
+    </script>
+</body>
+
+</html>
