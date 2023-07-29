@@ -31,6 +31,7 @@ class Event(models.Model):
     passes_generated = models.IntegerField()
     image = models.URLField(default='https://www.freeiconspng.com/thumbs/no-image-icon/no-image-icon-6.png')
     calendar_url = models.URLField(default='#')
+    booking_required = models.BooleanField(default=True)
     is_booking = models.BooleanField(default=False)
     is_display = models.BooleanField(default=False)
     slots_required = models.BooleanField(default=False)
@@ -73,6 +74,7 @@ class EventPass(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     qr = models.URLField(unique=True, validators=[URLValidator])
     entry_status = models.BooleanField(default=False)
+    time = models.CharField(max_length=256)
 
     def __str__(self):
         return self.pass_id

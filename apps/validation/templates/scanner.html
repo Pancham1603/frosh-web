@@ -25,7 +25,9 @@
     <label for="field" id="event-name">Event</label>
     <select id="field" name="field" data-name="Field" class="w-select" onchange="selectEvent()">
       <option value="">Select one...</option>
-      <option value="event@Frosh23">Slot 1</option>
+      {% for event in events %}
+      <option value="{{event.event_id}}">{{ event.name }}</option>
+      {% endfor %}
 
     </select>
     <span id="error"></span>
@@ -51,9 +53,9 @@
         </div>
       </div>
       <div class="container_second">
-        <button class="calender" id="calender"></button>
+        <button class="calender" id="calender" onclick="closeModal()"><i class='fa - regular fa - circle - xmark'></i>&nbsp; Reject"</button>
         <button class="book" id="book">
-          Book now!
+          <i class="fa-solid fa-check white"></i>&nbsp;Accept
         </button>
       </div>
     </div>

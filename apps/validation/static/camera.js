@@ -31,7 +31,7 @@ function getCameras() {
       switchButton.disabled = false;
 
       const cameraOptions = cameras.map((camera, index) => {
-        alert(camera.name + " " + index)
+        // alert(camera.name + " " + index)
         return `<option value="${index}">${camera.name}</option>`;
       });
 
@@ -107,19 +107,39 @@ function stopCamera() {
 }
 
 function getPassData(pass_id) {
-
   $.ajax({
     method: "POST",
     url: "/scanner/userdata",
     data: {
+      pass_id: pass_id,
+      event_id: document.getElementById("event-name").innerHTML
+    },
+    success: function (response) {
+      response = JSON.parse(response)
+      if (response.valid) {
+        vibrateForOneSecond()
+        openModal(response.event, response.user, response.registration_id, response.image, "https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png", "",pass_id)
+      } else {
+        toastr.error("Pass has already been used");
+      }
+    },
+    error: function (response) {
+      vibrateForOneSecond()
+      toastr.error("Invalid Pass");
+    }
+  });
+}
+
+function validate_pass(pass_id) {
+  $.ajax({
+    method: "POST",
+    url: "/scanner/userdata/validate",
+    data: {
       pass_id: pass_id
     },
     success: function (response) {
-      console.log(response)
-      //alert(response)
       vibrateForOneSecond()
-      response = JSON.parse(response)
-      openModal(response.event, response.username, response.registration_id, "", "https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png", "")
+      toastr.success(response)
       // console.log(response['username'], response['registration_id'], response['event']);
     },
     error: function (response) {
@@ -128,6 +148,8 @@ function getPassData(pass_id) {
     }
   });
 }
+
+
 let facingMode = "environment"; // Default camera facing mode
 
 let currentCameraIndex = 0;

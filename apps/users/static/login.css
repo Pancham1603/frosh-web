@@ -22,7 +22,7 @@ body {
 }
 
 .logo img {
-    height: 100px
+    height: 100px;
 }
 
 .login-box {
@@ -58,6 +58,21 @@ body {
     background-color: #a94817;
 }
 
+/* "activate-account" link */
+.activate-account {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.activate-account a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.activate-account a:hover {
+    text-decoration: underline;
+}
+
 /* Animation */
 .container {
     animation: fadeIn 1s ease;
@@ -68,7 +83,6 @@ body {
         opacity: 0;
         transform: translateY(-20px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
