@@ -22,7 +22,8 @@ class UserManager(BaseUserManager):
                 , registration_id))
                 user = self.model(registration_id=registration_id, **extra_fields)
                 if not extra_fields['is_superuser']:
-                    user.set_password(extra_fields['secure_id'])
+                    user.set_password(''.join(random.choices(string.ascii_uppercase +
+                            string.digits, k=8)))
                 else:
                     user.set_password(password)
                 user.save(using=self.db)
