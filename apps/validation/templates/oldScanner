@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR Code Scanner</title>
+  <!-- Include the instascan library -->
+  <script src="https://kit.fontawesome.com/56f1776af2.js" crossorigin="anonymous"></script>
+  <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="../static/scanner.css">
+</head>
+
+<body>
+  <h1>QR Code Scanner</h1>
+  <button onclick="startCamera()" id="button">Start Camera</button>
+  <div id="qr-result"></div>
+  <div id="camera-preview"></div>
+  <div class="modal" id="eventModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div class="container_first">
+        <img class="container_img" id="imageUrl" src="" alt="Event Image">
+        <div class="modal_data">
+          <h2 id="title" class="title">Hello </h2>
+          <p id="description" class="description">Lorem ipsum Lorem ipsum dolor sit amet consectetur
+            adipisicing elit. </p>
+        </div>
+
+      </div>
+      <div class="container_second">
+        <button class="calender" id="calender"></button>
+        <button class="book" id="book">
+          <!--  -->
+          Book now!</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    let scanner = null;
+
+    function startCamera() {
+      const qrResult = document.getElementById("qr-result");
+      qrResult.textContent = "Scanning...";
+
+      const video = document.createElement("video");
+      const cameraPreview = document.getElementById("camera-preview");
+      cameraPreview.innerHTML = "";
+      cameraPreview.appendChild(video);
+      const constraints = {
+        video: {
+          facingMode: {
+            exact: "environment"
+          }, // Use the rear camera for mobile devices
+        },
+      };
+
+
+
+      // Request permission to access the camera
+      navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then(function (stream) {
+          qrResult.textContent = "Camera started, scanning...";
+          video.srcObject = stream;
+          video.setAttribute("playsinline", true); // Required to tell iOS safari we don't want fullscreen
+          video.play();
+
+          scanner = new Instascan.Scanner({ video: video });
+
+          scanner.addListener("scan", function (content) {
+            // qrResult.textContent = 'QR Code value: ' + content;
+            console.log(content);
+            getPassData(content);
+          });
+
+          Instascan.Camera.getCameras()
+            .then(function (cameras) {
+              if (cameras.length > 0) {
+                scanner.start(cameras[0]); // Use the first camera available
+              } else {
+                qrResult.textContent = "No cameras found.";
+              }
+            })
+            .catch(function (error) {
+              qrResult.textContent = "Error accessing camera: " + error;
+            });
+        })
+        .catch(function (error) {
+          qrResult.textContent = "Error accessing camera: " + error;
+        });
+    }
+
+    function stopCamera() {
+      if (scanner) {
+        scanner.stop();
+        scanner = null;
+      }
+    }
+
+    function getPassData(pass_id) {
+
+      $.ajax({
+        method: "POST",
+        url: "/scanner/userdata",
+        data: {
+          pass_id: pass_id
+        },
+        success: function (response) {
+          console.log(response)
+          //alert(response)
+          response = JSON.parse(response)
+          openModal(response.event, response.username, response.registration_id, "", "https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png", "")
+          // console.log(response['username'], response['registration_id'], response['event']);
+        },
+      });
+    }
+  </script>
+
+  <script src="../static/scanner.js"></script>
+  <style>
+    #camera-preview {
+      transform: scaleX(-1);
+    }
+  </style>
+</body>
+
+</html>
