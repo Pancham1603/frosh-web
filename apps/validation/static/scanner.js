@@ -48,11 +48,18 @@ function closeModal() {
 
 }
 //close modal when clicked outside
-window.onclick = function (event) {
-    if (event.target == document.getElementById('eventModal')) {
+window.addEventListener('click', function (event) {
+    if (event.target === document.getElementById('eventModal')) {
         closeModal();
     }
-}
+});
+
+window.addEventListener('touchstart', function (event) {
+    if (event.target === document.getElementById('eventModal')) {
+        closeModal();
+    }
+});
+
 
 function vibrateForOneSecond() {
     // Check if the Vibration API is supported by the browser
