@@ -152,7 +152,7 @@
 }
 
 .container_img {
-    height: 200px;
+    height: 150px;
     width: auto;
     border-radius: 10px;
 }
@@ -249,8 +249,6 @@
 .book.booked {
     background-color: rgb(41, 165, 41);
     color: white;
-
-    width: 45%;
 }
 
 .book.booked:hover {
@@ -267,4 +265,374 @@
 
 #link {
     text-decoration: none;
+}
+
+body {
+    background-color: #0F0B18;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #8040F9;
+}
+
+#button {
+    background-color: #221B3B;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+}
+
+#qr-result {
+    text-align: center;
+    margin: 20px auto;
+    color: #8040F9;
+}
+
+#camera-preview {
+    transform: scaleX(-1);
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    background-color: #0F0B18;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+#camera-preview video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #221B3B;
+    position: relative;
+    border-radius: 20px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    animation: fadeIn 0.3s;
+}
+
+.modal-content img {
+    border-radius: 10px;
+}
+
+.modal-content h2 {
+    color: #8040F9;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    text-align: center;
+}
+
+.modal-content button {
+    margin-top: 20px;
+    width: 100%;
+    background-color: #8040F9;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background-color: #221B3B;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.logo-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.logo {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .modal-content {
+        width: 65%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    #camera-preview {
+        border-radius: 0;
+    }
+
+    .modal-content {
+        width: 75%;
+    }
+
+    .logo-container {
+        padding: 10px;
+    }
+}
+
+/* Styles for the camera switch button */
+#switch-button {
+    background-color: #221B3B;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 5px
+}
+
+#switch-button:hover {
+    background-color: #221B3B;
+}
+
+#switch-button:focus {
+    outline: none;
+}
+
+#switch-button:active {
+        background-color: #221B3B;
+}
+
+body {
+    background-color: #0F0B18;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #8040F9;
+}
+
+#button {
+    background-color: #221B3B;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 5px;
+}
+
+#qr-result {
+    text-align: center;
+    margin: 20px auto;
+    color: #8040F9;
+}
+
+#camera-preview {
+    transform: scaleX(-1);
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    background-color: #0F0B18;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+#camera-preview video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #221B3B;
+    position: relative;
+    border-radius: 20px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    animation: fadeIn 0.3s;
+}
+
+.modal-content img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.modal-content h2 {
+    color: #8040F9;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    text-align: center;
+}
+
+.modal-content button {
+    margin-top: 20px;
+    width: 100%;
+    background-color: #8040F9;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background-color: #221B3B;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.logo-container {
+    text-align: center;
+    padding: 20px;
+}
+
+
+
+.sides {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+label {
+    display: block;
+    text-align: center;
+    margin: 10px;
+    font-size: 18px;
+    color: #8040F9;
+}
+
+#field {
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #221B3B;
+    color: white;
+    border: none;
+    font-size: 16px;
+}
+
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+#funcs {
+    display: none;
+}
+
+#camera-preview {
+    transform: scaleX(-1);
+}
+
+.rectangle {
+    position: absolute;
+    border: 2px solid #8040F9;
+    box-sizing: border-box;
+    pointer-events: none;
+    transform: scaleX(-1);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
