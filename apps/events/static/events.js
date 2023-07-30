@@ -1,5 +1,5 @@
 function openModal(title, description, time, location, slots, imageUrl, addToCalender, book) {
-    
+
     document.getElementById('title').innerHTML = title;
     document.getElementById('description').innerHTML = description;
     document.getElementById('time').innerHTML = "&nbsp;" + time;
@@ -7,16 +7,16 @@ function openModal(title, description, time, location, slots, imageUrl, addToCal
     document.getElementById('imageUrl').src = imageUrl;
     document.getElementById('link').href = addToCalender;
     document.getElementById('error').innerHTML = ""
-    document.getElementById('field').innerHTML=`<option value="">Select one...</option>`;
+    document.getElementById('field').innerHTML = `<option value="">Select one...</option>`;
     console.log(imageUrl)
     if (slots) {
         console.log(slots)
-        let code=slots.substring(slots.indexOf(',')+1).trim()
-        let timer=slots.substring(0,slots.indexOf(','))
+        let code = slots.substring(slots.indexOf(',') + 1).trim()
+        let timer = slots.substring(0, slots.indexOf(','))
         console.log(code)
-       
-        document.getElementById('field').innerHTML+=`<option value="register/`+title+`@Frosh23">`+time+`</option>`
-        document.getElementById('field').innerHTML+=`  <option value="register/`+title +`@Frosh23/`+ code +`">`+timer+`</option>`
+
+        document.getElementById('field').innerHTML += `<option value="register/` + title + `@Frosh23">` + time + `</option>`
+        document.getElementById('field').innerHTML += `  <option value="register/` + title + `@Frosh23/` + code + `">` + timer + `</option>`
         document.getElementById('slots').style.display = "block"
         document.getElementById('details').style.marginTop = "0px"
     }
@@ -26,17 +26,17 @@ function openModal(title, description, time, location, slots, imageUrl, addToCal
     }
 
     document.getElementById('book').onclick = function () {
-        let urls="register/" + title + '@Frosh23'
+        let urls = "register/" + title + '@Frosh23'
         if (slots) {
             let slot = document.getElementById('field').value
             console.log("slot" + slot)
             if (slot == '') {
-               
+
                 document.getElementById('error').innerHTML = "Please select a slot"
                 toastr.error("Select a slot");
                 return;
             }
-            urls=slot;
+            urls = slot;
         }
         //slot has the value
         document.getElementById("spinbox").style.display = "flex"
@@ -114,13 +114,38 @@ function closeModal() {
     document.getElementById('eventModal').style.display = 'none';
 
 }
-//close modal when clicked outside
-window.onclick = function (event) {
+
+window.addEventListener('click', function (event) {
     if (event.target == document.getElementById('eventModal')) {
         closeModal();
     }
     else if (event.target == document.getElementById('customTicketModal')) {
         closeCustomModal();
     }
-}
+});
 
+window.addEventListener('touchstart', function (event) {
+    if (event.target == document.getElementById('eventModal')) {
+        closeModal();
+    }
+    else if (event.target == document.getElementById('customTicketModal')) {
+        closeCustomModal();
+    }
+});
+
+window.addEventListener('load', function (event) {
+    const scrollableDiv = document.getElementById('scrollableDiv');
+
+    scrollableDiv.addEventListener('wheel', function (event) {
+        // Check if the mouse is over the scrollableDiv
+        const rect = scrollableDiv.getBoundingClientRect();
+        const mouseX = event.clientX;
+        if (mouseX >= rect.left && mouseX <= rect.right) {
+            event.preventDefault(); // Prevent vertical scrolling
+
+            const scrollSpeed = 50; // Adjust the scrolling speed as needed
+            scrollableDiv.scrollLeft += event.deltaY > 0 ? scrollSpeed : -scrollSpeed;
+        }
+    });
+}
+);

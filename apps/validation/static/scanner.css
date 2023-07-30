@@ -1,655 +1,20 @@
-@media screen and (max-width: 768px) {
-    .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: fit-content;
-        /* Adjust this if needed to center the content within the viewport */
-    }
-
-    .modal-content {
-        width: 65%;
-    }
-
-    .modal_data {
-        height: auto;
-    }
-
-}
-
-@media screen and (max-width:500px) {
-    .event-grid {
-        grid-template-columns: 1fr;
-        padding: 30px;
-    }
-
-    .toggle-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .toggle-label {
-        margin-left: 5px;
-        font-size: 14px;
-    }
-
-    .navbar {
-        padding: 10px;
-    }
-
-    .navbar ul {
-        display: none;
-    }
-
-    .hamburger-menu {
-        display: block;
-    }
-
-    .mobile-menu {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 55px;
-        z-index: 50;
-        right: 10px;
-        background-color: #000000;
-        padding: 10px;
-        border-radius: 5px;
-    }
-
-    .mobile-menu a {
-        display: block;
-        text-decoration: none;
-        color: #f1f1f1;
-        margin-bottom: 10px;
-    }
-
-    .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: fit-content;
-        /* Adjust this if needed to center the content within the viewport */
-    }
-
-    .modal-content {
-        width: 75%;
-    }
-
-    .modal_data {
-        height: auto;
-    }
-
-    .close {
-        display: none;
-    }
-}
-
-/* Modal styles */
-/* Modal styles */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100;
-}
-
-.modal-content {
-    background-color: #fff;
-    position: absolute;
-    border-radius: 20px;
-    top: 50%;
-    left: 50%;
-    display: flex;
-    flex-wrap: wrap;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    max-width: 90%;
-    /* Adjust the maximum width as needed */
-    max-height: 90%;
-    /* Adjust the maximum height as needed */
-    overflow-y: auto;
-    padding-top: 25px;
-    /* Enable vertical scrolling if content exceeds the height */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.close {
-    color: #555;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    position: absolute;
-    right: 20px;
-    padding: 10px;
-}
-
-/* Overlay styles */
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 99;
-}
-
-.container_first {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    width: 100%;
-    height: fit-content;
-}
-
-.container_img {
-    height: 150px;
-    width: auto;
-    border-radius: 10px;
-}
-
-.modal_data {
-    width: 250px;
+/* Common styles for all screen sizes */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0F0B18;
+    color: white;
     display: flex;
     flex-direction: column;
-    padding: 20px;
-}
-
-.title {
-    margin: 0px;
-    width: 100%;
-    color: #000000;
-    font-size: 28px;
-    text-align: center;
-    padding-bottom: 5px;
-}
-
-.description {
-    margin: 0px;
-    text-align: center;
-}
-
-.orange {
-    color: #000000;
-    font-size: 24px;
-}
-
-.details {
-    color: #000000;
-    margin-top: 20px;
-    display: flex;
-    width: 100%;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
-.cl2 {
-    margin-top: 5px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
-}
-
-.container_second {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
-    height: fit-content;
-    width: 100%;
-    padding: 10px;
-
-}
-
-.calender {
-    background-color: #df5536;
-    padding: 10px;
-    width: 45%;
-    height: 50px;
-    border-radius: 10px;
-    border: none;
-}
-
-.book {
-    background-color: #000000;
-    padding: 10px;
-    width: calc(100% - 70px);
-    height: 50px;
-    color: white;
-    font-size: 16px;
-    border-radius: 10px;
-    border: none;
-}
-
-.book:hover {
-    background-color: #ab420e;
-    cursor: pointer;
-}
-
-.calender:hover {
-    background-color: #1e6ebf;
-    cursor: pointer;
-}
-
-.white {
-    color: white;
-    font-size: 20px;
-}
-
-.book.booked {
-    background-color: rgb(41, 165, 41);
-    color: white;
-}
-
-.book.booked:hover {
-    background-color: rgb(23, 128, 23);
-}
-
-.calender.booked {
-    color: white;
-    display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-}
-
-#link {
-    text-decoration: none;
-}
-
-body {
-    background-color: #0F0B18;
-    color: white;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-h1 {
-    text-align: center;
-    margin-top: 20px;
-    color: #8040F9;
-}
-
-#button {
-    background-color: #221B3B;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    display: block;
-    margin: 20px auto;
-}
-
-#qr-result {
-    text-align: center;
-    margin: 20px auto;
-    color: #8040F9;
-}
-
-#camera-preview {
-    transform: scaleX(-1);
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%;
-    background-color: #0F0B18;
-    overflow: hidden;
-    border-radius: 10px;
-}
-
-#camera-preview video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    background-color: #221B3B;
-    position: relative;
-    border-radius: 20px;
-    max-width: 90%;
-    max-height: 90%;
-    overflow-y: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    animation: fadeIn 0.3s;
-}
-
-.modal-content img {
-    border-radius: 10px;
-}
-
-.modal-content h2 {
-    color: #8040F9;
-    font-size: 28px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.modal-content p {
-    text-align: center;
-}
-
-.modal-content button {
-    margin-top: 20px;
-    width: 100%;
-    background-color: #8040F9;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.modal-content button:hover {
-    background-color: #221B3B;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-.logo-container {
-    text-align: center;
-    padding: 20px;
-}
-
-.logo {
-    width: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    border-radius: 50%;
-    margin: 0 auto;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.1);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .modal-content {
-        width: 65%;
-    }
-}
-
-@media screen and (max-width: 500px) {
-    #camera-preview {
-        border-radius: 0;
-    }
-
-    .modal-content {
-        width: 75%;
-    }
-
-    .logo-container {
-        padding: 10px;
-    }
-}
-
-/* Styles for the camera switch button */
-#switch-button {
-    background-color: #221B3B;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    display: block;
-    margin: 5px
-}
-
-#switch-button:hover {
-    background-color: #221B3B;
-}
-
-#switch-button:focus {
-    outline: none;
-}
-
-#switch-button:active {
-    background-color: #221B3B;
-}
-
-body {
-    background-color: #0F0B18;
-    color: white;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-h1 {
-    text-align: center;
-    margin-top: 20px;
-    color: #8040F9;
-}
-
-#button {
-    background-color: #221B3B;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    display: block;
-    margin: 5px;
-}
-
-#qr-result {
-    text-align: center;
-    margin: 20px auto;
-    color: #8040F9;
-}
-
-#camera-preview {
-    transform: scaleX(-1);
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%;
-    background-color: #0F0B18;
-    overflow: hidden;
-    border-radius: 10px;
-}
-
-#camera-preview video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    background-color: #221B3B;
-    position: relative;
-    border-radius: 20px;
-    max-width: 90%;
-    max-height: 90%;
-    overflow-y: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    animation: fadeIn 0.3s;
-}
-
-.modal-content img {
-    width: 100%;
-    border-radius: 10px;
-}
-
-.modal-content h2 {
-    color: #8040F9;
-    font-size: 28px;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.modal-content p {
-    text-align: center;
-}
-
-.modal-content button {
-    margin-top: 20px;
-    width: 100%;
-    background-color: #8040F9;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.modal-content button:hover {
-    background-color: #221B3B;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-.logo-container {
-    text-align: center;
-    padding: 20px;
-}
-
-
-
-.sides {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-label {
-    display: block;
-    text-align: center;
-    margin: 10px;
-    font-size: 18px;
-    color: #8040F9;
-}
-
-#field {
-    display: block;
-    margin: 0 auto;
-    width: 200px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #221B3B;
-    color: white;
-    border: none;
-    font-size: 16px;
-}
-
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.1);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-#funcs {
-    display: none;
-}
-
-#camera-preview {
-    transform: scaleX(-1);
-}
-
-.rectangle {
-    position: absolute;
-    border: 2px solid #8040F9;
-    box-sizing: border-box;
-    pointer-events: none;
-    transform: scaleX(-1);
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #0F0B18;
-    color: white;
+    height: 100vh;
 }
 
 .header {
     text-align: center;
     margin-bottom: 20px;
-    padding: 20px;
 }
 
 .logo {
@@ -663,13 +28,12 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 48px;
-    color: white;
 }
 
 #field {
     display: block;
     margin: 0 auto;
-    width: 200px;
+    width: 80%;
     padding: 10px;
     border-radius: 5px;
     background-color: #221B3B;
@@ -680,8 +44,8 @@ body {
 
 #startButton {
     padding: 10px 20px;
-    background-color: #8040F9;
-    color: white;
+    background-color: #007bff;
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -689,18 +53,26 @@ body {
 
 #cameraSelect {
     margin-top: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #221B3B;
-    color: white;
-    border: none;
-    font-size: 16px;
 }
 
 #event-name {
     font-size: 24px;
     color: #8040F9;
     margin-bottom: 10px;
+}
+
+.sides {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.label {
+    display: block;
+    text-align: center;
+    margin: 10px;
+    font-size: 18px;
+    color: #8040F9;
 }
 
 #funcs {
@@ -711,13 +83,12 @@ body {
 
 #videoContainer {
     position: relative;
-    max-width: 400px;
+    max-width: 90%;
     margin: 0 auto;
 }
 
 video {
     width: 100%;
-    max-width: 400px;
     border: 2px solid #8040F9;
     border-radius: 10px;
 }
@@ -744,11 +115,13 @@ video {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 100;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-content {
     background-color: #221B3B;
-    position: absolute;
+    position: relative;
     border-radius: 20px;
     top: 50%;
     left: 50%;
@@ -838,13 +211,11 @@ video {
 /* Additional styles for responsiveness */
 @media screen and (max-width: 768px) {
     .modal-content {
-        width: 65%;
+        width: 80%;
     }
-}
 
-@media screen and (max-width: 500px) {
-    .modal-content {
-        width: 75%;
+    video {
+        transform: scaleX(1) !important;
     }
 
     .logo {
@@ -852,10 +223,45 @@ video {
         width: 100px;
         height: 100px;
     }
+
+    #field {
+        width: 80%;
+    }
+
+    .wrap {
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    #camera-preview {
+        border-radius: 0;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
+
+    .logo-container {
+        padding: 10px;
+    }
 }
 
 /* Styles for camera switch button */
 #switch-button {
+    background-color: #221B3B;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 5px;
+}
+
+#button {
     background-color: #221B3B;
     color: white;
     border: none;
@@ -885,53 +291,39 @@ video {
     }
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-}
+/* Custom styles for better mobile view */
+@media screen and (max-width: 768px) {
+    .logo {
+        font-size: 32px;
+        width: 80px;
+        height: 80px;
+    }
 
-#videoContainer {
-    position: relative;
-}
+    #field {
+        width: 90%;
+    }
 
-video {
-    width: 100%;
-    max-width: 400px;
-    border: 2px solid #333;
-}
+    .label {
+        font-size: 16px;
+    }
 
-#cameraSelect {
-    margin-top: 10px;
-}
+    .modal-content {
+        padding: 10px;
+    }
 
-#startButton {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+    .title {
+        font-size: 24px;
+    }
 
-.logo {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    margin: 20px auto;
-    background-color: unset;
-    /* Use one of the theme colors */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 48px;
-}
+    .description {
+        font-size: 14px;
+    }
 
-/* Styles for the header */
-.header {
-    text-align: center;
-    margin-bottom: 20px;
+    .calender,
+    .book {
+        padding: 8px;
+        font-size: 14px;
+        width: 120px;
+        height: 40px;
+    }
 }
