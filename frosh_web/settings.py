@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'frosh_web.wsgi.application'
 
 DATABASES = {
   'default': {
-    'ENGINE': 'django.db.backends.postgresql',
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
     'NAME': 'defaultdb',
     'USER': os.getenv('DATABASE_USER', None),
     'PASSWORD': os.getenv('DATABASE_PASSWORD', None),
