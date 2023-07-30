@@ -172,3 +172,5 @@ EMAIL_USE_SSL = False
 
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
+
+DISABLE_COLLECTSTATIC = 1
