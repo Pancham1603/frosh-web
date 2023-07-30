@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="Webflow" name="generator" />
-    <link href="./main.css" rel="stylesheet" />
+    <link href="../static/events.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous" />
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
@@ -21,7 +21,7 @@
             }
         });
     </script>
-    <script src="./main.js"></script>
+    <script src="../static/events.js"></script>
     <style>
         ::selection {
             background: #000000;
@@ -210,7 +210,7 @@
                                 position: absolute;
                                 white-space: nowrap;
                                 will-change: transform;
-                                animation: marquee-horizontal 20s linear infinite;
+                                animation: marquee-horizontal 5s linear infinite;
                                 /* manipulate the speed of the marquee by changing "40s" line above*/
                             }
 
@@ -234,13 +234,13 @@
             <div role="list" class="w-dyn-items">
                 <div role="listitem" class="w-dyn-item">
                     <a href="/" aria-current="page" class="c-nav_logo w-inline-block w--current">
-                        <div style="background-image:url('./logo\ white\ transparent.png')" class="c-nav_logo-img">
+                        <div style="background-image:url('../static/logo\ white\ transparent.png')" class="c-nav_logo-img">
                         </div>
                     </a>
                 </div>
             </div>
         </div>
-        <img src="https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4524af4bbf900dc969648_icons8-logout-100.png"
+        <img src="../static/icons8-logout-96.png"
             loading="lazy" alt="" class="image-2" onclick="window.location.href = '/logout';" />
     </nav>
     <div class="c-overflow">
@@ -254,21 +254,21 @@
                             class="c-events_link w-inline-block">
                             <div class="w-row">
                                 <div class="column w-col w-col-6 w-col-small-6 w-col-tiny-6">
-                                    <img src="https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4487df3f4b11e18989f2f_profile.jpg"
+                                    <img src="{{ user.image }}"
                                         loading="lazy" width="134" alt="" class="image prof" />
                                 </div>
                                 <div class="column-2 w-col w-col-6 w-col-small-6 w-col-tiny-6">
-                                    <img src="https://i.ibb.co/cD1tMZw/a597e97f5f34.png" loading="lazy" alt=""
+                                    <img src="{{ user.qr }}" loading="lazy" alt=""
                                         class="prof" />
                                 </div>
                             </div>
                             <div class="c-events_content">
-                                <h6>Saturday Morning Livestream Prayer</h6>
+                                <h6>{{ user }}</h6>
                                 <div class="c-events_date-time">
                                     <div class="c-events_date">
-                                        <img src="https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4271741595feff865072e_user-icon.svg"
+                                        <img src="../static/icons8-identity-50.png"
                                             alt="" class="c-event_icon" />
-                                        <p>{{user.application_number}}</p>
+                                        <p>{{user.registration_id}}</p>
                                     </div>
                                 </div>
                                 <div class="c-sermon_buttons">
@@ -285,11 +285,16 @@
         <div class="c-section is--mission">
             <div class="c-large-header">
                 <div class="c-large-header_contain">
-                    <h2 class="is--display">{{event.name}}</h2>
+                    <h2 class="is--display">{{live_event.name}}</h2>
                     <div class="is--display-line"></div>
                     <h2 class="is--display">Live Now</h2>
                     <div class="is--display-line"></div>
-                    <h2 class="is--display">{{event.name}}</h2>
+                    <h2 class="is--display">{{live_event.name}}</h2>
+                    <div class="is--display-line"></div>
+                    <h2 class="is--display">Live Now</h2>
+                    <div class="is--display-line"></div>
+                    <h2 class="is--display">{{live_event.name}}</h2>
+                    <div class="is--display-line"></div>
                 </div>
             </div>
         </div>
@@ -297,14 +302,26 @@
             <div role="list" class="c-section w-dyn-items">
                 <div role="listitem" class="w-dyn-item">
                     <div class="c-sermon">
-                        <div style="background-image:url(&quot;https://uploads-ssl.webflow.com/64c4271741595feff8650734/64c4271741595feff86507aa_sermon1.jpg&quot;)"
+                        <div style="background-image:url({{ live_event.image }})"
                             class="c-sermon_bg"></div>
                         <!---######## Here is the code for on click live event card#######-->
-                        <h2 class="c-sermon_title">{{event.name}}</h2>
+                        <h2 class="c-sermon_title">{{live_event.name}}</h2>
                         <div class="c-sermon_buttons">
-                            <div onclick="" class="c-button is--button1 w-button">Register Now</div>
-                            <!---######## Here is the code for button click live event card#######-->
-                        </div>
+                        {% if not live_event_pass %}
+                            {% if live_event.booking_required %}
+                                    {% if live_event.is_booking %}
+                                    <div onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}',false, '{{ live_event.image }}','{{live_event.calender_url}}', false)" class="c-button is--button1 w-button">Register Now</div>
+                                    {% else  %}
+                                    <div onclick="" class="c-button is--button1 w-button" style="background-color: gray;">Booking Unavailable</div>
+                                    {% endif %}
+                                {% else %}
+                                <div onclick="" class="c-button is--button1 w-button" style="background-color: green;">Direct Access</div>
+                            {% endif %}
+                        {% else %}
+                        <div onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}',false, '{{ live_event_pass.qr }}','{{live_event.calender_url}}', true)" class="c-button is--button1 w-button" style="background-color: gray;">View Booking</div>
+                        {% endif %}
+                    </div>
+                        <!---######## Here is the code for button click live event card#######-->
                     </div>
                 </div>
             </div>
@@ -313,12 +330,61 @@
             <h4 class="heading hello">Upcoming Events</h4>
             <div class="c-events_wraper wrapper2 w-dyn-list" style="justify-content: start;">
                 <div role="list" class="c-events_list w-dyn-items">
+                   
+                    <!-- ##### BOOKED USER EVENTS ##### -->
+
+                    {% for pass in user_passes %}
                     <div role="listitem" class="c-events_item w-dyn-item">
                         <div href="#" class="c-events_link w-inline-block">
                             <img class="rounded"
-                                src="https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4271741595feff865072f_connect-groups.jpg"
+                                src="{{ pass.event_id.image }}"
                                 loading="lazy" sizes="(max-width: 479px) 77vw, (max-width: 767px) 67vw, 39vw"
-                                srcset="https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4271741595feff865072f_connect-groups-p-1080.jpeg 1080w, https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4271741595feff865072f_connect-groups-p-1600.jpeg 1600w, https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4271741595feff865072f_connect-groups.jpg 1920w"
+                                alt="" />
+                            <div class="c-events_content">
+                                <h6>{{pass.event_id.name}}</h6>
+                                <div class="c-events_date-time">
+                                    <div class="c-events_date-2">
+                                        <img src="https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4271741595feff8650720_date.svg"
+                                            alt="" class="c-event_icon" />
+                                        <p>Date: {{pass.event_id.date}}</p>
+                                    </div>
+                                    <div class="c-events_date-2">
+                                        <img src="https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4271741595feff865071c_time.svg"
+                                            alt="" class="c-event_icon" />
+                                        {% if pass.slot_id %}
+                                        <p>Time: {{pass.slot_id.time}}</p>
+                                        {% else %}
+                                        <p>Time: {{pass.event_id.time}}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <!---######## Open register model here#######-->
+                                {% if pass.slot_id %}
+                                <section class="section registerse" style="background-color: gray;"
+                                    onclick="openModal('{{ pass.event_id.name }}', '{{ pass.event_id.description }}','{{ pass.slot_id.time }}','{{ pass.event_id.venue }}',false, '{{ pass.qr }}','{{event.slot_id.calender_url}}', true)">
+                                    <div class="text-block">View Booking</div>
+                                </section>
+                                {% else %}
+                                <section class="section registerse" style="background-color: gray;"
+                                    onclick="openModal('{{ pass.event_id.name }}', '{{ pass.event_id.description }}','{{ pass.event_id.time }}','{{ pass.event_id.venue }}',false, '{{ pass.qr }}','{{pass.event_id.calender_url}}', true)">
+                                    <div class="text-block">View Booking</div>
+                                </section>
+                                {% endif %}                             
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <!-- ##### BOOKED USER EVENTS END #####  -->
+
+                    <!-- ##### UNBOOKED SCHEDULED EVENTS ###### -->
+
+                    {% for event in scheduled_events %}
+                    <div role="listitem" class="c-events_item w-dyn-item">
+                        <div href="#" class="c-events_link w-inline-block">
+                            <img class="rounded"
+                                src="{{ event.image }}"
+                                loading="lazy" sizes="(max-width: 479px) 77vw, (max-width: 767px) 67vw, 39vw"
                                 alt="" />
                             <div class="c-events_content">
                                 <h6>{{event.name}}</h6>
@@ -335,14 +401,37 @@
                                     </div>
                                 </div>
                                 <!---######## Open register model here#######-->
-                                <section class="section registerse"
-                                    onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}',false,'{{ event.image }}','{{event.calender_url}}', false)">
-                                    <div class="text-block">Register</div>
+                                {% if event.booking_required %}
+                                    {% if event.is_booking %}
+                                        {% if event.slot_id != 'lmao' %}
+                                            {% for slot in event_slots %}
+                                            {% if slot.slot_id == event.slot_id %}
+                                        <section class="section registerse"
+                                            onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}', '{{ slot.time }}, {{ slot.slot_id }}', '{{ event.image }}','{{event.calender_url}}', false)">
+                                            <div class="text-block">Register</div>
+                                        </section>
+                                        {% endif %}
+                                        {% endfor %}
+                                        {% else %}
+                                        <section class="section registerse"
+                                            onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}',false, '{{ event.image }}','{{event.calender_url}}', false)">
+                                            <div class="text-block">Register</div>
+                                        </section>
+                                        {% endif %}
+                                    {% else %}
+                                    <section class="section registerse" style="background-color: gray;">
+                                        <div class="text-block">Booking Unavailable</div>
+                                    </section>
+                                    {% endif %}
+                                {% else %}
+                                <section class="section registerse" style="background-color: green;">
+                                    <div class="text-block">Direct Access</div>
                                 </section>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
-
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -374,8 +463,6 @@
                 <label for="field">Slot</label>
                 <select id="field" name="field" data-name="Field" class="w-select">
                     <option value="">Select one...</option>
-                    <option value="First">Slot 1</option>
-                    <option value="Second">Slot 2</option>
                 </select>
                 <span id="error"></span>
             </div>
@@ -394,18 +481,14 @@
         <div class="custom-modal-content">
             <span class="close-button" onclick="closeCustomModal()">&times;</span>
             <h2>Booking History</h2>
-            <div class="card" data-src="./qrcode.png" onclick="viewEventDetails(this)">
+            {% for pass in user_passes_all %}
+            <div class="card" data-src="{{ pass.qr }}" onclick="viewEventDetails(this)">
                 <div class="card-info">
-                    <h3 class="card-title">Event 1</h3>
-                    <p class="card-description">Description of Event 1</p>
+                    <h3 class="card-title">{{ pass.event_id.name }}</h3>
+                    <p class="card-description">{{ pass.time }}</p>
                 </div>
             </div>
-            <div class="card" data-src="event2.jpg" onclick="viewEventDetails(this)">
-                <div class="card-info">
-                    <h3 class="card-title">Event 2</h3>
-                    <p class="card-description">Description of Event 2</p>
-                </div>
-            </div>
+           {% endfor %}
             <!-- Add more cards for each event as needed -->
         </div>
     </div>
@@ -467,7 +550,7 @@
             imageModal.style.display = 'block';
         }
     </script>
-    <script src="./main.js"></script>
+    <script src="../static/events.js"></script>
 </body>
 
 </html>
