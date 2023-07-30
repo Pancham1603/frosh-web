@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from ..events.models import EventPass, Event
 from ..users.models import User
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 import json
 
 # Create your views here.
@@ -77,8 +78,13 @@ def invalidate_pass(request):
             return HttpResponse("Pass verified!")
 
 
-
+@login_required
 def scanner(request):
     events = Event.objects.filter(booking_required=True).values('event_id', 'name')
-    return render(request, 'scanner.html', {'events':events})
+    if request.iOS:
+        return render(request, 'iphone.html', {'events':events})
+    else:
+        return render(request, 'scanner.html', {'events':events})
+    
+
 

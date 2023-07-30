@@ -24,15 +24,14 @@ function validate_pass(pass_id) {
         method: "POST",
         url: "/scanner/userdata/validate",
         data: {
-            pass_id: pass_id
+            pass_id: pass_id,
+            event_id: document.getElementById("event-name").innerHTML
         },
         success: function (response) {
-            vibrateForOneSecond()
             toastr.success(response)
             // console.log(response['username'], response['registration_id'], response['event']);
         },
         error: function (response) {
-            vibrateForOneSecond()
             toastr.error("Invalid Pass");
         }
     });
@@ -66,7 +65,9 @@ function startCamera() {
                         console.error('Error decoding QR code:', error);
                         scanQRCode(); // Call the function again for continuous scanning
                     });
+
             }
+            
             function getPassData(pass_id) {
                 $.ajax({
                     method: "POST",
@@ -80,8 +81,9 @@ function startCamera() {
                         if (response.valid) {
                             vibrateForOneSecond()
                             openModal(response.event, response.user, response.registration_id, response.image, "https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png", "", pass_id)
+                            
                         } else {
-                            toastr.error("Pass has already been used");
+                            toastr.error(response.message);
                         }
                         setTimeout(function () {
                             // Put the code you want to delay here

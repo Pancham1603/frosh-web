@@ -60,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'detect.middleware.UserAgentDetectionMiddleware'
 ]
 
 ROOT_URLCONF = 'frosh_web.urls'
