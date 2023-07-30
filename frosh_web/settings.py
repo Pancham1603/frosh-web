@@ -90,11 +90,14 @@ WSGI_APPLICATION = 'frosh_web.wsgi.application'
 DATABASES = {
   'default': {
     'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'frosh',
+    'NAME': 'defaultdb',
     'USER': os.getenv('DATABASE_USER', None),
     'PASSWORD': os.getenv('DATABASE_PASSWORD', None),
     'HOST': os.getenv('DATABASE_HOST', None),
-    'PORT':5432
+    'PORT':25060,
+    'OPTIONS': {
+        'sslmode':'require'
+    }
   }
 }
 
