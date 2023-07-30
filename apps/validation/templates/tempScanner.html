@@ -3,10 +3,8 @@
 
 <head>
     <title>Camera Demo</title>
-    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-    <link rel="stylesheet" href="../static/scanner.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
         body {
             display: flex;
@@ -51,8 +49,21 @@
 
     <script>
         let videoStream;
+        let codeReader; // Added codeReader variable
         const videoElement = document.getElementById('video');
         const cameraSelect = document.getElementById('cameraSelect');
+
+        async function loadZXing() {
+            try {
+                // Load the zxing library dynamically using async and await
+                const response = await fetch('https://cdnjs.cloudflare.com/ajax/libs/zxing.js/0.18.6/zxing.min.js');
+                const scriptText = await response.text();
+                eval(scriptText); // Evaluate the script to make ZXing available
+                startCamera(); // Start the camera after the library is loaded
+            } catch (error) {
+                console.error('Error loading ZXing:', error);
+            }
+        }
 
         async function startCamera() {
             try {
@@ -69,14 +80,11 @@
                 videoStream = await navigator.mediaDevices.getUserMedia(constraints);
                 videoElement.srcObject = videoStream;
                 updateCameraSelectOptions(videoDevices);
-                scanner = new Instascan.Scanner({ video: videoElement });
-                scanner.addListener("scan", function (content) {
-                    console.log(content);
-                    alert(content);
-                    getPassData(content);
-                });
 
-                scanner.start(cameras[selectedCameraIndex]);
+                // Initialize the QR code reader
+                codeReader = new ZXing.BrowserQRCodeReader();
+                codeReader.decodeFromStream(videoElement, handleScannedQRCode);
+
             } catch (error) {
                 console.error('Error accessing the camera:', error);
             }
@@ -91,6 +99,17 @@
                 cameraSelect.appendChild(option);
             });
         }
+
+        // Function to handle scanned QR code data
+        function handleScannedQRCode(result) {
+            if (result) {
+                // Display the scanned QR code content using Toastr library
+                toastr.success(`Scanned QR Code: ${result.text}`);
+            }
+        }
+
+        // Load the ZXing library first and startCamera after it's loaded
+        loadZXing();
     </script>
 </body>
 

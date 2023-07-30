@@ -18,7 +18,7 @@ function selectEvent() {
     document.getElementById("field").style.display = "none";
     document.getElementById("event-name").innerHTML = eventName;
     document.getElementById("funcs").style.display = "flex";
-    startCamera(0);
+    startCamera(1);
   }
 }
 function getCameras() {
@@ -47,7 +47,7 @@ function getCameras() {
     });
 }
 
-function startCamera() {
+function startCamera(selectedCameraIndex) {
   const qrResult = document.getElementById("qr-result");
   qrResult.textContent = "Scanning...";
 
@@ -56,10 +56,23 @@ function startCamera() {
   cameraPreview.innerHTML = "";
   cameraPreview.appendChild(video);
 
+  if (!selectedCameraIndex) {
+    selectedCameraIndex = 1; // Use the first camera by default
+  }
+
   const constraints = {
-    video: true
+    video: {
+      facingMode: "environment",
+      deviceId: {
+        exact: cameras[selectedCameraIndex].id,
+      },
+      facingMode: {
+        exact: "environment" // Use the rear camera if available
+      }
+    },
   };
 
+  // Request permission to access the camera
   navigator.mediaDevices
     .getUserMedia(constraints)
     .then(function (stream) {
@@ -73,27 +86,12 @@ function startCamera() {
         getPassData(content);
       });
 
-      // Switch camera for iOS devices
-      if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-        const track = stream.getVideoTracks()[0];
-        if (track.getCapabilities && track.getCapabilities().facingMode) {
-          const facingMode = track.getCapabilities().facingMode;
-          const selectedCameraIndex = facingMode === "environment" ? 1 : 0;
-          scanner.start(cameras[selectedCameraIndex]);
-          currentCameraIndex = selectedCameraIndex;
-        } else {
-          scanner.start(cameras[currentCameraIndex]);
-        }
-      } else {
-        // For non-iOS devices, use the selected camera index
-        scanner.start(cameras[currentCameraIndex]);
-      }
+      scanner.start(cameras[selectedCameraIndex]); // Start the selected camera
     })
     .catch(function (error) {
-      console.error("Error accessing the camera:", error);
+      switchCamera();
     });
 }
-
 
 
 // Call getCameras when the page loads
