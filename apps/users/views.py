@@ -43,34 +43,39 @@ def logout_user(request):
 
 class EmailActivationLink(View):
     def get(self, request):
-        return render(request, 'activate.html')
+            return render(request, 'activate.html')
+
 
     def post(self, request):
         current_site = get_current_site(request)
         user = User.objects.get(registration_id=request.POST['registration_id'])
-        email_body = {
-            'user': user,
-            'domain': current_site.domain,
-            'secure_id_b64': urlsafe_base64_encode(force_bytes(user.secure_id)),
-            'token': account_activation_token.make_token(user),
-        }
+        if not user.is_active:
+            email_body = {
+                'user': user,
+                'domain': current_site.domain,
+                'secure_id_b64': urlsafe_base64_encode(force_bytes(user.secure_id)),
+                'token': account_activation_token.make_token(user),
+            }
 
-        link = reverse('activate', kwargs={
-                        'secure_id_b64': email_body['secure_id_b64'], 'token': email_body['token']})
+            link = reverse('activate', kwargs={
+                            'secure_id_b64': email_body['secure_id_b64'], 'token': email_body['token']})
 
-        email_subject = 'Activate your account'
+            email_subject = 'Activate your account'
 
-        activate_url = 'http://'+current_site.domain+link
+            activate_url = 'http://'+current_site.domain+link
 
-        email = EmailMessage(
-            email_subject,
-            'Hi '+ user.first_name + ', Please click the link below to activate your account \n'+activate_url,
-            'noreply@events.froshtiet.com',
-            [user.email],
-        )
-        email.send(fail_silently=False)
-        messages.info(request, 'Activation link sent on email!')
-        return redirect('/login')
+            email = EmailMessage(
+                email_subject,
+                'Hi '+ user.first_name + ', Please click the link below to activate your account \n'+activate_url,
+                'noreply@events.froshtiet.com',
+                [user.email],
+            )
+            email.send(fail_silently=False)
+            messages.info(request, 'Activation link sent on email!')
+            return redirect('/login')
+        else:
+            messages.info(self.request, 'User already activated')
+            return redirect('/login')
 
 
 class VerificationView(View):
@@ -80,11 +85,10 @@ class VerificationView(View):
             user = User.objects.get(secure_id=secure_id)
 
             if not account_activation_token.check_token(user, token):
-                print(1)
-                return redirect('login'+'?message='+'User already activated')
+                messages.info(self.request, 'User already activated')
+                return redirect('/login')
 
             if user.is_active:
-                print(2)
                 return redirect('/login')
             user.is_active = True
             password = ''.join(random.choices(string.ascii_uppercase +
@@ -95,11 +99,10 @@ class VerificationView(View):
             [user.email],
         )
             email.send(fail_silently=False)
-            messages.info(request, 'Account activated, password sent on email!')
+            messages.info(self.request, 'Account activated, password sent on email!')
             return redirect('/logout')
 
         except Exception as ex:
-            print('invldi')
             pass
 
         return redirect('/login')
