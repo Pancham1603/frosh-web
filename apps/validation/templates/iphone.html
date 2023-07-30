@@ -1,0 +1,93 @@
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>QR Scanner App</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <link rel="stylesheet" href="../static/scanner.css">
+    </head>
+
+    <body>
+        <style>
+            #scanner::-webkit-media-controls-start-playback-button {
+                display: none;
+            }
+
+            #scanner::-webkit-media-controls-panel {
+                display: none;
+            }
+
+            #scanner::-webkit-media-controls-play-button {
+                display: none;
+            }
+
+            #scanner::-webkit-media-controls-current-time-display {
+                display: none;
+            }
+
+            #scanner::-webkit-media-controls-time-remaining-display {
+                display: none;
+            }
+
+            #scanner::-webkit-media-controls-pause-button {
+                display: none;
+            }
+
+            /* If needed, you can also hide other video player controls like the timeline and volume controls */
+            #scanner::-webkit-media-controls-timeline,
+            #scanner::-webkit-media-controls-volume-slider {
+                display: none;
+            }
+        </style>
+        <div class="logo-container">
+            <div class="logo">
+                <img src="../static/logo white transparent.png" alt="logo" width="auto" height="80%">
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <label for="field" id="event-name">Event</label>
+            <select id="field" name="field" data-name="Field" class="w-select" onchange="selectEvent()">
+                <option value="">Select one...</option>
+                {% for event in events %}
+                <option value="{{event.event_id}}">{{ event.name }}</option>
+                {% endfor %}
+
+            </select>
+            <span id="error"></span>
+        </div>
+
+        <div id="funcs">
+            <div id="scannerWrapper">
+                <video id="scanner" width="95vw" height="auto" playsinline autoplay disablePictureInPicture></video>
+            </div>
+            <div id="cameraButtons"></div>
+        </div>
+        <div class="modal" id="eventModal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div class="container_first">
+                    <img class="container_img" id="imageUrl" src="" alt="Event Image">
+                    <div class="modal_data">
+                        <h2 id="title" class="title">Hello </h2>
+                        <p id="description" class="description">Lorem ipsum Lorem ipsum dolor sit amet consectetur
+                            adipisicing
+                            elit.
+                        </p>
+                    </div>
+                </div>
+                <div class="container_second">
+                    <button class="calender" id="calender" onclick="closeModal()"><i
+                            class='fa - regular fa - circle - xmark'></i>&nbsp; Reject"</button>
+                    <button class="book" id="book">
+                        <i class="fa-solid fa-check white"></i>&nbsp;Accept
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script src="../static/scanneri.js"></script>
+        <script src="../static/camerai.js"></script>
+    </body>
+
+    </html>

@@ -2412,7 +2412,7 @@ blockquote {
 }
 
 .c-nav {
-    z-index: 2000;
+    z-index: 20;
     background-color: rgba(15, 14, 23, .9);
     justify-content: space-between;
     align-items: center;
@@ -2887,7 +2887,7 @@ blockquote {
 
 .c-events_item {
     width: 40vw;
-    max-width: 40vw;
+    max-width: 300px;
     min-width: 40vw;
     padding-right: 1em;
     display: flex;

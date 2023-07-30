@@ -54,8 +54,8 @@ function startCamera(selectedCameraIndex) {
   const video = document.createElement("video");
   const cameraPreview = document.getElementById("camera-preview");
   cameraPreview.innerHTML = "";
-  cameraPreview.appendChild(video);
-
+  cameraPreview.appendChild(video)
+  
   if (!selectedCameraIndex) {
     selectedCameraIndex = 1; // Use the first camera by default
   }
@@ -79,6 +79,7 @@ function startCamera(selectedCameraIndex) {
       qrResult.textContent = "Camera started, scanning...";
       video.srcObject = stream;
       video.setAttribute("playsinline", true); // Required to tell iOS Safari we don't want fullscreen
+      
       video.play();
       scanner = new Instascan.Scanner({ video: video });
       scanner.addListener("scan", function (content) {
@@ -123,6 +124,7 @@ function getPassData(pass_id) {
       }
     },
     error: function (response) {
+      console
       vibrateForOneSecond()
       toastr.error("Invalid Pass");
     }

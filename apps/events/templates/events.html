@@ -13,7 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+<script src="../static/events.js"></script>
     <script type="text/javascript">
         WebFont.load({
             google: {
@@ -21,7 +21,7 @@
             }
         });
     </script>
-    <script src="../static/events.js"></script>
+  
     <style>
         ::selection {
             background: #000000;
@@ -35,7 +35,7 @@
     </style>
     <style>
         .slick-track {
-            width: auto !important;
+            width: max-content !important;
         }
 
         .slick-prev:hover,
@@ -234,14 +234,15 @@
             <div role="list" class="w-dyn-items">
                 <div role="listitem" class="w-dyn-item">
                     <a href="/" aria-current="page" class="c-nav_logo w-inline-block w--current">
-                        <div style="background-image:url('../static/logo\ white\ transparent.png')" class="c-nav_logo-img">
+                        <div style="background-image:url('../static/logo\ white\ transparent.png')"
+                            class="c-nav_logo-img">
                         </div>
                     </a>
                 </div>
             </div>
         </div>
-        <img src="../static/icons8-logout-96.png"
-            loading="lazy" alt="" class="image-2" onclick="window.location.href = '/logout';" />
+        <img src="../static/icons8-logout-96.png" loading="lazy" alt="" class="image-2"
+            onclick="window.location.href = '/logout';" />
     </nav>
     <div class="c-overflow">
         <div class="c-section is--events">
@@ -254,20 +255,17 @@
                             class="c-events_link w-inline-block">
                             <div class="w-row">
                                 <div class="column w-col w-col-6 w-col-small-6 w-col-tiny-6">
-                                    <img src="{{ user.image }}"
-                                        loading="lazy" width="134" alt="" class="image prof" />
+                                    <img src="{{ user.image }}" loading="lazy" width="134" alt="" class="image prof" />
                                 </div>
                                 <div class="column-2 w-col w-col-6 w-col-small-6 w-col-tiny-6">
-                                    <img src="{{ user.qr }}" loading="lazy" alt=""
-                                        class="prof" />
+                                    <img src="{{ user.qr }}" loading="lazy" alt="" class="prof" />
                                 </div>
                             </div>
                             <div class="c-events_content">
                                 <h6>{{ user }}</h6>
                                 <div class="c-events_date-time">
                                     <div class="c-events_date">
-                                        <img src="../static/icons8-identity-50.png"
-                                            alt="" class="c-event_icon" />
+                                        <img src="../static/icons8-identity-50.png" alt="" class="c-event_icon" />
                                         <p>{{user.registration_id}}</p>
                                     </div>
                                 </div>
@@ -303,25 +301,28 @@
             <div role="list" class="c-section w-dyn-items">
                 <div role="listitem" class="w-dyn-item">
                     <div class="c-sermon">
-                        <div style="background-image:url({{ live_event.image }})"
-                            class="c-sermon_bg"></div>
+                        <div style="background-image:url({{ live_event.image }})" class="c-sermon_bg"></div>
                         <!---######## Here is the code for on click live event card#######-->
                         <h2 class="c-sermon_title">{{live_event.name}}</h2>
                         <div class="c-sermon_buttons">
-                        {% if not live_event_pass %}
+                            {% if not live_event_pass %}
                             {% if live_event.booking_required %}
-                                    {% if live_event.is_booking %}
-                                    <div onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}',false, '{{ live_event.image }}','{{live_event.calender_url}}', false)" class="c-button is--button1 w-button">Register Now</div>
-                                    {% else  %}
-                                    <div onclick="" class="c-button is--button1 w-button" style="background-color: gray;">Booking Unavailable</div>
-                                    {% endif %}
-                                {% else %}
-                                <div onclick="" class="c-button is--button1 w-button" style="background-color: green;">Direct Access</div>
+                            {% if live_event.is_booking %}
+                            <div onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}',false, '{{ live_event.image }}','{{live_event.calender_url}}', false)"
+                                class="c-button is--button1 w-button">Register Now</div>
+                            {% else %}
+                            <div onclick="" class="c-button is--button1 w-button" style="background-color: gray;">
+                                Booking Unavailable</div>
                             {% endif %}
-                        {% else %}
-                        <div onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}',false, '{{ live_event_pass.qr }}','{{live_event.calender_url}}', true)" class="c-button is--button1 w-button" style="background-color: gray;">View Booking</div>
-                        {% endif %}
-                    </div>
+                            {% else %}
+                            <div onclick="" class="c-button is--button1 w-button" style="background-color: green;">
+                                Direct Access</div>
+                            {% endif %}
+                            {% else %}
+                            <div onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}',false, '{{ live_event_pass.qr }}','{{live_event.calender_url}}', true)"
+                                class="c-button is--button1 w-button" style="background-color: gray;">View Booking</div>
+                            {% endif %}
+                        </div>
                         <!---######## Here is the code for button click live event card#######-->
                     </div>
                 </div>
@@ -330,17 +331,16 @@
         <div class="c-section is--footer-spacer">
             <h4 class="heading hello">Upcoming Events</h4>
             <div class="c-events_wraper wrapper2 w-dyn-list" style="justify-content: start;">
-                <div role="list" class="c-events_list w-dyn-items">
-                   
+                <div role="list" class="c-events_list w-dyn-items" id="scrollableDiv"
+                    style="overflow-x: auto; white-space: nowrap;">
+
                     <!-- ##### BOOKED USER EVENTS ##### -->
 
                     {% for pass in user_passes %}
                     <div role="listitem" class="c-events_item w-dyn-item">
                         <div href="#" class="c-events_link w-inline-block">
-                            <img class="rounded"
-                                src="{{ pass.event_id.image }}"
-                                loading="lazy" sizes="(max-width: 479px) 77vw, (max-width: 767px) 67vw, 39vw"
-                                alt="" />
+                            <img class="rounded" src="{{ pass.event_id.image }}" loading="lazy"
+                                sizes="(max-width: 479px) 77vw, (max-width: 767px) 67vw, 39vw" alt="" />
                             <div class="c-events_content">
                                 <h6>{{pass.event_id.name}}</h6>
                                 <div class="c-events_date-time">
@@ -370,7 +370,7 @@
                                     onclick="openModal('{{ pass.event_id.name }}', '{{ pass.event_id.description }}','{{ pass.event_id.time }}','{{ pass.event_id.venue }}',false, '{{ pass.qr }}','{{pass.event_id.calender_url}}', true)">
                                     <div class="text-block">View Booking</div>
                                 </section>
-                                {% endif %}                             
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -383,10 +383,8 @@
                     {% for event in scheduled_events %}
                     <div role="listitem" class="c-events_item w-dyn-item">
                         <div href="#" class="c-events_link w-inline-block">
-                            <img class="rounded"
-                                src="{{ event.image }}"
-                                loading="lazy" sizes="(max-width: 479px) 77vw, (max-width: 767px) 67vw, 39vw"
-                                alt="" />
+                            <img class="rounded" src="{{ event.image }}" loading="lazy"
+                                sizes="(max-width: 479px) 77vw, (max-width: 767px) 67vw, 39vw" alt="" />
                             <div class="c-events_content">
                                 <h6>{{event.name}}</h6>
                                 <div class="c-events_date-time">
@@ -403,27 +401,27 @@
                                 </div>
                                 <!---######## Open register model here#######-->
                                 {% if event.booking_required %}
-                                    {% if event.is_booking %}
-                                        {% if event.slot_id != 'lmao' %}
-                                            {% for slot in event_slots %}
-                                            {% if slot.slot_id == event.slot_id %}
-                                        <section class="section registerse"
-                                            onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}', '{{ slot.time }}, {{ slot.slot_id }}', '{{ event.image }}','{{event.calender_url}}', false)">
-                                            <div class="text-block">Register</div>
-                                        </section>
-                                        {% endif %}
-                                        {% endfor %}
-                                        {% else %}
-                                        <section class="section registerse"
-                                            onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}',false, '{{ event.image }}','{{event.calender_url}}', false)">
-                                            <div class="text-block">Register</div>
-                                        </section>
-                                        {% endif %}
-                                    {% else %}
-                                    <section class="section registerse" style="background-color: gray;">
-                                        <div class="text-block">Booking Unavailable</div>
-                                    </section>
-                                    {% endif %}
+                                {% if event.is_booking %}
+                                {% if event.slot_id != 'lmao' %}
+                                {% for slot in event_slots %}
+                                {% if slot.slot_id == event.slot_id %}
+                                <section class="section registerse"
+                                    onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}', '{{ slot.time }}, {{ slot.slot_id }}', '{{ event.image }}','{{event.calender_url}}', false)">
+                                    <div class="text-block">Register</div>
+                                </section>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <section class="section registerse"
+                                    onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}',false, '{{ event.image }}','{{event.calender_url}}', false)">
+                                    <div class="text-block">Register</div>
+                                </section>
+                                {% endif %}
+                                {% else %}
+                                <section class="section registerse" style="background-color: gray;">
+                                    <div class="text-block">Booking Unavailable</div>
+                                </section>
+                                {% endif %}
                                 {% else %}
                                 <section class="section registerse" style="background-color: green;">
                                     <div class="text-block">Direct Access</div>
@@ -489,7 +487,7 @@
                     <p class="card-description">{{ pass.time }}</p>
                 </div>
             </div>
-           {% endfor %}
+            {% endfor %}
             <!-- Add more cards for each event as needed -->
         </div>
     </div>
