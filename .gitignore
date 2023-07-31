@@ -6,4 +6,5 @@ Lib/
 Scripts/
 pyvenv.cfg
 *.xlsx
-*.crts
+*.crt
+staticfiles/

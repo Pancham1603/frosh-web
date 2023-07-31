@@ -31,7 +31,10 @@ def events_home(request):
     events_sorted = sorted(events, key=lambda x: [x.date, convert_time_to_start_time(x.time)])
     user_passes = EventPass.objects.filter(user_id=request.user)
     live_event = events_sorted[0]
-    live_event_pass = user_passes.filter(event_id=live_event, user_id=request.user)
+    try:
+        live_event_pass = user_passes.filter(event_id=live_event, user_id=request.user)[0]
+    except:
+        live_event_pass = None
     scheduled_events = events.exclude(event_id=live_event.event_id)
     for Pass in user_passes:
         if Pass.event_id in events:

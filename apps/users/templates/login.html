@@ -20,7 +20,7 @@
     <div class="login-box">
       <form method="post" action="/login/">
         {% csrf_token %}
-        <input type="text" placeholder="Registration ID" id="username" name="username" required>
+        <input type="text" placeholder="Application Number" id="username" name="username" required>
         <input type="password" placeholder="Password" id="password" name="password" required>
         <button type="submit">Login</button>
       </form>
@@ -35,12 +35,12 @@
     "closeButton": true,
     "newestOnTop": true,
     "progressBar": true,
-    "positionClass": "toast-top-full-width",
+    "positionClass": "toast-top-right",
     "preventDuplicates": false,
     "onclick": null,
     "showDuration": "300",
     "hideDuration": "1000",
-    "timeOut": "2000",
+    "timeOut": "7000",
     "extendedTimeOut": "1000",
     "showEasing": "swing",
     "hideEasing": "linear",
@@ -50,8 +50,7 @@
   {% if messages %}
   {% for message in messages %}
 <script>
-  console.log({{ message }})
-    toastr.info({{ message }})
+    toastr.info("{{ message }}")
   </script>
   {% endfor %}
   {% endif %}

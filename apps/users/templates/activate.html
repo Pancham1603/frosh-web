@@ -20,7 +20,7 @@
     <div class="login-box">
       <form method="post" action="">
         {% csrf_token %}
-        <input type="text" placeholder="Registration ID" id="registration_id" name="registration_id" required>
+        <input type="text" placeholder="Application Numnber" id="registration_id" name="registration_id" required>
         <button type="submit">Generate Activation Link</button>
       </form>
     </div>
@@ -30,12 +30,12 @@
     "closeButton": true,
     "newestOnTop": true,
     "progressBar": true,
-    "positionClass": "toast-top-full-width",
+    "positionClass": "toast-top-right",
     "preventDuplicates": false,
     "onclick": null,
     "showDuration": "300",
     "hideDuration": "1000",
-    "timeOut": "2000",
+    "timeOut": "7000",
     "extendedTimeOut": "1000",
     "showEasing": "swing",
     "hideEasing": "linear",
@@ -45,7 +45,7 @@
   {% if messages %}
   {% for message in messages %}
 <script>
-    toastr.info({{ message }})
+    toastr.info("{{ message }}")
   </script>
   {% endfor %}
   {% endif %}
