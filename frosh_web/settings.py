@@ -60,7 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'detect.middleware.UserAgentDetectionMiddleware'
+    'detect.middleware.UserAgentDetectionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'frosh_web.urls'
@@ -89,7 +90,7 @@ WSGI_APPLICATION = 'frosh_web.wsgi.application'
 
 DATABASES = {
   'default': {
-    'ENGINE': 'django.db.backends.postgresql',
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
     'NAME': 'defaultdb',
     'USER': os.getenv('DATABASE_USER', None),
     'PASSWORD': os.getenv('DATABASE_PASSWORD', None),
@@ -117,8 +118,8 @@ DATABASES = {
 #     }
 
 
-STATIC_URL = "/static/"
-# STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), os.path.join(BASE_DIR,"apps/users"))
 
 # Password validation
@@ -155,7 +156,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

@@ -43,10 +43,11 @@ function openModal(title, description, time, location, slots, imageUrl, addToCal
         $.ajax({
             method: "POST",
             url: urls,
-            timeout: 10000,
+            timeout: 20000,
             success: function (response) {
                 let res = JSON.parse(response).status;
                 if (res) {
+                    console.log(JSON.parse(res))
                     let qr = JSON.parse(response).pass_qr
                     document.getElementById('imageUrl').src = qr
                     document.getElementById('calender').innerHTML = "<i class='fa-regular fa-calendar-plus white'></i>&nbsp; Reminder";
@@ -54,7 +55,7 @@ function openModal(title, description, time, location, slots, imageUrl, addToCal
                     document.getElementById('link').style.width = "45%";
                     document.getElementById('book').classList.add("booked");
                     document.getElementById('calender').classList.add("booked");
-                    $("#event-grid").load(window.location.href + " #event-grid");
+                    $("#").load(window.location.href + " #");
                     document.getElementById("spinbox").style.display = "none"
                 }
                 else {
@@ -97,6 +98,7 @@ function openModal(title, description, time, location, slots, imageUrl, addToCal
         document.getElementById('book').classList.add("booked");
         document.getElementById('calender').classList.add("booked");
         document.getElementById('imageUrl').src = imageUrl
+        console.log(imageUrl)
     }
     else {
         document.getElementById('book').classList.remove("booked");
