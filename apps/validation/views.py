@@ -80,11 +80,14 @@ def invalidate_pass(request):
 
 @login_required
 def scanner(request):
-    events = Event.objects.filter(booking_required=True).values('event_id', 'name')
-    if request.iOS:
-        return render(request, 'iphone.html', {'events':events})
+    if request.user.is_staff:
+        events = Event.objects.filter(booking_required=True).values('event_id', 'name')
+        if request.iOS:
+            return render(request, 'iphone.html', {'events':events})
+        else:
+            return render(request, 'scanner.html', {'events':events})
     else:
-        return render(request, 'scanner.html', {'events':events})
+        return HttpResponse('Invalid Operation')
     
 
 

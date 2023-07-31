@@ -67,7 +67,7 @@
     </style>
 </head>
 
-<body class="body">
+<body class="body" id="body">
     <div class="spin" id="spinbox">
         <div class="spinner"></div>
     </div>
@@ -312,7 +312,7 @@
                                 class="c-button is--button1 w-button">Register Now</div>
                             {% else %}
                             <div onclick="" class="c-button is--button1 w-button" style="background-color: gray;">
-                                Booking Unavailable</div>
+                                Coming Soon</div>
                             {% endif %}
                             {% else %}
                             <div onclick="" class="c-button is--button1 w-button" style="background-color: green;">
@@ -550,6 +550,22 @@
         }
     </script>
     <script src="../static/events.js"></script>
+    <script>
+        function removePTagsWithText(text) {
+                const paragraphs = document.getElementsByTagName("p");
+                console.log(paragraphs)
+                for (let i = paragraphs.length - 1; i >= 0; i--) {
+                    console.log(paragraphs[i].innerHTML)
+                    if (paragraphs[i].innerHTML.includes(text)) {
+                        paragraphs[i].parentNode.removeChild(paragraphs[i]);
+                    }
+                }
+            }
+
+            window.onload = function () {
+                removePTagsWithText("Ãƒâ€šÃ‚Â©")
+            }
+        </script>
 </body>
 
 </html>
