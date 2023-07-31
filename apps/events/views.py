@@ -37,7 +37,6 @@ def events_home(request):
         scheduled_events = events.exclude(event_id=live_event.event_id)
     except:
         live_event = None
-        print(live_event)
         live_event_pass = None
         scheduled_events = events
     for Pass in user_passes:
