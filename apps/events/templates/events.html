@@ -280,6 +280,7 @@
                 </div>
             </div>
         </div>
+        {% if live_event %}
         <div class="c-section is--mission">
             <div class="c-large-header">
                 <div class="c-large-header_contain">
@@ -297,6 +298,7 @@
                 </div>
             </div>
         </div>
+  
         <div class="w-dyn-list">
             <div role="list" class="c-section w-dyn-items">
                 <div role="listitem" class="w-dyn-item">
@@ -328,6 +330,8 @@
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% if scheduled_events|length > 0 or user_passes|length > 0 %}
         <div class="c-section is--footer-spacer">
             <h4 class="heading hello">Upcoming Events</h4>
             <div class="c-events_wraper wrapper2 w-dyn-list" style="justify-content: start;">
@@ -419,7 +423,7 @@
                                 {% endif %}
                                 {% else %}
                                 <section class="section registerse" style="background-color: gray;">
-                                    <div class="text-block">Booking Unavailable</div>
+                                    <div class="text-block">Coming Soon</div>
                                 </section>
                                 {% endif %}
                                 {% else %}
@@ -434,6 +438,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         <div class="div-block-3"></div>
     </div>
     <div class="modal" id="eventModal">
