@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Blitzera</title>
+    <title>Welcome to {{ event.name }}</title>
     <style>
         /* Global Styles */
         body {
@@ -64,25 +64,25 @@
 
 <body>
     <div class="container">
-        <img class="header-image" src="../static/header_img.png" alt="Header">
+        <img class="header-image" src="https://i.imgur.com/FOLveba.png" alt="Header">
         <div class="content">
-            <h1>Hi Akarsh Srivastava,</h1>
-            <p>Thank you for registering in<b> Blitzera</b>. We are excited to have you on board for our upcoming event.
+            <h1>Hi {{user_name}},</h1>
+            <p>Thank you for registering in<b> {{ event_name }}</b>. We are excited to have you on board for our upcoming event.
             </p>
             <p>Use the following code for check-in at the event venue:</p>
-            <p><strong>Event Pass Code: [Your Event Pass Code]</strong></p>
-            <p><strong>Time: [Time]</strong></p>
-            <p><strong>Venue: [Venue]</strong></p>
             <div class="qr-code">
-                <img src=""
+                <img src="{{ qr }}"
                     style="width: 200px;" alt="Event Pass QR Code">
             </div>
+            <p><strong>Event Pass Code: [{{ pass_id }}]</strong></p>
+            <p><strong>Time: {{ pass_time }}</strong></p>
+            <p><strong>Venue: {{ venue }}</strong></p>
+            
 
         </div>
         <div class="footer">
-            <p>If you have any questions or need further assistance, please contact us at [Your Contact Email/Phone
-                Number].</p>
-            <p>We look forward to seeing you at Blitzera and making it a memorable event!</p>
+            <p>If you have any questions or need further assistance, please DM us <a href="https://instagram.com/froshtiet">@froshtiet</a>.</p>
+            <p>We look forward to seeing you at {{ event_name }} and making it a memorable event!</p>
         </div>
     </div>
 </body>

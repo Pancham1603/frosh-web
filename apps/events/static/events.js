@@ -55,7 +55,7 @@ function openModal(title, description, time, location, slots, imageUrl, addToCal
                     document.getElementById('link').style.width = "45%";
                     document.getElementById('book').classList.add("booked");
                     document.getElementById('calender').classList.add("booked");
-                    $("#").load(window.location.href + " #");
+                    // $("#").load(window.location.href + " #");
                     document.getElementById("spinbox").style.display = "none"
                 }
                 else {

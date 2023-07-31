@@ -8,6 +8,8 @@ from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeErr
 from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.template.loader import render_to_string
+from django.template import Context
 from .utils import account_activation_token
 import random, string
 import openpyxl
@@ -62,16 +64,13 @@ class EmailActivationLink(View):
             link = reverse('activate', kwargs={
                             'secure_id_b64': email_body['secure_id_b64'], 'token': email_body['token']})
 
-            email_subject = 'Activate your account'
+            email_subject = 'Activate your account | Frosh 23'
 
             activate_url = 'http://'+current_site.domain+link
-
-            email = EmailMessage(
-                email_subject,
-                'Hi '+ user.first_name + ', Please click the link below to activate your account \n'+activate_url,
-                'noreply@events.froshtiet.com',
-                [user.email],
-            )
+            print(user.first_name)
+            text_content = 'Hi '+ user.first_name + '! Please click the link below to activate your account \n'+activate_url
+            email = EmailMultiAlternatives(email_subject, text_content, 'frosh+noreply@thapar.edu' , [user.email])
+            email.attach_alternative(render_to_string('email_verification.html', {'url':activate_url, 'user':user.first_name}), 'text/html')
             email.send(fail_silently=False)
             messages.info(request, 'Activation link sent on email!')
             return redirect('/login')
@@ -97,10 +96,12 @@ class VerificationView(View):
                             string.digits, k=8))
             user.set_password(password)
             user.save()
-            email = EmailMultiAlternatives('Your Password for Frosh TIET', 'Hi '+ user.first_name + ', your account has been activated. Use<b> ' + password+' </b>as your password.','pancham1603@gmail.com',
+            text_content =  'Hi '+ user.first_name + ', your account has been activated. Use ' + password+' as your password.'
+            email = EmailMultiAlternatives('Your Password for Frosh 23', text_content,'frosh+noreply@thapar.edu',
             [user.email],
         )
-            email.send(fail_silently=False)
+            email.attach_alternative(render_to_string('email_password.html', {'user':user.first_name, 'password':password}), 'text/html')
+            email.send(fail_silently=True)
             messages.info(self.request, 'Account activated, password sent on email!')
             return redirect('/logout')
 

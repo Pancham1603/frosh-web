@@ -4,6 +4,7 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.template.loader import render_to_string
 from .models import Event, EventPass, EventSlot
 from ..users.models import User
 import random
@@ -27,21 +28,27 @@ for slot in EventSlot.objects.all():
 # Create your views here.
 @login_required
 def events_home(request):
-    events = Event.objects.all()
+    events = Event.objects.filter(is_display=True)
     events_sorted = sorted(events, key=lambda x: [x.date, convert_time_to_start_time(x.time)])
     user_passes = EventPass.objects.filter(user_id=request.user)
-    live_event = events_sorted[0]
     try:
-        live_event_pass = user_passes.filter(event_id=live_event, user_id=request.user)[0]
+        live_event = events_sorted[0]
+        live_event_pass = user_passes.filter(event_id=live_event, user_id=request.user).first()
+        scheduled_events = events.exclude(event_id=live_event.event_id)
     except:
+        live_event = None
+        print(live_event)
         live_event_pass = None
-    scheduled_events = events.exclude(event_id=live_event.event_id)
+        scheduled_events = events
     for Pass in user_passes:
         if Pass.event_id in events:
           scheduled_events = scheduled_events.exclude(event_id=Pass.event_id.event_id)
+        else:
+            user_passes=user_passes.exclude(event_id=Pass.event_id)
     event_slots = EventSlot.objects.all()
     user_passes_all = user_passes
-    user_passes = user_passes.exclude(event_id=live_event.event_id)
+    if live_event:
+        user_passes = user_passes.exclude(event_id=live_event.event_id)
     scheduled_events = sorted(scheduled_events, key=lambda x: [x.date, convert_time_to_start_time(x.time)])
     return render(request, 'events.html', {'live_event':live_event,'live_event_pass':live_event_pass, 'scheduled_events':scheduled_events ,'user_passes':user_passes, 'event_slots':event_slots, 'user_passes_all':user_passes_all})
 
@@ -157,15 +164,11 @@ def upload_to_ibb(file_path):
 
 
 def confirmation_email(generated_pass:EventPass):
-    subject= subject = f'Registration successful for {generated_pass.event_id}'
+    subject= subject = f'Registration successful for {generated_pass.event_id} | Frosh 23'
     from_email = settings.EMAIL_HOST_USER
     to = generated_pass.user_id.email
-    if generated_pass.slot_id:
-        text_content = f'Hi {generated_pass.user_id}, thank you for registering in {generated_pass.event_id}. Your slot is {generated_pass.slot_id.time}'
-        html_content = f'Hi <b>{generated_pass.user_id}</b>, thank you for registering in <b>{generated_pass.event_id}</b>. Your slot is {generated_pass.slot_id.time}  <br> Use this code for check-in at the event venue<br><img src="{generated_pass.qr}"><br> Pass ID: {generated_pass.pass_id}<br>Frosh TIET<br>Blazing through infinite realms.'
-    else: 
-        text_content = f'Hi {generated_pass.user_id}, thank you for registering in {generated_pass.event_id}.'
-        html_content = f'Hi <b>{generated_pass.user_id}</b>, thank you for registering in <b>{generated_pass.event_id}</b>. <br> Use this code for check-in at the event venue<br><img src="{generated_pass.qr}"><br> Pass ID: {generated_pass.pass_id}<br>Frosh TIET<br>Blazing through infinite realms.'
+    text_content = f'Hi {generated_pass.user_id}, thank you for registering in {generated_pass.event_id}. Time is {generated_pass.time}'
+    html_content = render_to_string('email_event.html', { 'event_name':generated_pass.event_id.name,'venue':generated_pass.event_id.venue, 'user_name':f'{generated_pass.user_id.first_name}', 'pass_id':generated_pass.pass_id, 'pass_time':generated_pass.time, 'qr':generated_pass.qr })
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
     msg.send(fail_silently=False)
