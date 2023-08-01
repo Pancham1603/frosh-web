@@ -57,6 +57,7 @@ class EmailActivationLink(View):
     def post(self, request):
         # current_site = get_current_site(request)
         user = User.objects.get(registration_id=request.POST['registration_id'])
+
         # if not user.is_active:
         #     email_body = {
         #         'user': user,
