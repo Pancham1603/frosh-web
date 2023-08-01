@@ -13,9 +13,9 @@ class User(AbstractUser):
     username = None
     image = models.URLField()
     registration_id = models.CharField(unique=True, max_length=20)
-    secure_id = models.CharField(unique=True, max_length=8, null=True)
+    secure_id = models.CharField(unique=True, max_length=8, null=True, blank=True)
     events = ArrayField(base_field=models.CharField(max_length=60), max_length=50, blank=True, default=list)
-    qr = models.URLField()
+    qr = models.URLField(blank=True)
 
     USERNAME_FIELD = "registration_id"
     REQUIRED_FILEDS = ['image', 'qr']
