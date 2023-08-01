@@ -14,7 +14,11 @@ from .utils import account_activation_token
 import random, string
 import openpyxl
 from .models import User
+from .manager import generate_qr, generate_user_secure_id, upload_to_ibb
 from datetime import datetime
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
+import json
 
 def home(request):
     return render(request, 'index.html')
@@ -51,81 +55,129 @@ class EmailActivationLink(View):
 
 
     def post(self, request):
-        current_site = get_current_site(request)
+        # current_site = get_current_site(request)
         user = User.objects.get(registration_id=request.POST['registration_id'])
-        if not user.is_active:
-            email_body = {
-                'user': user,
-                'domain': current_site.domain,
-                'secure_id_b64': urlsafe_base64_encode(force_bytes(user.secure_id)),
-                'token': account_activation_token.make_token(user),
-            }
 
-            link = reverse('activate', kwargs={
-                            'secure_id_b64': email_body['secure_id_b64'], 'token': email_body['token']})
+        # if not user.is_active:
+        #     email_body = {
+        #         'user': user,
+        #         'domain': current_site.domain,
+        #         'secure_id_b64': urlsafe_base64_encode(force_bytes(user.secure_id)),
+        #         'token': account_activation_token.make_token(user),
+        #     }
 
-            email_subject = 'Activate your account | Frosh 23'
+        #     link = reverse('activate', kwargs={
+        #                     'secure_id_b64': email_body['secure_id_b64'], 'token': email_body['token']})
+        user.is_active = True
+        password = ''.join(random.choices(string.ascii_uppercase +
+                        string.digits, k=8))
+        user.set_password(password)
+        user.secure_id = generate_user_secure_id()
+        user.qr = upload_to_ibb(generate_qr(
+            json.dumps({
+                'registration_id':user.registration_id,
+                'secure_id':user.secure_id
+            })
+        , user.registration_id))
+        user.save()
+        text_content =  'Hi '+ user.first_name + ', your account has been activated. Use ' + password+' as your password.'
+        email = EmailMultiAlternatives('Your Password for Frosh 23', text_content,'frosh+noreply@thapar.edu',
+        [user.email],
+    )
+        email.attach_alternative(render_to_string('email_password.html', {'user':user.first_name, 'password':password}), 'text/html')
+        email.send(fail_silently=True)
+        messages.info(self.request, 'Account activated, password sent on email!')
+        return redirect('/logout')
 
-            activate_url = 'http://'+current_site.domain+link
-            print(user.first_name)
-            text_content = 'Hi '+ user.first_name + '! Please click the link below to activate your account \n'+activate_url
-            email = EmailMultiAlternatives(email_subject, text_content, 'frosh+noreply@thapar.edu' , [user.email])
-            email.attach_alternative(render_to_string('email_verification.html', {'url':activate_url, 'user':user.first_name}), 'text/html')
-            email.send(fail_silently=False)
-            messages.info(request, 'Activation link sent on email!')
-            return redirect('/login')
-        else:
-            messages.info(self.request, 'User already activated')
-            return redirect('/login')
 
 
 class VerificationView(View):
     def get(self, request, secure_id_b64, token):
-        try:
-            secure_id = force_str(urlsafe_base64_decode(secure_id_b64))
-            user = User.objects.get(secure_id=secure_id)
+        # try:
+        secure_id = force_str(urlsafe_base64_decode(secure_id_b64))
+        user = User.objects.get(secure_id=secure_id)
 
-            if not account_activation_token.check_token(user, token):
-                messages.info(self.request, 'User already activated')
-                return redirect('/login')
+        if not account_activation_token.check_token(user, token):
+            messages.info(self.request, 'User already activated')
+            return redirect('/login')
 
-            if user.is_active:
-                return redirect('/login')
-            user.is_active = True
-            password = ''.join(random.choices(string.ascii_uppercase +
-                            string.digits, k=8))
-            user.set_password(password)
-            user.save()
-            text_content =  'Hi '+ user.first_name + ', your account has been activated. Use ' + password+' as your password.'
-            email = EmailMultiAlternatives('Your Password for Frosh 23', text_content,'frosh+noreply@thapar.edu',
-            [user.email],
-        )
-            email.attach_alternative(render_to_string('email_password.html', {'user':user.first_name, 'password':password}), 'text/html')
-            email.send(fail_silently=True)
-            messages.info(self.request, 'Account activated, password sent on email!')
-            return redirect('/logout')
+        if user.is_active:
+            return redirect('/login')
+        user.is_active = True
+        password = ''.join(random.choices(string.ascii_uppercase +
+                        string.digits, k=8))
+        user.set_password(password)
+        user.secure_id = generate_user_secure_id()
+        user.qr = upload_to_ibb(generate_qr(
+            json.dumps({
+                'registration_id':user.registration_id,
+                'secure_id':user.secure_id
+            })
+        , user.registration_id))
+        user.save()
+        text_content =  'Hi '+ user.first_name + ', your account has been activated. Use ' + password+' as your password.'
+        email = EmailMultiAlternatives('Your Password for Frosh 23', text_content,'frosh+noreply@thapar.edu',
+        [user.email],
+    )
+        email.attach_alternative(render_to_string('email_password.html', {'user':user.first_name, 'password':password}), 'text/html')
+        email.send(fail_silently=True)
+        messages.info(self.request, 'Account activated, password sent on email!')
+        return redirect('/logout')
 
-        except Exception as ex:
-            pass
+        # except Exception as ex:
+        #     pass
 
         return redirect('/login')
 
 
 def create_users_from_xlsx(file_path):
+    count = 0
     wb_obj = openpyxl.load_workbook(file_path)
     sheet = wb_obj.active
-
-    for row in range(2, sheet.max_row+1):
+    users = User.objects.all()
+    start = int(input("Start: "))
+    end = int(input('End: '))
+    for row in range(start, end+1):
         data = []
         user = User()
         for column in range(1,7):
             cell = sheet.cell(row=row, column=column)
             data.append(cell.value)
-        print(data)
-        User.objects.create_user(registration_id=data[0][-6:],first_name = data[1], last_name = data[3],
-         email = data[4], is_staff = False, is_superuser = False, is_active = False, image=data[5])
+        # print
+        # if not data[5]:
+        #     try: 
+        #         URLValidator(data[5])
+        #         if users.filter(email=data[4]).count() == 0:
+        #             user = User.objects.create_user(registration_id=data[0][-6:],first_name = data[1], last_name = data[3],
+        #             email = data[4], is_staff = False, is_superuser = False, is_active = False, image=data[5])
+        #             count+=1
+        #             print(f"[{count}] ",f"[ADDED TO DATABASE] {user.first_name}")
+        #         else:
+        #             count+=1
+        #             print(f"[{count}] ",f"[FAILURE] {user.first_name}")
+        #     except ValidationError:
+                # if users.filter(email=data[4]).count() == 0:
+        user = User.objects.create_user(registration_id=data[0][-6:],first_name = data[1], last_name = data[3],
+        email = data[4], is_staff = False, is_superuser = False, is_active = False, image='https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg')
+        count+=1
+        print(f"[{count}] ",f"[ADDED TO DATABASE] {user.first_name}")
+        #         else:
+        #             count+=1
+        #             print(f"[{count}] ",f"[FAILURE] {user.first_name}")
+        # else:
+        #     count+=1
+        #     print(f"[{count}] ",f"[FAILURE] {user.first_name}")
 
+# create_users_from_xlsx(r'C:\Users\ajay\Desktop\projects\frosh-web\Untitled spreadsheet (1).xlsx')
 
-# create_users_from_xlsx(r'')
+def add_secret_key_for_all():
+    users = User.objects.all()
+    count = 0
+    for user in users:
+        if not user.secure_id:
+            user.secure_id = generate_user_secure_id()
+            user.save()
+            count+=1
+            print(count, user.first_name)
 
-        
+# add_secret_key_for_all()
