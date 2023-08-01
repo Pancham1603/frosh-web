@@ -32,7 +32,6 @@ def events_home(request):
     events_sorted = sorted(events, key=lambda x: [x.date, convert_time_to_start_time(x.time)])
     user_passes = EventPass.objects.filter(user_id=request.user)
 
-
     scheduled_events = events
 
     # try:
