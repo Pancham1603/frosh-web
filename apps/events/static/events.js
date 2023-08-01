@@ -136,18 +136,49 @@ window.addEventListener('touchstart', function (event) {
 });
 
 window.addEventListener('load', function (event) {
+    // JavaScript
     const scrollableDiv = document.getElementById('scrollableDiv');
+    let isScrollingDown = false;
+    let lastScrollTop = 0;
+    let scrollingInterval;
 
     scrollableDiv.addEventListener('wheel', function (event) {
-        // Check if the mouse is over the scrollableDiv
         const rect = scrollableDiv.getBoundingClientRect();
         const mouseX = event.clientX;
-        if (mouseX >= rect.left && mouseX <= rect.right) {
-            event.preventDefault(); // Prevent vertical scrolling
 
-            const scrollSpeed = 50; // Adjust the scrolling speed as needed
-            scrollableDiv.scrollLeft += event.deltaY > 0 ? scrollSpeed : -scrollSpeed;
+        if (mouseX >= rect.left && mouseX <= rect.right) {
+            const currentScrollTop = scrollableDiv.scrollTop;
+
+            // Check scroll direction
+            if (currentScrollTop > lastScrollTop) {
+                // Scrolling down
+                event.preventDefault();
+                isScrollingDown = true;
+                clearInterval(scrollingInterval);
+                scrollingInterval = setInterval(function () {
+                    scrollableDiv.scrollTop += 10; // Adjust the scrolling speed as needed
+                }, 10);
+            } else {
+                // Scrolling up
+                clearInterval(scrollingInterval);
+                isScrollingDown = false;
+            }
+
+            lastScrollTop = currentScrollTop;
         }
     });
+
+    scrollableDiv.addEventListener('mouseenter', function (event) {
+        clearInterval(scrollingInterval);
+    });
+
+    scrollableDiv.addEventListener('mouseleave', function (event) {
+        if (isScrollingDown) {
+            scrollingInterval = setInterval(function () {
+                scrollableDiv.scrollTop += 10; // Adjust the scrolling speed as needed
+            }, 10);
+        }
+    });
+
 }
 );

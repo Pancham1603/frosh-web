@@ -31,14 +31,19 @@ def events_home(request):
     events = Event.objects.filter(is_display=True)
     events_sorted = sorted(events, key=lambda x: [x.date, convert_time_to_start_time(x.time)])
     user_passes = EventPass.objects.filter(user_id=request.user)
-    try:
-        live_event = events_sorted[0]
-        live_event_pass = user_passes.filter(event_id=live_event, user_id=request.user).first()
-        scheduled_events = events.exclude(event_id=live_event.event_id)
-    except:
-        live_event = None
-        live_event_pass = None
-        scheduled_events = events
+
+
+    scheduled_events = events
+
+    # try:
+    #     live_event = events_sorted[0]
+    #     live_event_pass = user_passes.filter(event_id=live_event, user_id=request.user).first()
+    #     scheduled_events = events.exclude(event_id=live_event.event_id)
+    # except:
+    #     live_event = None
+    #     live_event_pass = None
+    #     scheduled_events = events
+
     for Pass in user_passes:
         if Pass.event_id in events:
           scheduled_events = scheduled_events.exclude(event_id=Pass.event_id.event_id)
@@ -46,10 +51,13 @@ def events_home(request):
             user_passes=user_passes.exclude(event_id=Pass.event_id)
     event_slots = EventSlot.objects.all()
     user_passes_all = user_passes
-    if live_event:
-        user_passes = user_passes.exclude(event_id=live_event.event_id)
+
+    # if live_event:
+    #     user_passes = user_passes.exclude(event_id=live_event.event_id)
+
     scheduled_events = sorted(scheduled_events, key=lambda x: [x.date, convert_time_to_start_time(x.time)])
-    return render(request, 'events.html', {'live_event':live_event,'live_event_pass':live_event_pass, 'scheduled_events':scheduled_events ,'user_passes':user_passes, 'event_slots':event_slots, 'user_passes_all':user_passes_all})
+    # return render(request, 'events.html', {'live_event':live_event,'live_event_pass':live_event_pass, 'scheduled_events':scheduled_events ,'user_passes':user_passes, 'event_slots':event_slots, 'user_passes_all':user_passes_all})
+    return render(request, 'events.html', {'scheduled_events':scheduled_events ,'user_passes':user_passes, 'event_slots':event_slots, 'user_passes_all':user_passes_all})
 
 
 @csrf_exempt
@@ -63,6 +71,90 @@ def generate_pass(request, event_id, slot_id=None):
                 'message':'Booking is not available for this event'
                 }
         return HttpResponse(json.dumps(data))
+
+    if event.event_id == 'Orientation [Main Audi]@Frosh23' or event.event_id == 'Orientation [LT Block]@Frosh23':
+        orientation1 = Event.objects.get(event_id='Orientation [Main Audi]@Frosh23')
+        orientation2 = Event.objects.get(event_id='Orientation [LT Block]@Frosh23')
+        if not EventPass.objects.filter(user_id=user, event_id=orientation1).count() and not EventPass.objects.filter(user_id=user, event_id=orientation2).count():
+            if slot_id and event.slot_id==slot_id:
+                event_slot = EventSlot.objects.get(slot_id=slot_id)
+                counters[slot_id] += 1
+                event_slot.refresh_from_db()
+                if counters[slot_id]<=event_slot.max_capacity:
+                    while True:
+                        pass_id = ''.join(random.choices(string.ascii_uppercase +
+                                            string.digits, k=16))
+
+                        if not EventPass.objects.filter(pass_id=pass_id).count():
+                            break
+                    generated_pass = EventPass(event_id=event_slot.event,slot_id=event_slot ,pass_id=pass_id, user_id=user)
+                    generated_pass.qr = upload_to_ibb(generate_qr(pass_id))
+                    generated_pass.time = event_slot.time
+                    generated_pass.save()
+                    confirmation_email(generated_pass=generated_pass)
+
+                    event_slot.passes_generated = counters[slot_id]
+                    user.events.append(str(event))
+                    user.save()
+                    event_slot.save()
+                    data = {
+                    'pass_qr':generated_pass.qr,
+                    'status':True
+                    }
+                    return HttpResponse(json.dumps(data))
+                else:
+                    data={
+                        'status':False,
+                        'message':"There was an error!"
+                    }
+                    counters[slot_id]-=1
+                    return HttpResponse(json.dumps(data))
+            elif slot_id and event.slot_id!=slot_id:
+                data={
+                        'status':False,
+                        'message':"There was an error!"
+                    }
+                return HttpResponse(json.dumps(data))
+            else:
+                counters[event.name]+=1
+                event.refresh_from_db()
+                if counters[event.name]<=event.max_capacity:
+                    while True:
+                        pass_id = ''.join(random.choices(string.ascii_uppercase +
+                                            string.digits, k=16))
+
+                        if not EventPass.objects.filter(pass_id=pass_id).count():
+                            break
+
+                    generated_pass = EventPass(event_id=event, pass_id=pass_id, user_id=user)
+                    generated_pass.qr = upload_to_ibb(generate_qr(pass_id))
+                    generated_pass.time = event.time
+                    generated_pass.save()
+                    
+                    confirmation_email(generated_pass=generated_pass)
+                    event.passes_generated = counters[event.name]
+                    user.events.append(str(event))
+                    user.save()
+                    event.save()
+                    data = {
+                        'pass_qr':generated_pass.qr,
+                        'status':True
+                    }
+                    return HttpResponse(json.dumps(data))
+                else:
+                    data={
+                        'status':False,
+                        'message':"There was an error!"
+                    }
+                    counters[event.name]-=1
+                    return HttpResponse(json.dumps(data))
+        else:
+            data={
+                    'status':False,
+                    'message':"You have already booked a pass for this event!"
+                }
+            return HttpResponse(json.dumps(data))
+
     if not EventPass.objects.filter(user_id=user, event_id=event).count():
         if slot_id and event.slot_id==slot_id:
             event_slot = EventSlot.objects.get(slot_id=slot_id)

@@ -17,6 +17,9 @@
       <!-- Replace 'your-logo.png' with the path to your logo image -->
       <img src="../static/logo textture+ No background.png" alt="Logo">
     </div>
+    <div class="spin" id="spinbox">
+      <div class="spinner"></div>
+    </div>
     <div class="login-box">
       <form method="post" action="/login/">
         {% csrf_token %}
@@ -31,25 +34,35 @@
     </div>
   </div>
   <script>
+    var spinbox = document.getElementById("spinbox");
+    // To hide the spinbox on load
+    spinbox.style.display = "flex";
+    document.addEventListener("DOMContentLoaded", function () {
+
+      // To hide the spinbox on load
+      spinbox.style.display = "none";
+      // To show the spinbox on load
+      // spinbox.style.display = "block"; // or "inline-block" depending on your layout
+    });
     toastr.options = {
-    "closeButton": true,
-    "newestOnTop": true,
-    "progressBar": true,
-    "positionClass": "toast-top-right",
-    "preventDuplicates": false,
-    "onclick": null,
-    "showDuration": "300",
-    "hideDuration": "1000",
-    "timeOut": "7000",
-    "extendedTimeOut": "1000",
-    "showEasing": "swing",
-    "hideEasing": "linear",
-    "showMethod": "fadeIn",
-    "hideMethod": "fadeOut"
-}</script>
+      "closeButton": true,
+      "newestOnTop": true,
+      "progressBar": true,
+      "positionClass": "toast-top-right",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "7000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }</script>
   {% if messages %}
   {% for message in messages %}
-<script>
+  <script>
     toastr.info("{{ message }}")
   </script>
   {% endfor %}

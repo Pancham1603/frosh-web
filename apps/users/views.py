@@ -90,7 +90,6 @@ class EmailActivationLink(View):
         return redirect('/logout')
 
 
-
 class VerificationView(View):
     def get(self, request, secure_id_b64, token):
         # try:
