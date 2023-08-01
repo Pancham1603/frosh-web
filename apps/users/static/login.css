@@ -1,5 +1,5 @@
 body {
-    background-color: #000000;
+    background-color: #0f0b18;
     font-family: Arial, sans-serif;
     margin: 0;
     display: flex;
@@ -47,7 +47,7 @@ body {
 
 .container button {
     padding: 10px;
-    background-color: #000000;
+    background-color: #0f0b18;
     color: white;
     border: none;
     border-radius: 4px;
@@ -55,7 +55,7 @@ body {
 }
 
 .container button:hover {
-    background-color: #a94817;
+    background-color: #7240ce;
 }
 
 /* "activate-account" link */
@@ -65,7 +65,7 @@ body {
 }
 
 .activate-account a {
-    color: #007bff;
+    color: #7240ce;
     text-decoration: none;
 }
 
