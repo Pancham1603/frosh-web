@@ -90,7 +90,7 @@ def generate_pass(request, event_id, slot_id=None):
                     generated_pass.qr = user.qr
                     generated_pass.time = event_slot.time
                     generated_pass.save()
-                    confirmation_email(generated_pass=generated_pass)
+                    # confirmation_email(generated_pass=generated_pass)
 
                     event_slot.passes_generated = counters[slot_id]
                     user.events.append(str(event))
@@ -130,7 +130,7 @@ def generate_pass(request, event_id, slot_id=None):
                     generated_pass.time = event.time
                     generated_pass.save()
                     
-                    confirmation_email(generated_pass=generated_pass)
+                    # confirmation_email(generated_pass=generated_pass)
                     event.passes_generated = counters[event.name]
                     user.events.append(str(event))
                     user.save()
@@ -170,7 +170,7 @@ def generate_pass(request, event_id, slot_id=None):
                 generated_pass.qr = user.qr
                 generated_pass.time = event_slot.time
                 generated_pass.save()
-                confirmation_email(generated_pass=generated_pass)
+                # confirmation_email(generated_pass=generated_pass)
 
                 event_slot.passes_generated = counters[slot_id]
                 user.events.append(str(event))
@@ -210,7 +210,7 @@ def generate_pass(request, event_id, slot_id=None):
                 generated_pass.time = event.time
                 generated_pass.save()
                 
-                confirmation_email(generated_pass=generated_pass)
+                # confirmation_email(generated_pass=generated_pass)
                 event.passes_generated = counters[event.name]
                 user.events.append(str(event))
                 user.save()

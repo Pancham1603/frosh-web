@@ -4,6 +4,7 @@ import requests, base64, json
 import random, string
 from decouple import config
 
+
 class UserManager(BaseUserManager):
     def create_user(self, registration_id, password=None, **extra_fields):
         counter = 0
@@ -14,12 +15,6 @@ class UserManager(BaseUserManager):
                 
                 extra_fields['email'] = self.normalize_email(extra_fields['email'])
                 extra_fields['secure_id'] = generate_user_secure_id()
-                # extra_fields['qr'] = upload_to_ibb(generate_qr(
-                #     json.dumps({
-                #         'registration_id':registration_id,
-                #         'secure_id':extra_fields['secure_id']
-                #     })
-                # , registration_id))
                 user = self.model(registration_id=registration_id, **extra_fields)
                 if not extra_fields['is_superuser']:
                     user.set_password(''.join(random.choices(string.ascii_uppercase +
@@ -48,32 +43,6 @@ def generate_qr(value, registration_id):
     qr = pyqrcode.create(value)
     qr.png(f'{registration_id}.png', scale=6)
     return f'{registration_id}.png'
-
-
-# def upload_to_ibb(file_path):
-#     with open(file_path, "rb") as file:
-#         url = "https://api.imgbb.com/1/upload"
-#         payload = {
-#             "key": config("IBB_API_KEY"),
-#             "image": base64.b64encode(file.read()),
-#         }
-#         res = requests.post(url, payload)
-#     os.remove(file_path)
-#     return res.json()['data']['url']
-
-
-def upload_to_ibb(file_path):
-    with open(file_path, 'rb') as file:
-        url = 'https://freeimage.host/api/1/upload'
-        payload = {
-            'key': config('IMAGE_API_KEY'),
-            "source": base64.b64encode(file.read())
-        }
-        res = requests.post(url, payload)
-        image_url = res.json()['image']['file']['resource']['chain']['image']
-    os.remove(file_path)
-    return image_url
-
 
 def generate_user_secure_id():
         return ''.join(random.choices(string.ascii_uppercase +
