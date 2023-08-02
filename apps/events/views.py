@@ -84,7 +84,7 @@ def generate_pass(request, event_id, slot_id=None):
                         if not EventPass.objects.filter(pass_id=pass_id).count():
                             break
                     generated_pass = EventPass(event_id=event_slot.event,slot_id=event_slot ,pass_id=pass_id, user_id=user)
-                    generated_pass.qr = upload_to_ibb(generate_qr(pass_id))
+                    generated_pass.qr = user.qr
                     generated_pass.time = event_slot.time
                     generated_pass.save()
                     confirmation_email(generated_pass=generated_pass)
@@ -123,7 +123,7 @@ def generate_pass(request, event_id, slot_id=None):
                             break
 
                     generated_pass = EventPass(event_id=event, pass_id=pass_id, user_id=user)
-                    generated_pass.qr = upload_to_ibb(generate_qr(pass_id))
+                    generated_pass.qr = user.qr
                     generated_pass.time = event.time
                     generated_pass.save()
                     
@@ -164,7 +164,7 @@ def generate_pass(request, event_id, slot_id=None):
                     if not EventPass.objects.filter(pass_id=pass_id).count():
                         break
                 generated_pass = EventPass(event_id=event_slot.event,slot_id=event_slot ,pass_id=pass_id, user_id=user)
-                generated_pass.qr = upload_to_ibb(generate_qr(pass_id))
+                generated_pass.qr = user.qr
                 generated_pass.time = event_slot.time
                 generated_pass.save()
                 confirmation_email(generated_pass=generated_pass)
@@ -203,7 +203,7 @@ def generate_pass(request, event_id, slot_id=None):
                         break
 
                 generated_pass = EventPass(event_id=event, pass_id=pass_id, user_id=user)
-                generated_pass.qr = upload_to_ibb(generate_qr(pass_id))
+                generated_pass.qr = user.qr
                 generated_pass.time = event.time
                 generated_pass.save()
                 
@@ -238,16 +238,16 @@ def generate_qr(value):
 
 
 def upload_to_ibb(file_path):
-    with open(file_path, "rb") as file:
-        url = "https://api.imgbb.com/1/upload"
+    with open(file_path, 'rb') as file:
+        url = 'https://freeimage.host/api/1/upload'
         payload = {
-            "key": config("IBB_API_KEY"),
-            "image": base64.b64encode(file.read()),
+            'key': config('IMAGE_API_KEY'),
+            "source": base64.b64encode(file.read())
         }
         res = requests.post(url, payload)
-        print(res.json()['data']['url'])
+        image_url = res.json()['image']['file']['resource']['chain']['image']
     os.remove(file_path)
-    return res.json()['data']['url']
+    return image_url
 
 
 def confirmation_email(generated_pass:EventPass):
