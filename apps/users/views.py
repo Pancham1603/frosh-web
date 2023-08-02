@@ -14,11 +14,13 @@ from .utils import account_activation_token
 import random, string
 import openpyxl
 from .models import User
-from .manager import generate_qr, generate_user_secure_id, upload_to_ibb
+from .manager import generate_qr, generate_user_secure_id
 from datetime import datetime
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 import json
+from imagekitio import ImageKit
+import sys, os, base64
 
 def home(request):
     return render(request, 'index.html')
@@ -53,31 +55,17 @@ class EmailActivationLink(View):
     def get(self, request):
             return render(request, 'activate.html')
 
-
     def post(self, request):
-        # current_site = get_current_site(request)
         user = User.objects.get(registration_id=request.POST['registration_id'])
-        # if not user.is_active:
-        #     email_body = {
-        #         'user': user,
-        #         'domain': current_site.domain,
-        #         'secure_id_b64': urlsafe_base64_encode(force_bytes(user.secure_id)),
-        #         'token': account_activation_token.make_token(user),
-        #     }
-
-        #     link = reverse('activate', kwargs={
-        #                     'secure_id_b64': email_body['secure_id_b64'], 'token': email_body['token']})
         user.is_active = True
         password = ''.join(random.choices(string.ascii_uppercase +
                         string.digits, k=8))
         user.set_password(password)
         user.secure_id = generate_user_secure_id()
-        user.qr = upload_to_ibb(generate_qr(
-            json.dumps({
+        user.qr = upload_qr(generate_qr(json.dumps({
                 'registration_id':user.registration_id,
                 'secure_id':user.secure_id
-            })
-        , user.registration_id))
+            }), user.registration_id), user.secure_id)
         user.save()
         text_content =  'Hi '+ user.first_name + ', your account has been activated. Use ' + password+' as your password.'
         email = EmailMultiAlternatives('Your Password for Frosh 23', text_content,'frosh+noreply@thapar.edu',
@@ -91,39 +79,37 @@ class EmailActivationLink(View):
 
 class VerificationView(View):
     def get(self, request, secure_id_b64, token):
-        # try:
-        secure_id = force_str(urlsafe_base64_decode(secure_id_b64))
-        user = User.objects.get(secure_id=secure_id)
+        try:
+            secure_id = force_str(urlsafe_base64_decode(secure_id_b64))
+            user = User.objects.get(secure_id=secure_id)
 
-        if not account_activation_token.check_token(user, token):
-            messages.info(self.request, 'User already activated')
-            return redirect('/login')
+            if not account_activation_token.check_token(user, token):
+                messages.info(self.request, 'User already activated')
+                return redirect('/login')
 
-        if user.is_active:
-            return redirect('/login')
-        user.is_active = True
-        password = ''.join(random.choices(string.ascii_uppercase +
-                        string.digits, k=8))
-        user.set_password(password)
-        user.secure_id = generate_user_secure_id()
-        user.qr = upload_to_ibb(generate_qr(
-            json.dumps({
+            if user.is_active:
+                return redirect('/login')
+            user.is_active = True
+            password = ''.join(random.choices(string.ascii_uppercase +
+                            string.digits, k=8))
+            user.set_password(password)
+            user.secure_id = generate_user_secure_id()
+            user.qr = upload_qr(generate_qr(json.dumps({
                 'registration_id':user.registration_id,
                 'secure_id':user.secure_id
-            })
-        , user.registration_id))
-        user.save()
-        text_content =  'Hi '+ user.first_name + ', your account has been activated. Use ' + password+' as your password.'
-        email = EmailMultiAlternatives('Your Password for Frosh 23', text_content,'frosh+noreply@thapar.edu',
-        [user.email],
-    )
-        email.attach_alternative(render_to_string('email_password.html', {'user':user.first_name, 'password':password}), 'text/html')
-        email.send(fail_silently=True)
-        messages.info(self.request, 'Account activated, password sent on email!')
-        return redirect('/logout')
+            }), user.registration_id), user.secure_id)
+            user.save()
+            text_content =  'Hi '+ user.first_name + ', your account has been activated. Use ' + password+' as your password.'
+            email = EmailMultiAlternatives('Your Password for Frosh 23', text_content,'frosh+noreply@thapar.edu',
+            [user.email],
+        )
+            email.attach_alternative(render_to_string('email_password.html', {'user':user.first_name, 'password':password}), 'text/html')
+            email.send(fail_silently=True)
+            messages.info(self.request, 'Account activated, password sent on email!')
+            return redirect('/logout')
 
-        # except Exception as ex:
-        #     pass
+        except Exception as ex:
+            pass
 
         return redirect('/login')
 
@@ -167,6 +153,21 @@ def create_users_from_xlsx(file_path):
         #     print(f"[{count}] ",f"[FAILURE] {user.first_name}")
 
 # create_users_from_xlsx(r'C:\Users\ajay\Desktop\projects\frosh-web\Untitled spreadsheet (1).xlsx')
+
+def upload_qr(file_path, secure_id):
+    imagekit = ImageKit(
+    public_key= os.getenv('IMAGEKIT_PUBLIC_KEY', None),
+    private_key=os.getenv('IMAGEKIT_PRIVATE_KEY', None),
+    url_endpoint = os.getenv('IMAGEKIT_URL_ENDPOINT', None),
+    )
+    upload = imagekit.upload(
+    file=open(file_path, "rb"),
+    file_name= file_path
+    )
+    image_url = upload.response_metadata.raw['url']
+    os.remove(file_path)
+    return image_url
+
 
 def add_secret_key_for_all():
     users = User.objects.all()

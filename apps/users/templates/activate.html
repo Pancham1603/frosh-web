@@ -9,7 +9,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 </head>
 
 <body>
@@ -21,7 +21,7 @@
       <form method="post" action="">
         {% csrf_token %}
         <input type="text" placeholder="Application Numnber" id="registration_id" name="registration_id" required>
-        <button type="submit">Generate Activation Link</button>
+        <button type="submit" id="activate_button">Generate Activation Link</button>
       </form>
     </div>
   </div>
@@ -49,6 +49,17 @@
   </script>
   {% endfor %}
   {% endif %}
+
+
+  <script>
+    $('#activate_button').click(function() {
+    var old_width = $(this).width();                                // store original width
+    $(this).html('<i class="fa fa-refresh fa-lg fa-spin"></i>');    // replace button text with icon
+    $(this).width(old_width);                                       // restore original width
+    $(this).prop('disabled', true);                                 // disable the button
+    $(this).parents('form:first').submit();                         // submit the form
+});
+  </script>
 </body>
 
 </html>
