@@ -43,7 +43,7 @@ function openModal(title, description, time, location, slots, imageUrl, addToCal
         $.ajax({
             method: "POST",
             url: urls,
-            timeout: 20000,
+            timeout: 120000,
             success: function (response) {
                 let res = JSON.parse(response).status;
                 if (res) {
