@@ -42,7 +42,6 @@ def events_home(request):
     #     live_event = None
     #     live_event_pass = None
     #     scheduled_events = events
-
     for Pass in user_passes:
         if Pass.event_id in events:
           scheduled_events = scheduled_events.exclude(event_id=Pass.event_id.event_id)
@@ -50,10 +49,8 @@ def events_home(request):
             user_passes=user_passes.exclude(event_id=Pass.event_id)
     event_slots = EventSlot.objects.all()
     user_passes_all = user_passes
-
     # if live_event:
     #     user_passes = user_passes.exclude(event_id=live_event.event_id)
-
     scheduled_events = sorted(scheduled_events, key=lambda x: [x.date, convert_time_to_start_time(x.time)])
     # return render(request, 'events.html', {'live_event':live_event,'live_event_pass':live_event_pass, 'scheduled_events':scheduled_events ,'user_passes':user_passes, 'event_slots':event_slots, 'user_passes_all':user_passes_all})
     return render(request, 'events.html', {'scheduled_events':scheduled_events ,'user_passes':user_passes, 'event_slots':event_slots, 'user_passes_all':user_passes_all})

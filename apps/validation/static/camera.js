@@ -118,7 +118,7 @@ function getPassData(pass_id) {
       if (response.valid) {
         vibrateForOneSecond()
         // toastr.success(response.message)
-        openModal(response.event, response.user, response.registration_id, response.image, "https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png", "",pass_id)
+        openModal(response.event, response.user, response.registration_id, response.image, "https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png", "",pass_id,response.time)
       } else {
         toastr.error(response.message)
       }

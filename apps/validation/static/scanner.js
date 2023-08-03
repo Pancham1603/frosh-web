@@ -18,12 +18,13 @@ toastr.options = {
 }
 
 
-function openModal(title, name, id, imageUrl, addToCalender, book, pass_id) {
+function openModal(title, name, id, imageUrl, addToCalender, book, pass_id,time) {
     document.getElementById('eventModal').style.display = 'block';
     document.getElementById('title').innerHTML = title;
     document.getElementById('description').innerHTML = "";
     document.getElementById('description').innerHTML += "<b>Name: </b>" + name + "<br>";
     document.getElementById('description').innerHTML += "<b>Id: </b>" + id + "<br>";
+    document.getElementById('description').innerHTML += "<b>Time: </b>" + time + "<br>";
     document.getElementById('imageUrl').src = imageUrl;
 
 

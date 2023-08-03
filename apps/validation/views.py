@@ -41,6 +41,7 @@ def fetch_user_data(request):
                 'registration_id':f"{user.registration_id}",
                 'event':f"{event}",
                 'image':user.image,
+                'time':generated_pass.time,
                 'valid':True if not generated_pass.entry_status else False,
                 'message': 'Pass verified' if not generated_pass.entry_status else 'Pass has already been used'
                 }
