@@ -68,9 +68,9 @@ def generate_pass(request, event_id, slot_id=None):
                 }
         return HttpResponse(json.dumps(data))
 
-    if event.event_id == 'Orientation [Main Audi]@Frosh23' or event.event_id == 'Orientation [LT Block]@Frosh23':
-        orientation1 = Event.objects.get(event_id='Orientation [Main Audi]@Frosh23')
-        orientation2 = Event.objects.get(event_id='Orientation [LT Block]@Frosh23')
+    if event.event_id == 'Whodunit [Main Audi]@Frosh23' or event.event_id == 'Whodunit [Tan Audi]@Frosh23':
+        orientation1 = Event.objects.get(event_id='Whodunit [Main Audi]@Frosh23')
+        orientation2 = Event.objects.get(event_id='Whodunit [Tan Audi]@Frosh23')
         if not EventPass.objects.filter(user_id=user, event_id=orientation1).count() and not EventPass.objects.filter(user_id=user, event_id=orientation2).count():
             if slot_id and event.slot_id==slot_id:
                 event_slot = EventSlot.objects.get(slot_id=slot_id)
@@ -268,3 +268,15 @@ def convert_time_to_start_time(time_string):
     # datetime.combine(start_date, start_time)
     end_time =  datetime.strptime(''.join(char for char in split[1] if char!=' '), "%H:%M:%S") 
     return start_time
+
+
+def test_functions():
+    active_users = User.objects.filter(is_active=True)
+    staff_users = User.objects.filter(is_staff=True)
+    superusers = User.objects.filter(is_superuser=True)
+    print('Active Users: ',active_users.count())
+    print('Staff Users: ',staff_users.count())
+    print('Superusers: ',superusers.count())
+
+test_functions()
+

@@ -72,11 +72,9 @@ class EventPass(models.Model):
     event_id = models.ForeignKey(Event, on_delete=models.RESTRICT)
     slot_id = models.ForeignKey(EventSlot, on_delete=models.RESTRICT, default=None, null=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    qr = models.URLField(unique=True, validators=[URLValidator])
+    qr = models.URLField(validators=[URLValidator])
     entry_status = models.BooleanField(default=False)
     time = models.CharField(max_length=256)
 
     def __str__(self):
         return self.pass_id
-
-
