@@ -35,7 +35,9 @@ class Event(models.Model):
     is_booking = models.BooleanField(default=False)
     is_display = models.BooleanField(default=False)
     slots_required = models.BooleanField(default=False)
+    booking_complete = models.BooleanField(default=False)
     slot_id = models.CharField(max_length=16, default='lmao')
+
 
     def __str__(self):
         return self.name
@@ -50,6 +52,7 @@ class EventSlot(models.Model):
     venue = models.CharField(max_length=256)
     date = models.DateField()
     max_capacity = models.IntegerField()
+    booking_complete = models.BooleanField(default=False)
 
 
 @receiver(post_save, sender=Event, dispatch_uid="create_new_event_and_slot")

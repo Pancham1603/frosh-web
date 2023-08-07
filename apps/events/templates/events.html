@@ -308,23 +308,37 @@
                         <!---######## Here is the code for on click live event card#######-->
                         <h2 class="c-sermon_title">{{live_event.name}}</h2>
                         <div class="c-sermon_buttons">
-                            {% if not live_event_pass %}
                             {% if live_event.booking_required %}
-                            {% if live_event.is_booking %}
-                            <div onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}',false, '{{ live_event.image }}','{{live_event.calender_url}}', false)"
-                                class="c-button is--button1 w-button">Register Now</div>
-                            {% else %}
-                            <div onclick="" class="c-button is--button1 w-button" style="background-color: gray;">
-                                Coming Soon</div>
-                            {% endif %}
-                            {% else %}
-                            <div onclick="" class="c-button is--button1 w-button" style="background-color: green;">
-                                Direct Access</div>
-                            {% endif %}
-                            {% else %}
-                            <div onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}',false, '{{ live_event_pass.qr }}','{{live_event.calender_url}}', true)"
-                                class="c-button is--button1 w-button" style="background-color: gray;">View Booking</div>
-                            {% endif %}
+                                {% if live_event.is_booking %}
+                                {% if live_event.slot_id != 'lmao' %}
+                                {% for slot in event_slots %}
+                                {% if slot.slot_id == live_event.slot_id %}
+                                <section class="section registerse"
+                                    onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}', '{{ slot.time }}, {{ slot.slot_id }}', '{{ live_event.image }}','{{live_event.calender_url}}', false)">
+                                    <div class="text-block">Register</div>
+                                </section>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <section class="section registerse" 
+                                    onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}',false, '{{ live_event.image }}','{{live_event.calender_url}}', false)">
+                                    <div class="text-block">Register</div>
+                                </section>
+                                {% endif %}
+                                {% elif live_event.booking_complete %}
+                                <section class="section registerse" style="background-color: gray;">
+                                    <div class="text-block">Sold Out</div>
+                                </section>
+                                {% else %}
+                                <section class="section registerse" style="background-color: gray;">
+                                    <div class="text-block">Coming Soon</div>
+                                </section>
+                                {% endif %}
+                                {% else %}
+                                <section class="c-button is--button1 w-button" style="background-color: green;">
+                                    <div class="text-block">Direct Access</div>
+                                </section>
+                                {% endif %}
                         </div>
                         <!---######## Here is the code for button click live event card#######-->
                     </div>
@@ -332,60 +346,18 @@
             </div>
         </div>
         {% endif %}
-        {% if scheduled_events|length > 0 or user_passes|length > 0 %}
+
+
+        {% if upcoming_events|length > 0  %}
         <div class="c-section is--footer-spacer">
             <h4 class="heading hello">Upcoming Events</h4>
             <div class="c-events_wraper wrapper2 w-dyn-list" style="justify-content: start;">
                 <div role="list" class="c-events_list w-dyn-items" id="scrollableDiv"
                     style="overflow-x: auto; white-space: nowrap;">
 
-                    <!-- ##### BOOKED USER EVENTS ##### -->
-
-                    {% for pass in user_passes %}
-                    <div role="listitem" class="c-events_item w-dyn-item">
-                        <div href="#" class="c-events_link w-inline-block">
-                            <img class="rounded" src="{{ pass.event_id.image }}" loading="lazy"
-                                sizes="(max-width: 479px) 77vw, (max-width: 767px) 67vw, 39vw" alt="" />
-                            <div class="c-events_content">
-                                <h6>{{pass.event_id.name}}</h6>
-                                <div class="c-events_date-time">
-                                    <div class="c-events_date-2">
-                                        <img src="https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4271741595feff8650720_date.svg"
-                                            alt="" class="c-event_icon" />
-                                        <p>Date: {{pass.event_id.date}}</p>
-                                    </div>
-                                    <div class="c-events_date-2">
-                                        <img src="https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4271741595feff865071c_time.svg"
-                                            alt="" class="c-event_icon" />
-                                        {% if pass.slot_id %}
-                                        <p>Time: {{pass.slot_id.time}}</p>
-                                        {% else %}
-                                        <p>Time: {{pass.event_id.time}}</p>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <!---######## Open register model here#######-->
-                                {% if pass.slot_id %}
-                                <section class="section registerse" style="background-color: gray;"
-                                    onclick="openModal('{{ pass.event_id.name }}', '{{ pass.event_id.description }}','{{ pass.slot_id.time }}','{{ pass.event_id.venue }}',false, '{{ pass.qr }}','{{event.slot_id.calender_url}}', true)">
-                                    <div class="text-block">View Booking</div>
-                                </section>
-                                {% else %}
-                                <section class="section registerse" style="background-color: gray;"
-                                    onclick="openModal('{{ pass.event_id.name }}', '{{ pass.event_id.description }}','{{ pass.event_id.time }}','{{ pass.event_id.venue }}',false, '{{ pass.qr }}','{{pass.event_id.calender_url}}', true)">
-                                    <div class="text-block">View Booking</div>
-                                </section>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-
-                    <!-- ##### BOOKED USER EVENTS END #####  -->
-
                     <!-- ##### UNBOOKED SCHEDULED EVENTS ###### -->
 
-                    {% for event in scheduled_events %}
+                    {% for event in upcoming_events %}
                     <div role="listitem" class="c-events_item w-dyn-item">
                         <div href="#" class="c-events_link w-inline-block">
                             <img class="rounded" src="{{ event.image }}" loading="lazy"
@@ -424,7 +396,7 @@
                                 {% endif %}
                                 {% else %}
                                 <section class="section registerse" style="background-color: gray;">
-                                    <div class="text-block">Sold Out</div>
+                                    <div class="text-block">Coming Soon</div>
                                 </section>
                                 {% endif %}
                                 {% else %}
@@ -440,13 +412,85 @@
             </div>
         </div>
         {% endif %}
+
+
+        {% if past_events|length > 0  %}
+        <div class="c-section is--footer-spacer">
+            <h4 class="heading hello">Past Events</h4>
+            <div class="c-events_wraper wrapper2 w-dyn-list" style="justify-content: start;">
+                <div role="list" class="c-events_list w-dyn-items" id="scrollableDiv"
+                    style="overflow-x: auto; white-space: nowrap;">
+
+                    <!-- ##### UNBOOKED SCHEDULED EVENTS ###### -->
+
+                    {% for event in past_events %}
+                    <div role="listitem" class="c-events_item w-dyn-item">
+                        <div href="#" class="c-events_link w-inline-block">
+                            <img class="rounded" src="{{ event.image }}" loading="lazy"
+                                sizes="(max-width: 479px) 77vw, (max-width: 767px) 67vw, 39vw" alt="" />
+                            <div class="c-events_content">
+                                <h6>{{event.name}}</h6>
+                                <div class="c-events_date-time">
+                                    <div class="c-events_date-2">
+                                        <img src="https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4271741595feff8650720_date.svg"
+                                            alt="" class="c-event_icon" />
+                                        <p>Date:{{event.date}}</p>
+                                    </div>
+                                    <div class="c-events_date-2">
+                                        <img src="https://uploads-ssl.webflow.com/64c4271741595feff86506c0/64c4271741595feff865071c_time.svg"
+                                            alt="" class="c-event_icon" />
+                                        <p>Time:{{event.time}}</p>
+                                    </div>
+                                </div>
+                                <!---######## Open register model here#######-->
+                                {% if event.booking_required %}
+                                {% if event.is_booking %}
+                                {% if event.slot_id != 'lmao' %}
+                                {% for slot in event_slots %}
+                                {% if slot.slot_id == event.slot_id %}
+                                <section class="section registerse"
+                                    onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}', '{{ slot.time }}, {{ slot.slot_id }}', '{{ event.image }}','{{event.calender_url}}', false)">
+                                    <div class="text-block">Register</div>
+                                </section>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <section class="section registerse"
+                                    onclick="openModal('{{ event.name }}', '{{ event.description }}','{{ event.time }}','{{ event.venue }}',false, '{{ event.image }}','{{event.calender_url}}', false)">
+                                    <div class="text-block">Register</div>
+                                </section>
+                                {% endif %}
+                                {% elif event.booking_complete %}
+                                <section class="section registerse" style="background-color: gray;">
+                                    <div class="text-block">Sold Out</div>
+                                </section>
+                                {% else %}
+                                <section class="section registerse" style="background-color: gray;">
+                                    <div class="text-block">Coming Soon</div>
+                                </section>
+                                {% endif %}
+                                {% else %}
+                                <section class="section registerse" style="background-color: green;">
+                                    <div class="text-block">Direct Access</div>
+                                </section>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+
         <div class="div-block-3"></div>
     </div>
     <div class="modal" id="eventModal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <div class="container_first">
-                <img class="container_img" id="imageUrl" src="./khopdi(s).png" alt="Event Image">
+                <img class="container_img" id="imageUrl" src="" alt="Event Image">
                 <div class="modal_data">
                     <h2 id="title" class="title">Hello </h2>
                     <p id="description" class="description">Lorem ipsum Lorem ipsum dolor sit amet consectetur
@@ -486,7 +530,7 @@
         <div class="custom-modal-content">
             <span class="close-button" onclick="closeCustomModal()">&times;</span>
             <h2>Booking History</h2>
-            {% for pass in user_passes_all %}
+            {% for pass in user_passes %}
             <div class="card" data-src="{{ pass.qr }}" onclick="viewEventDetails(this)">
                 <div class="card-info">
                     <h3 class="card-title">{{ pass.event_id.name }}</h3>
