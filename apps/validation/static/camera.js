@@ -142,9 +142,11 @@ function validate_pass(pass_id) {
     success: function (response) {
       toastr.success(response)
       // console.log(response['username'], response['registration_id'], response['event']);
+      closeModal();
     },
     error: function (response) {
       toastr.error("Invalid Pass");
+      closeModal();
     }
   });
 }

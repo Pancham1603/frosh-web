@@ -29,10 +29,12 @@ function validate_pass(pass_id) {
         },
         success: function (response) {
             toastr.success(response)
+            closeModal();
             // console.log(response['username'], response['registration_id'], response['event']);
         },
         error: function (response) {
             toastr.error("Invalid Pass");
+            closeModal();
         }
     });
 }
