@@ -3,24 +3,18 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.views import View
-from django.urls import reverse
-from django.utils.encoding import force_bytes, force_str, DjangoUnicodeDecodeError
-from django.core.mail import send_mail, EmailMessage, EmailMultiAlternatives
-from django.contrib.sites.shortcuts import get_current_site
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.encoding import force_str
+from django.core.mail import EmailMultiAlternatives
+from django.utils.http import urlsafe_base64_decode
 from django.template.loader import render_to_string
-from django.template import Context
 from .utils import account_activation_token
 import random, string
 import openpyxl
 from .models import User
 from .manager import generate_qr, generate_user_secure_id
-from datetime import datetime
-from django.core.validators import URLValidator
-from django.core.exceptions import ValidationError
 import json
 from imagekitio import ImageKit
-import sys, os, base64
+import os
 
 def home(request):
     return render(request, 'index.html')
