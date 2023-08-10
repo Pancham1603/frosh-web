@@ -7,4 +7,4 @@ Scripts/
 pyvenv.cfg
 *.xlsx
 *.crt
-staticfiles/
+staticfiles
