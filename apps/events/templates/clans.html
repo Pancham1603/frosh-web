@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #0f0b18; 
+        }
+    
+        .container {
+            text-align: center;
+            background-color: 0f0b18;
+            padding: 20px;
+            height: 100%;
+            width: 100%;
+            max-width: 1000px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+    
+        .card {
+            display: inline-block;
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #343434;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+    
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+    
+        .card.selected {
+            border-color: #7240ce;
+        }
+    
+        .card img {
+            max-width: 400px;
+            height: auto;
+        }
+    
+        .card .pref-number {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #7240ce;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 50%;
+            visibility: hidden;
+        }
+    
+        .btn-group {
+            margin-top: 20px;
+        }
+    
+        .btn {
+            padding: 10px 20px;
+            background-color: #7240ce;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    
+        .btn-clear {
+            background-color: #dc3545;
+            margin-right: 10px;
+        }
+        #clan1{
+            background-color: #291706;
+        }
+        #clan1 .pref-number{
+            background-color: #291706;
+        }
+        #clan2{
+            background-color: #382a44;
+        }
+        #clan2 .pref-number{
+            background-color: #382a44;
+        }
+        #clan3{
+            background-color: #3a2d38;
+        }
+        #clan3 .pref-number{
+            background-color: #3a2d38;
+        }
+        #clan4{
+            background-color: #4c6c74;
+        }
+        #clan4 .pref-number{
+            background-color: #4c6c74;
+        }
+        .logo{
+            max-width: 200px;
+        }
+    </style>
+    <title>Clan Preference</title>
+</head>
+
+<body>
+    <img src="../static/logo white transparent.png" alt="logo" class="logo">
+    <h2 style="color: white;">Clan Preference</h2>
+    <div class="container">
+        <div class="card" id="clan1">
+            <div class="pref-number">1</div>
+            <img src="../static/oathkeepersfinal.png" alt="Clan 1 Logo">
+        </div>
+        <div class="card" id="clan2">
+            <div class="pref-number">2</div>
+            <img src="../static/death stars.png" alt="Clan 2 Logo">
+        </div>
+        <div class="card" id="clan3">
+            <div class="pref-number">3</div>
+            <img src="../static/Stormbreaker.png" alt="Clan 3 Logo">
+        </div>
+        <div class="card" id="clan4">
+            <div class="pref-number">4</div>
+            <img src="../static/tideoftriendets.png" alt="Clan 4 Logo">
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-clear" id="clearBtn">Clear</button>
+            <button class="btn" id="submitBtn">Submit</button>
+        </div>
+    </div>
+    <script>
+    const cards = document.querySelectorAll('.card');
+    const clearBtn = document.getElementById('clearBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    let preferenceOrder = [];
+
+    cards.forEach((card, index) => {
+        card.addEventListener('click', () => {
+            if (card.classList.contains('selected')) {
+                card.classList.remove('selected');
+                preferenceOrder = preferenceOrder.filter(id => id !== card.id);
+                updatePreferenceNumbers();
+            } else {
+                card.classList.add('selected');
+                preferenceOrder.push(card.id);
+                updatePreferenceNumbers();
+            }
+        });
+    });
+
+    function updatePreferenceNumbers() {
+        cards.forEach((card, index) => {
+            const prefNumber = card.querySelector('.pref-number');
+
+            const prefIndex = preferenceOrder.indexOf(card.id);
+
+            if (prefIndex !== -1) {
+                prefNumber.textContent = (prefIndex + 1).toString();
+                  prefNumber.style.visibility = "visible"
+            } else {
+                prefNumber.textContent = '';
+                  prefNumber.style.visibility = "hidden"
+            }
+
+          
+        });
+    }
+
+    clearBtn.addEventListener('click', () => {
+        cards.forEach(card => {
+            card.classList.remove('selected');
+        });
+        preferenceOrder = [];
+        updatePreferenceNumbers();
+    });
+
+    submitBtn.addEventListener('click', () => {
+        if (preferenceOrder.length !== 4) {
+            alert('Please select preferences for all clans.');
+        } else {
+            console.log(preferenceOrder);   
+            alert('Preference order: ' + preferenceOrder.join(', '));
+        }
+    });
+
+    updatePreferenceNumbers();
+
+    </script>
+</body>
+
+</html>

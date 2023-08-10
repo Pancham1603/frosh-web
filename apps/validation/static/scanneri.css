@@ -1,0 +1,209 @@
+/* Reset some default styles */
+body,
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0F0B18;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.logo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+}
+
+#field {
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #221B3B;
+    color: white;
+    border: none;
+    font-size: 16px;
+}
+
+#startButton,
+#cameraSelect {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 5px;
+}
+
+#event-name {
+    font-size: 24px;
+    color: #8040F9;
+    margin-bottom: 10px;
+}
+
+#funcs {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+}
+
+video {
+    width: 100%;
+    border: 2px solid #8040F9;
+    border-radius: 10px;
+}
+
+#error {
+    color: #ff3c00;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #221B3B;
+    position: relative;
+    border-radius: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.container_first,
+.container_second {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    height: fit-content;
+}
+
+.container_img {
+    height: 150px;
+    width: auto;
+    border-radius: 10px;
+}
+
+.modal_data {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.title {
+    margin: 0;
+    width: 100%;
+    color: #8040F9;
+    font-size: 28px;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.description {
+    margin: 0;
+    text-align: center;
+}
+
+.calender,
+.book {
+    background-color: #8040F9;
+    padding: 10px;
+    width: 150px;
+    height: 50px;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.calender:hover,
+.book:hover {
+    background-color: #221B3B;
+}
+
+
+/* Responsive Design */
+@media screen and (max-width: 500px) {
+    .modal-content {
+        width: 90%;
+        padding: 10px;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .logo {
+        width: 100px;
+        height: 100px;
+        font-size: 36px;
+    }
+
+    #field {
+        width: 80%;
+    }
+
+    #startButton,
+    #cameraSelect {
+        padding: 8px 16px;
+    }
+}
+
