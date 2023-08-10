@@ -12,7 +12,6 @@ import random, string
 import openpyxl
 from .models import User
 from .manager import generate_qr, generate_user_secure_id
-from .emails import *
 import json
 from imagekitio import ImageKit
 import os
