@@ -30,13 +30,13 @@ def login_user(request):
             if user is not None:
                 login(request, user=user)
                 request.session['user'] = registration_id
-                messages.success(request, 'Login Successful')
-                next = request.GET.get('next', None)
-                print(next)
-                if next:
-                    return redirect(next)
-                else:
-                    return redirect('/events')
+                # messages.success(request, 'Login Successful')
+                # next = request.GET.get('next', None)
+                # print(next)
+                # if next:
+                #     return redirect(next)
+                # else:
+                return redirect('/events')
             else:
                 messages.error(request, 'Invalid password or account not activated')
                 return redirect("")
