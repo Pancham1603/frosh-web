@@ -64,7 +64,7 @@ submitBtn.addEventListener('click', () => {
     if (preferenceOrder.length !== 4) {
         toastr.warning('Please select preferences for all hoods');
     } else {
-        toastr.info(preferenceOrder.join(', ')+'<button type="button" onclick="toastr.close()">Edit</button> <button type="button" onclick="">Submit</button>' , 'Confirm Order:');
+        toastr.info(preferenceOrder.join(', ')+'<button type="button" onclick="toastr.close()">Edit</button> <button type="button" onclick="submitPreferences()">Submit</button>' , 'Confirm Order:');
     }
 });
 
@@ -73,20 +73,26 @@ updatePreferenceNumbers();
 function submitPreferences() {
     $.ajax({
         method: "POST",
-        url: "register/" + title + '@Frosh23',
+        url: "/hoods/initiation/",
         timeout: 20000,
+        data: {
+            'preferences':preferenceOrder.join(', '),
+            'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value	
+        },
         success: function (response) {
-            let res = JSON.parse(response).status;
+            let res = JSON.parse(response);
             if (res) {
+                toastr.success("Preference saved!");
+                // document.getElementById("spinbox").style.display = "none"
             }
             else {
                 toastr.error(JSON.parse(response).message);
-                document.getElementById("spinbox").style.display = "none"
+                // document.getElementById("spinbox").style.display = "none"
             }
 
         },
         error: function (xhr, textStatus, errorThrown) {
-            document.getElementById("spinbox").style.display = "none";
+            // document.getElementById("spinbox").style.display = "none";
             toastr.error("Something went wrong, please try again later");
         }
     });

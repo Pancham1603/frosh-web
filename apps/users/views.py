@@ -7,6 +7,7 @@ from django.utils.encoding import force_str
 from django.core.mail import EmailMultiAlternatives
 from django.utils.http import urlsafe_base64_decode
 from django.template.loader import render_to_string
+from django.http import HttpResponse
 from .utils import account_activation_token
 import random, string
 import openpyxl
@@ -29,15 +30,20 @@ def login_user(request):
             if user is not None:
                 login(request, user=user)
                 request.session['user'] = registration_id
-                # messages.success(request, 'Login Successful')
-                return redirect('/events')
+                messages.success(request, 'Login Successful')
+                next = request.GET.get('next', None)
+                print(next)
+                if next:
+                    return redirect(next)
+                else:
+                    return redirect('/events')
             else:
                 messages.error(request, 'Invalid password or account not activated')
-                return redirect('/events')
+                return redirect("")
         else:
             return render(request=request, template_name='login.html')
     else:
-     return redirect('/events')
+        return redirect('/events')
 
 
 def logout_user(request):
