@@ -1,0 +1,112 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #0f0b18; 
+}
+
+.container {
+    text-align: center;
+    background-color: 0f0b18;
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    max-width: 1000px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+    display: inline-block;
+    margin: 10px;
+    padding: 12px;
+    border: 1px solid #343434;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card.selected {
+    border-color: #7240ce;
+}
+
+.card img {
+    max-width: 400px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.card .pref-number {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #7240ce;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10%;
+    visibility: hidden;
+}
+
+.btn-group {
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #7240ce;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-clear {
+    background-color: #dc3545;
+    margin-right: 10px;
+}
+#oathkeepers{
+    background-color: #291706;
+}
+#oathkeepers .pref-number{
+    background-color: #291706;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+#deathstars{
+    background-color: #382a44;
+}
+#deathstars .pref-number{
+    background-color: #382a44;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+#stormbreakers{
+    background-color: #3a2d38;
+}
+#stormbreakers .pref-number{
+    background-color: #3a2d38;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+#tideoftridents{
+    background-color: #4c6c74;
+}
+#tideoftridents .pref-number{
+    background-color: #4c6c74;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+.logo{
+    max-width: 200px;
+}

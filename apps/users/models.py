@@ -4,6 +4,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from .manager import UserManager
+from ..hoods.models import Hood
 # import random, string
 # import pyqrcode, png, os
 # import requests, base64, json
@@ -16,6 +17,7 @@ class User(AbstractUser):
     secure_id = models.CharField(unique=True, max_length=8, null=True, blank=True)
     events = ArrayField(base_field=models.CharField(max_length=60), max_length=50, blank=True, default=list)
     qr = models.URLField(blank=True)
+    hood = models.ForeignKey(Hood, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     USERNAME_FIELD = "registration_id"
     REQUIRED_FILEDS = ['image', 'qr']
