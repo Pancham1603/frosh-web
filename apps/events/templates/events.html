@@ -14,7 +14,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="../static/events.js"></script>
+    <script src="../static/events.js"></script>
     <script type="text/javascript">
         WebFont.load({
             google: {
@@ -22,7 +22,7 @@
             }
         });
     </script>
-  
+
     <style>
         ::selection {
             background: #000000;
@@ -249,7 +249,7 @@
         <div class="c-section is--events">
             <div class="c-events_bg"></div>
             <div class="c-events_wraper profpp w-dyn-list">
-                <div role="list" class="c-events_list center w-dyn-items">
+                <div role="list" class="c-events_list center w-dyn-items" style="justify-content: unset;">
                     <div role="listitem" class="c-events_item w-dyn-item">
                         <!---######## Here is the code for on click user profile#######-->
                         <div data-w-id="62429db3-4ade-313f-5190-469054ed0571" onclick=""
@@ -258,7 +258,7 @@
                                 <div class="column w-col w-col-6 w-col-small-6 w-col-tiny-6">
                                     <img src="{{ user.image }}" loading="lazy" width="134" alt="" class="image prof" />
                                 </div>
-                                <div class="column-2 w-col w-col-6 w-col-small-6 w-col-tiny-6">
+                                <div class="column-2 w-col w-col-6 w-col-small-6 w-col-tiny-6" style="margin-top: 0px;">
                                     <img src="{{ user.qr }}" loading="lazy" alt="" class="prof" />
                                 </div>
                             </div>
@@ -273,6 +273,29 @@
                                 <div class="c-sermon_buttons">
                                     <div onclick="openCustomModal()" class="c-button is--button1 w-button fulllen">Your
                                         Bookings</div>
+                                    <!---######## Here is the code for button click live event card#######-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="listitem" class="c-events_item w-dyn-item">
+                        <!---######## Here is the code for on click user profile#######-->
+                        <div data-w-id="62429db3-4ade-313f-5190-469054ed0571" onclick=""
+                            class="c-events_link w-inline-block">
+                            <div class="w-row">
+                                <div class="column w-col w-col-6 w-col-small-6 w-col-tiny-6" style="width: 100%;">
+                                    <img src="{{ user.hood.image }}" loading="lazy" width="134" alt=""
+                                        class="image prof" style="border-radius: 5px; " />
+                                </div>
+                            </div>
+                            <div class="c-events_content">
+                                <h6>{{user.hood.name}}</h6>
+                                <div class="c-events_date" style="margin-right:0px;">
+
+                                    <p>{{user.hood.member_count}} Members</p>
+                                </div>
+                                <div class="c-sermon_buttons">
+                                    <div onclick="" class="c-button is--button1 w-button fulllen">Leaderboard Coming Soon</div>
                                     <!---######## Here is the code for button click live event card#######-->
                                 </div>
                             </div>
@@ -299,7 +322,7 @@
                 </div>
             </div>
         </div>
-  
+
         <div class="w-dyn-list">
             <div role="list" class="c-section w-dyn-items">
                 <div role="listitem" class="w-dyn-item">
@@ -309,36 +332,36 @@
                         <h2 class="c-sermon_title">{{live_event.name}}</h2>
                         <div class="c-sermon_buttons">
                             {% if live_event.booking_required %}
-                                {% if live_event.is_booking %}
-                                {% if live_event.slot_id != 'lmao' %}
-                                {% for slot in event_slots %}
-                                {% if slot.slot_id == live_event.slot_id %}
-                                <section class="section registerse"
-                                    onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}', '{{ slot.time }}, {{ slot.slot_id }}', '{{ live_event.image }}','{{live_event.calender_url}}', false)">
-                                    <div class="text-block">Register</div>
-                                </section>
-                                {% endif %}
-                                {% endfor %}
-                                {% else %}
-                                <section class="section registerse" 
-                                    onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}',false, '{{ live_event.image }}','{{live_event.calender_url}}', false)">
-                                    <div class="text-block">Register</div>
-                                </section>
-                                {% endif %}
-                                {% elif live_event.booking_complete %}
-                                <section class="section registerse" style="background-color: gray;">
-                                    <div class="text-block">Sold Out</div>
-                                </section>
-                                {% else %}
-                                <section class="section registerse" style="background-color: gray;">
-                                    <div class="text-block">Coming Soon</div>
-                                </section>
-                                {% endif %}
-                                {% else %}
-                                <section class="c-button is--button1 w-button" style="background-color: green;">
-                                    <div class="text-block">Direct Access</div>
-                                </section>
-                                {% endif %}
+                            {% if live_event.is_booking %}
+                            {% if live_event.slot_id != 'lmao' %}
+                            {% for slot in event_slots %}
+                            {% if slot.slot_id == live_event.slot_id %}
+                            <section class="section registerse"
+                                onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}', '{{ slot.time }}, {{ slot.slot_id }}', '{{ live_event.image }}','{{live_event.calender_url}}', false)">
+                                <div class="text-block">Register</div>
+                            </section>
+                            {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            <section class="section registerse"
+                                onclick="openModal('{{ live_event.name }}', '{{ live_event.description }}','{{ live_event.time }}','{{ live_event.venue }}',false, '{{ live_event.image }}','{{live_event.calender_url}}', false)">
+                                <div class="text-block">Register</div>
+                            </section>
+                            {% endif %}
+                            {% elif live_event.booking_complete %}
+                            <section class="section registerse" style="background-color: gray;">
+                                <div class="text-block">Sold Out</div>
+                            </section>
+                            {% else %}
+                            <section class="section registerse" style="background-color: gray;">
+                                <div class="text-block">Coming Soon</div>
+                            </section>
+                            {% endif %}
+                            {% else %}
+                            <section class="c-button is--button1 w-button" style="background-color: green;">
+                                <div class="text-block">Direct Access</div>
+                            </section>
+                            {% endif %}
                         </div>
                         <!---######## Here is the code for button click live event card#######-->
                     </div>
@@ -348,7 +371,7 @@
         {% endif %}
 
 
-        {% if upcoming_events|length > 0  %}
+        {% if upcoming_events|length > 0 %}
         <div class="c-section is--footer-spacer">
             <h4 class="heading hello">Upcoming Events</h4>
             <div class="c-events_wraper wrapper2 w-dyn-list" style="justify-content: start;">
@@ -414,7 +437,7 @@
         {% endif %}
 
 
-        {% if past_events|length > 0  %}
+        {% if past_events|length > 0 %}
         <div class="c-section is--footer-spacer">
             <h4 class="heading hello">Past Events</h4>
             <div class="c-events_wraper wrapper2 w-dyn-list" style="justify-content: start;">
@@ -602,20 +625,20 @@
     <script src="../static/events.js"></script>
     <script>
         function removePTagsWithText(text) {
-                const paragraphs = document.getElementsByTagName("p");
-                console.log(paragraphs)
-                for (let i = paragraphs.length - 1; i >= 0; i--) {
-                    console.log(paragraphs[i].innerHTML)
-                    if (paragraphs[i].innerHTML.includes(text)) {
-                        paragraphs[i].parentNode.removeChild(paragraphs[i]);
-                    }
+            const paragraphs = document.getElementsByTagName("p");
+            console.log(paragraphs)
+            for (let i = paragraphs.length - 1; i >= 0; i--) {
+                console.log(paragraphs[i].innerHTML)
+                if (paragraphs[i].innerHTML.includes(text)) {
+                    paragraphs[i].parentNode.removeChild(paragraphs[i]);
                 }
             }
+        }
 
-            window.onload = function () {
-                removePTagsWithText("Ãƒâ€šÃ‚Â©")
-            }
-        </script>
+        window.onload = function () {
+            removePTagsWithText("Ãƒâ€šÃ‚Â©")
+        }
+    </script>
 </body>
 
 </html>

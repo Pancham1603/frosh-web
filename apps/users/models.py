@@ -8,6 +8,7 @@ from .manager import UserManager
 # import pyqrcode, png, os
 # import requests, base64, json
 # from decouple import config
+from ..hoods.models import Hood
 
 class User(AbstractUser):
     username = None
@@ -16,7 +17,7 @@ class User(AbstractUser):
     secure_id = models.CharField(unique=True, max_length=8, null=True, blank=True)
     events = ArrayField(base_field=models.CharField(max_length=60), max_length=50, blank=True, default=list)
     qr = models.URLField(blank=True)
-    hood = models.CharField(blank=True, null=True)
+    hood = models.ForeignKey(Hood, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     USERNAME_FIELD = "registration_id"
     REQUIRED_FILEDS = ['image', 'qr']

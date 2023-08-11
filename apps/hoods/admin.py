@@ -3,4 +3,8 @@ from .models import Hood
 
 # Register your models here.
 
-admin.site.register(Hood)
+class HoodAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'member_count')
+    search_fields = ('name', 'description')
+
+admin.site.register(Hood, HoodAdmin)
