@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
 from apps.users import views as user_views
 from apps.events import views as event_views
 
@@ -28,5 +29,10 @@ urlpatterns = [
    path('', include("apps.users.urls")),
    path('users/', include("django.contrib.auth.urls")),
    path('events/', include("apps.events.urls")),
-   path('scanner/', include("apps.validation.urls"))
+   path('scanner/', include("apps.validation.urls")),
+   path('hoods/', include("apps.hoods.urls"))
 ]
+
+if settings.DEBUG:
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    urlpatterns += staticfiles_urlpatterns()

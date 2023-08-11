@@ -39,7 +39,7 @@ def login_user(request):
                 return redirect('/events')
             else:
                 messages.error(request, 'Invalid password or account not activated')
-                return redirect("")
+                return redirect("/login")
         else:
             return render(request=request, template_name='login.html')
     else:

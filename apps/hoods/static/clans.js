@@ -80,9 +80,9 @@ function submitPreferences() {
             'csrfmiddlewaretoken': document.getElementsByName('csrfmiddlewaretoken')[0].value	
         },
         success: function (response) {
-            let res = JSON.parse(response);
+            let res = JSON.parse(response).status;
             if (res) {
-                toastr.success("Preference saved!");
+                toastr.success(JSON.parse(response).message);
                 // document.getElementById("spinbox").style.display = "none"
             }
             else {
