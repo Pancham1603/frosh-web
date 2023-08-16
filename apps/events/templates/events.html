@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html data-wf-page="64c4271741595feff8650705" data-wf-site="64c4271741595feff86506c0">
-
+{% load static %}
 <head>
     <meta charset="utf-8" />
     <title>Events | Frosh'23</title>
@@ -235,14 +235,14 @@
             <div role="list" class="w-dyn-items">
                 <div role="listitem" class="w-dyn-item">
                     <a href="/" aria-current="page" class="c-nav_logo w-inline-block w--current">
-                        <div style="background-image:url('../static/logo\ white\ transparent.png')"
+                        <div style="background-image:url({% static 'logo-white-transparent.png' %})"
                             class="c-nav_logo-img">
                         </div>
                     </a>
                 </div>
             </div>
         </div>
-        <img src="../static/icons8-logout-96.png" loading="lazy" alt="" class="image-2"
+        <img src="{% static 'icons8-logout-96.png' %}" loading="lazy" alt="" class="image-2"
             onclick="window.location.href = '/logout';" />
     </nav>
     <div class="c-overflow">
@@ -266,7 +266,7 @@
                                 <h6>{{ user }}</h6>
                                 <div class="c-events_date-time">
                                     <div class="c-events_date">
-                                        <img src="../static/icons8-identity-50.png" alt="" class="c-event_icon" />
+                                        <img src="{% static 'icons8-identity-50.png' %}" alt="" class="c-event_icon" />
                                         <p>{{user.registration_id}}</p>
                                     </div>
                                 </div>
