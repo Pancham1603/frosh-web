@@ -21,14 +21,13 @@ from apps.users import views as user_views
 from apps.events import views as event_views
 
 urlpatterns = [
-   path('', user_views.login_user),
+   path('', include("apps.events.urls")),
    path('bablucopter/', admin.site.urls),
    path('bablucopter/login', user_views.login_user),
    path('login/', user_views.login_user),
    path('logout/', user_views.logout_user),
    path('', include("apps.users.urls")),
    path('users/', include("django.contrib.auth.urls")),
-   path('events/', include("apps.events.urls")),
    path('scanner/', include("apps.validation.urls")),
    path('hoods/', include("apps.hoods.urls"))
 ]

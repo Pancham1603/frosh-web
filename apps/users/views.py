@@ -30,13 +30,7 @@ def login_user(request):
             if user is not None:
                 login(request, user=user)
                 request.session['user'] = registration_id
-                # messages.success(request, 'Login Successful')
-                # next = request.GET.get('next', None)
-                # print(next)
-                # if next:
-                #     return redirect(next)
-                # else:
-                return redirect('/events')
+                return redirect('/')
             else:
                 messages.error(request, 'Invalid password or account not activated')
                 return redirect("/login")
@@ -50,6 +44,9 @@ def logout_user(request):
     logout(request)
     return redirect('/login')
 
+###################################################
+######## ACTIVATE USER ACCOUNT + PASSWORD #########
+###################################################
 
 class EmailActivationLink(View):
     def get(self, request):
@@ -76,6 +73,9 @@ class EmailActivationLink(View):
         messages.info(self.request, 'Account activated, password sent on email!')
         return redirect('/logout')
 
+##########################################
+###### GEN ACTIVATION LINK CODE ##########
+##########################################
 
 class VerificationView(View):
     def get(self, request, secure_id_b64, token):
