@@ -21,6 +21,7 @@ from apps.users import views as user_views
 from apps.events import views as event_views
 
 urlpatterns = [
+   path('', user_views.home),
    path('', include("apps.events.urls")),
    path('bablucopter/', admin.site.urls),
    path('bablucopter/login', user_views.login_user),
