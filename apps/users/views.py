@@ -37,7 +37,7 @@ def login_user(request):
         else:
             return render(request=request, template_name='login.html')
     else:
-        return redirect('/events')
+        return redirect('/')
 
 
 def logout_user(request):
