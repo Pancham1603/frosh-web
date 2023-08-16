@@ -17,8 +17,8 @@ import json
 from imagekitio import ImageKit
 import os
 
-def home(request):
-    return render(request, 'index.html')
+# def home(request):
+#     return render(request, 'index.html')
 
 @csrf_exempt
 def login_user(request):
