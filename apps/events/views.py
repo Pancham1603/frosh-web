@@ -22,6 +22,8 @@ from ..users.views import *
 from datetime import datetime
 import json
 
+from ..hoods.models import Hood
+from django.db.utils import IntegrityError
 
 global counters
 counters = {} 
@@ -205,9 +207,9 @@ def generate_pass(request, event_id, slot_id=None):
                     'message':"No more passes available for this slot!"
                 }
                 counters[slot_id]-=1
-                event.booking_complete = True
-                event.is_booking = False
-                event.save()
+                # event.booking_complete = True
+                # event.is_booking = False
+                # event.save()
                 return HttpResponse(json.dumps(data))
         elif slot_id and event.slot_id!=slot_id:
             data={
@@ -246,9 +248,9 @@ def generate_pass(request, event_id, slot_id=None):
                     'status':False,
                     'message':"No more passes available for this event!"
                 }
-                event.booking_complete = True
-                event.is_booking = False
-                event.save()
+                # event.booking_complete = True
+                # event.is_booking = False
+                # event.save()
                 counters[event.name]-=1
                 return HttpResponse(json.dumps(data))
     else:
@@ -351,3 +353,144 @@ def gen_special_passed():
         user.events.append(str(event))
         user.save()
         event.save()
+
+
+
+
+
+def database_migrate():
+    # users = User.objects.all()
+    # print(users)
+    # events = Event.objects.all()
+    # print(events)
+    # hoods = Hood.objects.all()
+    # print(hoods)
+    # event_slots = EventSlot.objects.all()
+    # print(event_slots)
+    # passes = EventPass.objects.all()
+    # print(passes)
+
+
+    # wb = openpyxl.Workbook()
+    # sheet = wb.active
+    # count = 0
+    # for user in users:
+    #     data = [user.registration_id, user.first_name, user.last_name, user.email, user.image, user.secure_id, user.qr, str(user.events), str(user.hood), user.is_active, user.is_staff, user.is_superuser, str(user.password)]
+    #     print(count, user)
+    #     count+=1
+    #     sheet.append(data)
+
+    # for event in events:
+    #     data = [event.event_id,event.name, event.image,event.description,event.venue, event.date, event.time, event.max_capacity, event.passes_generated, event.calendar_url, str(event.slot_id), event.is_booking, event.is_display, event.slots_required, event.booking_complete, event.booking_required]
+    #     print(count, event)
+    #     count+=1
+    #     sheet.append(data)
+
+    # for event in event_slots:
+    #     data = [event.slot_id,str(event.event),event.venue, event.date, event.time, event.max_capacity, event.passes_generated, event.calendar_url,  event.booking_complete]
+    #     print(count, event)
+    #     count+=1
+    #     sheet.append(data)
+
+
+    # for hood in hoods:
+    #     data = [hood.id, hood.name,hood.description, hood.image, hood.member_count ]
+    #     print(count, hood)
+    #     count+=1
+    #     sheet.append(data)
+
+    # for passs in passes:
+    #     data = [passs.pass_id, str(passs.event_id), str(passs.slot_id), str(passs.user_id.registration_id), passs.qr, passs.entry_status, passs.time]
+    #     print(passs)
+    #     sheet.append(data)
+
+    # writing values to cells
+    # c1.value = "ANKIT"
+
+    # c2 = sheet.cell(row= 1 , column = 2)
+    # c2.value = "RAI"
+
+    # # Once have a Worksheet object, one can
+    # # access a cell object by its name also.
+    # # A2 means column = 1 & row = 2.
+    # c3 = sheet['A2']
+    # c3.value = "RAHUL"
+
+    # # B2 means column = 2 & row = 2.
+    # c4 = sheet['B2']
+    # c4.value = "RAI"
+
+    # # Anytime you modify the Workbook object
+    # # or its sheets and cells, the spreadsheet
+    # # file will not be saved until you call
+    # # the save() workbook method.
+    # wb.save(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_users.xlsx")
+    # wb.save(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_events.xlsx")
+    # wb.save(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_events_slots.xlsx")
+    # wb.save(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_hoods.xlsx")
+    # wb.save(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_passes.xlsx")
+
+    wb = openpyxl.load_workbook(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_users.xlsx")
+    sheet = wb.active
+    count = 0
+    for row in range(19716, sheet.max_row+1):
+        data = []
+        for column in range(1,14):
+            cell = sheet.cell(row=row, column=column)
+            data.append(cell.value)
+        try:
+#     data = [user.registration_id, user.first_name, user.last_name, user.email, user.image, user.secure_id, user.qr, str(user.events), str(user.hood), user.is_active, user.is_staff, user.is_superuser, str(user.password)]
+            user = User(registration_id=int(data[0]),first_name = data[1], last_name = data[2], email = data[3], is_staff = data[10], is_superuser = data[11], is_active = data[9], image=data[4])
+            user.secure_id = data[5]
+            user.qr = data[6] if data[6] else ' '
+            user.events = list(data[7]) if data[7] else []
+            hood = Hood.objects.filter(name=data[8])
+            user.hood = hood[0] if hood else None
+            user.password = data[12]
+            user.save()
+            count+=1
+            print(count, user.registration_id)
+        except IntegrityError:
+            pass
+    
+    # load the events workbook and sheet to add all events to database
+    # wb = openpyxl.load_workbook(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_events.xlsx")
+    # sheet = wb.active
+    # for row in range(1, 2):
+    #     data = []
+    #     for column in range(1,18):
+    #         cell = sheet.cell(row=row, column=column)
+    #         data.append(cell.value)
+    #     #data = [event.event_id,event.name, event.image,event.description,event.venue, event.date, event.time, event.max_capacity, event.passes_generated, event.calendar_url, str(event.slot_id), event.is_booking, event.is_display, event.slots_required, event.booking_complete, event.booking_required]
+    #     event = Event(event_id=data[0], name=data[1], image=data[2], description=data[3], venue=data[4], date=data[5], time=data[6], max_capacity=data[7], passes_generated=data[8], calendar_url=data[9], is_booking=data[11], is_display=data[12], slots_required=data[13], booking_complete=data[14], booking_required=data[15])
+    #     event.save()
+    #     print(event)
+
+    #load the hoods workbook and sheet to add all hoods to database
+    # wb = openpyxl.load_workbook(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_hoods.xlsx")
+    # sheet = wb.active
+    # for row in range(1, sheet.max_row+1):
+    #     data = []
+    #     for column in range(1,6):
+    #         cell = sheet.cell(row=row, column=column)
+    #         data.append(cell.value)
+    #     #data = [hood.id, hood.name,hood.description, hood.image, hood.member_count ]
+    #     hood = Hood(id=data[0], name=data[1], description=data[2] if data[2] else ' ', image=data[3], member_count=data[4])
+    #     hood.save()
+    #     print(hood)
+
+
+        
+# database_migrate()
+    
+# def ticket_count():
+#     while True:
+#         slot1 = EventPass.objects.filter(event_id=Event.objects.get(event_id='Elyserra@Frosh23')).exclude(slot_id=EventSlot.objects.get(slot_id='D35OXQJ8WY48JTAF'))
+#         slot2 = EventPass.objects.filter(slot_id=EventSlot.objects.get(slot_id='D35OXQJ8WY48JTAF'))
+
+#         print({
+#             'Slot 1': slot1.count(),
+#             'Slot 2': slot2.count()
+#         })
+
+# ticket_count()
