@@ -30,7 +30,8 @@ urlpatterns = [
    path('', include("apps.users.urls")),
    path('users/', include("django.contrib.auth.urls")),
    path('scanner/', include("apps.validation.urls")),
-   path('hoods/', include("apps.hoods.urls"))
+   path('hoods/', include("apps.hoods.urls")),
+   path('hijack/', include('hijack.urls')),
 ]
 
 if settings.DEBUG:

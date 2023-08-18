@@ -50,8 +50,12 @@ INSTALLED_APPS = [
     'apps.users',
     'apps.events',
     'apps.validation',
-    'apps.hoods'
+    'apps.hoods',
+    'hijack',
+    'hijack.contrib.admin'
 ]
+
+LOGIN_REDIRECT_URL = '/'	
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,6 +67,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'detect.middleware.UserAgentDetectionMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'hijack.middleware.HijackUserMiddleware',
 ]
 
 ROOT_URLCONF = 'frosh_web.urls'

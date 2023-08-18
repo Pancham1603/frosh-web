@@ -76,7 +76,8 @@ def invalidate_pass(request):
             user = User.objects.get(registration_id=qr_data['registration_id'], secure_id=qr_data['secure_id'])
             event = Event.objects.get(event_id=request.POST.get('event_id'))
             generated_pass = EventPass.objects.filter(user_id=user, event_id=event).update(entry_status=True)
-            return HttpResponse("Pass verified!")
+            count = EventPass.objects.filter(event_id=event, entry_status=True).count()
+            return HttpResponse(f"Pass verified! Live Count: {count}")
 
 
 @login_required
