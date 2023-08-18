@@ -8,7 +8,6 @@ cffi==1.15.1
 charset-normalizer==3.2.0
 constantly==15.1.0
 cryptography==41.0.2
-daphne==4.0.0
 dj-database-url==2.0.0
 Django==4.2
 django-appconf==1.0.5
@@ -46,8 +45,6 @@ requests-toolbelt==0.10.1
 service-identity==23.1.0
 six==1.16.0
 sqlparse==0.4.4
-Twisted==22.10.0
-twisted-iocpsupport==1.0.4
 txaio==23.1.1
 typing_extensions==4.7.1
 tzdata==2023.3
