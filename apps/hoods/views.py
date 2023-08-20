@@ -30,7 +30,7 @@ from datetime import datetime
 #         })
 #     return render(request, 'clans.html')
 
-@login_required
+# @login_required
 def boh_leaderboard(request):
     #sort hoods by points and return a json object
     hoods = Hood.objects.all().order_by('-points')
