@@ -87,7 +87,7 @@ def generate_pass(request, event_id, slot_id=None):
                     }
             return HttpResponse(json.dumps(data))
         
-    
+
     if not event.is_booking or not event.booking_required:
         data = {
                 'status':False,
@@ -100,15 +100,6 @@ def generate_pass(request, event_id, slot_id=None):
                 'message':'Sold out! Please try again later.'
                 }
         return HttpResponse(json.dumps(data))
-    
-
-    if event.event_id == 'The Final Battle@Frosh23':
-        if user.hood.is_booking == False:
-            data = {
-                    'status':False,
-                    'message':'Seats for your Hood are full!'
-                    }
-            return HttpResponse(json.dumps(data))
     
     
     ### FOR LINKING TWO EVENTS ###
@@ -589,23 +580,23 @@ def ticket_count():
             'deathstars' : deathstars.count(),
         })
 
-        # if slot1.count() >= 472:
-        #     event.is_booking = False
-        #     event.save()
-        # if stormbreakers.count() >= 118:
-        #     stormbreakers_hood.is_booking = False
-        #     stormbreakers_hood.save()
-        # if tridents.count() >= 118:
-        #     tridents_hood.is_booking = False
-        #     tridents_hood.save()
-        # if oathkeepers.count() >= 118:
-        #     oathkeepers_hood.is_booking = False
-        #     oathkeepers_hood.save()
-        # if deathstars.count() >= 118:
-        #     # deathstars_hood.is_booking = False
-        #     # deathstars_hood.save()
+        if slot1.count() >= 1:
+            event.is_booking = False
+            event.save()
+        if stormbreakers.count() >= 1:
+            stormbreakers_hood.is_booking = False
+            stormbreakers_hood.save()
+        if tridents.count() >= 1:
+            tridents_hood.is_booking = False
+            tridents_hood.save()
+        if oathkeepers.count() >= 1:
+            oathkeepers_hood.is_booking = False
+            oathkeepers_hood.save()
+        if deathstars.count() >= 1:
+            deathstars_hood.is_booking = False
+            deathstars_hood.save()
 
-ticket_count()
+# ticket_count()
 
 
 
