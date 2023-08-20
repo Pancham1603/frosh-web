@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .leaderboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .column {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+        .column h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .item {
+            display: flex;
+            align-items: center;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .position {
+            width: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .name {
+            flex: 1;
+        }
+        .score {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="leaderboard">
+            <div class="column">
+                <h2>The Final Battle</h2>
+                {% for clan in leaderboard %}
+                <div class="item">
+                    <div class="position">{{ forloop.counter }}</div>
+                    <div class="name">{{ clan.name }}</div>
+                    <div class="score">{{ clan.points }}</div>
+                </div>
+                {% endfor %}
+                <!-- Add more items here -->
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

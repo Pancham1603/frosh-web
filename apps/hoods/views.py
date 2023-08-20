@@ -36,11 +36,13 @@ def boh_leaderboard(request):
     hoods = Hood.objects.all().order_by('-points')
     hood_list = []
     for hood in hoods:
+        # hood_list[hood.name] = hood.points
         hood_list.append({
             'name':hood.name,
             'points':hood.points
         })
-    return HttpResponse(hood_list)
+    return render(request, 'leaderboard.html', {'leaderboard':hood_list})
+
 
 # boh_leaderboard()
 
@@ -54,7 +56,6 @@ def hood_leaderboard(request, hood):
             'name':user.name,
             'points':user.hood_points
         })
-    return user_list
 
 
 
