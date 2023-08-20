@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'apps.validation',
     'apps.hoods',
     'hijack',
-    'hijack.contrib.admin'
+    'hijack.contrib.admin',
+    'corsheaders'
 ]
 
 LOGIN_REDIRECT_URL = '/'	
@@ -68,7 +69,10 @@ MIDDLEWARE = [
     'detect.middleware.UserAgentDetectionMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'hijack.middleware.HijackUserMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'frosh_web.urls'
 
