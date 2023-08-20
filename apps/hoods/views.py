@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import  HttpResponse, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -30,6 +30,7 @@ from datetime import datetime
 #         })
 #     return render(request, 'clans.html')
 
+@login_required
 def boh_leaderboard(request):
     #sort hoods by points and return a json object
     hoods = Hood.objects.all().order_by('-points')
@@ -39,11 +40,12 @@ def boh_leaderboard(request):
             'name':hood.name,
             'points':hood.points
         })
-    print(hood_list)
+    return HttpResponse(hood_list)
 
 # boh_leaderboard()
 
-def hood_leaderboard(hood):
+@login_required
+def hood_leaderboard(request, hood):
     # sort users by their hoods_points for every hood
     users = User.objects.filter(hood=hood).order_by('-hood_points')
     user_list = []
@@ -52,7 +54,7 @@ def hood_leaderboard(hood):
             'name':user.name,
             'points':user.hood_points
         })
-    print(user_list)
+    return user_list
 
 
 
