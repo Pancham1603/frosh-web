@@ -69,12 +69,25 @@ def events_home(request):
 def generate_pass(request, event_id, slot_id=None):
     user = User.objects.get(registration_id=request.user.registration_id)
     event = Event.objects.get(event_id=event_id)
-    if event.is_display == False:
-        data = {
-                'status':False,
-                'message':'Event is not available'
-                }
-        return HttpResponse(json.dumps(data))
+    # if event.is_display == False:
+    #     data = {
+    #             'status':False,
+    #             'message':'Event is not available'
+    #             }
+    #     return HttpResponse(json.dumps(data))
+
+
+    ########### for THE FINAL BATTLE ONLY ###########
+    ######### STOPPING BOOKING ON BOH FULL ##########
+    if event.event_id == 'The Final Battle@Frosh23':
+        if user.hood.is_booking == False:
+            data = {
+                    'status':False,
+                    'message':'Seats for your Hood are full!'
+                    }
+            return HttpResponse(json.dumps(data))
+        
+
     if not event.is_booking or not event.booking_required:
         data = {
                 'status':False,
@@ -355,10 +368,7 @@ def gen_special_passed():
         event.save()
 
 
-
-
-
-def database_migrate():
+# def database_migrate():
     # users = User.objects.all()
     # print(users)
     # events = Event.objects.all()
@@ -430,28 +440,28 @@ def database_migrate():
     # wb.save(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_hoods.xlsx")
     # wb.save(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_passes.xlsx")
 
-    wb = openpyxl.load_workbook(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_users.xlsx")
-    sheet = wb.active
-    count = 0
-    for row in range(19716, sheet.max_row+1):
-        data = []
-        for column in range(1,14):
-            cell = sheet.cell(row=row, column=column)
-            data.append(cell.value)
-        try:
-#     data = [user.registration_id, user.first_name, user.last_name, user.email, user.image, user.secure_id, user.qr, str(user.events), str(user.hood), user.is_active, user.is_staff, user.is_superuser, str(user.password)]
-            user = User(registration_id=int(data[0]),first_name = data[1], last_name = data[2], email = data[3], is_staff = data[10], is_superuser = data[11], is_active = data[9], image=data[4])
-            user.secure_id = data[5]
-            user.qr = data[6] if data[6] else ' '
-            user.events = list(data[7]) if data[7] else []
-            hood = Hood.objects.filter(name=data[8])
-            user.hood = hood[0] if hood else None
-            user.password = data[12]
-            user.save()
-            count+=1
-            print(count, user.registration_id)
-        except IntegrityError:
-            pass
+#     wb = openpyxl.load_workbook(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_users.xlsx")
+#     sheet = wb.active
+#     count = 0
+#     for row in range(19716, sheet.max_row+1):
+#         data = []
+#         for column in range(1,14):
+#             cell = sheet.cell(row=row, column=column)
+#             data.append(cell.value)
+#         try:
+# #     data = [user.registration_id, user.first_name, user.last_name, user.email, user.image, user.secure_id, user.qr, str(user.events), str(user.hood), user.is_active, user.is_staff, user.is_superuser, str(user.password)]
+#             user = User(registration_id=int(data[0]),first_name = data[1], last_name = data[2], email = data[3], is_staff = data[10], is_superuser = data[11], is_active = data[9], image=data[4])
+#             user.secure_id = data[5]
+#             user.qr = data[6] if data[6] else ' '
+#             user.events = list(data[7]) if data[7] else []
+#             hood = Hood.objects.filter(name=data[8])
+#             user.hood = hood[0] if hood else None
+#             user.password = data[12]
+#             user.save()
+#             count+=1
+#             print(count, user.registration_id)
+#         except IntegrityError:
+#             pass
     
     # load the events workbook and sheet to add all events to database
     # wb = openpyxl.load_workbook(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_events.xlsx")
@@ -479,18 +489,137 @@ def database_migrate():
     #     hood.save()
     #     print(hood)
 
+    #load the event passes workbook and sheet to add all passes to database
+    # wb = openpyxl.load_workbook(r"C:\Users\Pancham\Desktop\projects\frosh-web-production\database_passes.xlsx")
+    # sheet = wb.active
+    # for row in range(1, sheet.max_row+1):
+        # try:
+#             data = []
+#             for column in range(1,8):
+#                 cell = sheet.cell(row=row, column=column)
+#                 data.append(cell.value)
+#             #data = [passs.pass_id, str(passs.event_id), str(passs.slot_id), str(passs.user_id.registration_id), passs.qr, passs.entry_status, passs.time]
+#             user = User.objects.filter(registration_id=data[3])
+#             if user:
+#                 user = user[0]
+#                 print(user)
+#                 passs = EventPass.objects.create(pass_id=data[0], event_id=Event.objects.get(name=data[1]), slot_id=EventSlot.objects.get(slot_id=data[2]) if data[2] else None, user_id=user, qr=user.qr, entry_status=data[5], time=data[6])
+#                 passs.save()
+#                 print(passs)
+#         # except:
+#         #     print('Error')
+#         #     pass
 
-        
+
 # database_migrate()
-    
-# def ticket_count():
-#     while True:
-#         slot1 = EventPass.objects.filter(event_id=Event.objects.get(event_id='Elyserra@Frosh23')).exclude(slot_id=EventSlot.objects.get(slot_id='D35OXQJ8WY48JTAF'))
-#         slot2 = EventPass.objects.filter(slot_id=EventSlot.objects.get(slot_id='D35OXQJ8WY48JTAF'))
 
-#         print({
-#             'Slot 1': slot1.count(),
-#             'Slot 2': slot2.count()
-#         })
+
+# def add_ticket(registration_id):
+#                 while True:
+#                     pass_id = ''.join(random.choices(string.ascii_uppercase +
+#                                         string.digits, k=16))
+
+#                     if not EventPass.objects.filter(pass_id=pass_id).count():
+#                         break
+#                 print(pass_id)
+#                 event= Event.objects.get(name='La Caminar')
+#                 print(event)
+#                 user = User.objects.get(registration_id=registration_id)
+#                 print(user)
+#                 # event_slot = EventSlot.objects.get(slot_id=event.slot_id)
+#                 user_passes = EventPass.objects.filter(user_id=user)
+#                 for passs in user_passes:
+#                     passs.delete()
+#                 generated_pass = EventPass(event_id=event,pass_id=pass_id, user_id=user)
+#                 print(generated_pass)
+#                 generated_pass.qr = user.qr
+
+#                 generated_pass.time = event.time
+#                 generated_pass.save()
+
+
+
+def calc_no_shows():
+    event = Event.objects.get(event_id='La Caminar@Frosh23')
+    passes = EventPass.objects.filter(event_id=event)
+    count = 0
+    count2 = 0
+    for passs in passes:
+        if passs.entry_status == True:
+            count+=1
+        else:
+            count2+=1
+    print({
+        'True': count,
+        'False': count2	,
+        'Total': count+count2
+    })
+
+# calc_no_shows()
+
+
+def ticket_count():
+    event = Event.objects.get(event_id='The Final Battle@Frosh23')
+    print(event)
+    stormbreakers_hood = Hood.objects.get(name='Stormbreakers')
+    tridents_hood = Hood.objects.get(name='Tridents')
+    oathkeepers_hood = Hood.objects.get(name='Oathkeepers')
+    deathstars_hood = Hood.objects.get(name='Deathstars')
+
+    while True:
+        slot1 = EventPass.objects.filter(event_id=event)
+        stormbreakers = EventPass.objects.filter(event_id=event, user_id__hood__name='Stormbreakers')
+        tridents = EventPass.objects.filter(event_id=event, user_id__hood__name='Tridents')
+        oathkeepers = EventPass.objects.filter(event_id=event, user_id__hood__name='Oathkeepers')
+        deathstars = EventPass.objects.filter(event_id=event, user_id__hood__name='Deathstars')
+        print({
+            'Booked': slot1.count(),
+            'stormbreakers' : stormbreakers.count(),
+            'tridents' : tridents.count(),
+            'oathkeepers' : oathkeepers.count(),
+            'deathstars' : deathstars.count(),
+        })
+
+        if slot1.count() >= 1:
+            event.is_booking = False
+            event.save()
+        if stormbreakers.count() >= 1:
+            stormbreakers_hood.is_booking = False
+            stormbreakers_hood.save()
+        if tridents.count() >= 1:
+            tridents_hood.is_booking = False
+            tridents_hood.save()
+        if oathkeepers.count() >= 1:
+            oathkeepers_hood.is_booking = False
+            oathkeepers_hood.save()
+        if deathstars.count() >= 1:
+            deathstars_hood.is_booking = False
+            deathstars_hood.save()
 
 # ticket_count()
+
+
+
+def count_hood_members():
+    hoods = [hood for hood in Hood.objects.all()]
+    print(hoods)
+    counters = {
+        hoods[0]:0,
+        hoods[1]:0,
+        hoods[2]:0,
+        hoods[3]:0
+    }
+    print(counters)
+    users = User.objects.filter(is_active=True).exclude(hood=None)
+    users.count()
+    count = 0
+    for user in users:
+        counters[user.hood] += 1
+        count+=1
+        print(count, user)
+    print(counters)
+    # for hood in hoods:
+    #     hood.member_count = counters[hood]
+    #     hood.save()
+
+# count_hood_members()

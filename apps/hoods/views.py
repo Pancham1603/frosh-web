@@ -30,9 +30,34 @@ from datetime import datetime
 #         })
 #     return render(request, 'clans.html')
 
+def boh_leaderboard(request):
+    #sort hoods by points and return a json object
+    hoods = Hood.objects.all().order_by('-points')
+    hood_list = []
+    for hood in hoods:
+        hood_list.append({
+            'name':hood.name,
+            'points':hood.points
+        })
+    print(hood_list)
+
+# boh_leaderboard()
+
+def hood_leaderboard(hood):
+    # sort users by their hoods_points for every hood
+    users = User.objects.filter(hood=hood).order_by('-hood_points')
+    user_list = []
+    for user in users:
+        user_list.append({
+            'name':user.name,
+            'points':user.hood_points
+        })
+    print(user_list)
+
+
 
 def random_allotments():
-    active_users = User.objects.filter(is_active=True)
+    active_users = User.objects.filter(is_active=True).exclude(hood__isnull=False)
     hoods = [hood for hood in Hood.objects.all()]
     counters = {
         hoods[0]:0,
@@ -56,7 +81,7 @@ def random_allotments():
     for hood in hoods:
         hood.member_count = counters[hood]
         hood.save()
-    print(active_users.count())
+    # print(active_users.count())
         
 
 # random_allotments()

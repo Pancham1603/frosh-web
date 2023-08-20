@@ -18,6 +18,7 @@ class User(AbstractUser):
     events = ArrayField(base_field=models.CharField(max_length=60), max_length=50, blank=True, default=list)
     qr = models.URLField(blank=True)
     hood = models.ForeignKey(Hood, on_delete=models.DO_NOTHING, blank=True, null=True)
+    hood_points = models.IntegerField(default=0)
 
     USERNAME_FIELD = "registration_id"
     REQUIRED_FILEDS = ['image', 'qr']
